@@ -47,9 +47,6 @@
     <div class="type-nav">
         <!-- Article Types e.g Doujins, Manga, CG-Artist and etc -->
     </div>
-    <div class="content">
-        <!-- TOP KEK CONTENT SOON TM -->
-    </div>
     <footer class="footer-nav">
         <p>&copy 2021-2069 D-Reader.com</p>
     </footer>

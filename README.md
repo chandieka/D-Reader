@@ -29,9 +29,10 @@ Run this **(Totally will work)** command and then Navigate to 'http://localhost:
 
 ## **Installations**
 
-### **TODO:** 
+## **TODO:** 
 - Docker Compose
 - Apache & Nginx settings
+- Get the `ver. 0.1` out
 - Other ***meme-able*** stuff
 
 ## **Licenses**
