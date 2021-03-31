@@ -6,20 +6,26 @@
 }
 
 body {
-    background-color: rgba(19, 17, 18,1);
+    background-color: rgba(119, 133, 172,1);
 }
 
 /* Top Navigation */
-.logo {
+.logo-size-1 {
     display: block;
     width: 50px;
     height: auto;
     margin: auto;
 }
 
+.logo-size-2 {
+    display: block;
+    width: 150px;
+    height: auto;
+    margin: auto;
+}
+
 .nav-container {
     color: white;
-    background-color: rgba(96, 101, 111,1);
     align-items: center;
 }
 
@@ -49,16 +55,18 @@ li.title {
 }
 
 .list-items {
-    padding: 1em;
+    /* display: inline-block; */
     cursor: pointer;
 }
 
 .list-items:hover {
-    background-color: rgba(39, 154, 241,1);
-    transition: 0.6s;
+    background-color: rgba(91, 42, 134,1);
+    transition: 0.2s;
 }
 
 .list-items  a {
+    display: inline-block;
+    padding: 1em;
     text-decoration: none;
     color: white;
 }
@@ -81,6 +89,7 @@ li.title {
     color: white;
     padding-left: 1em;
     padding-right: 1em;
+    cursor: pointer;
 }
 
 .btn-nav {
@@ -101,12 +110,10 @@ li.title {
     /* Temp height */
     height: 200px;
     margin: 1em auto;
-    background-color: rgba(96, 101, 111,0.6);
     border-radius: 1em;
 }
 
 .content {
-    background-color: rgba(96, 101, 111,0.6);
     width: 70%;
     /* Temp height */
     height: 100vh;
@@ -118,7 +125,6 @@ li.title {
 /* Botton Footer */
 
 .footer-nav {
-    background-color: rgba(96, 101, 111,1);
     padding: 2em 0;
     color: white;
     text-align: center;
@@ -129,10 +135,18 @@ li.title {
 
 .btn {
     border: none;
-    background-color: rgba(196, 153, 145,1);
     /* padding: 1em; */
 }
 
+/* color style */
+
+.btn {
+    background-color: rgba(196, 153, 145,1);
+}
+
+.footer-nav, .nav-container, .content, .type-nav {
+    background-color: rgba(54, 5, 104,1);
+}
 
 /* Media Queries */
 
