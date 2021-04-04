@@ -20,11 +20,11 @@
 </head>
 <body>
     <nav class="nav-container">
-        @include('layouts.nav')
+        @include('layouts.subviews.navigation')
     </nav>
     @yield('content')
     <footer class="footer-nav">
-        @include('layouts.footer')
+        @include('layouts.subviews.footer')
     </footer>
 </body>
 </html>
