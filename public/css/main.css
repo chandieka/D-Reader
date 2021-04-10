@@ -159,6 +159,7 @@ input:checked + .slider:before {
     padding: 16px;
     text-decoration: none;
     display: inline-block;
+    width: 100%;
 }
 
 .nav-items:hover > a{
