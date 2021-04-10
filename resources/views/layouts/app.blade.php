@@ -14,17 +14,20 @@
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- Icon Styles --}}
     <link href="{{ asset('css/fontawesome/css/all.css') }}" rel="stylesheet">
     {{-- favicon --}}
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-    <nav class="nav-container">
-        @include('layouts.subviews.navigation')
-    </nav>
-    @yield('content')
+    @include('layouts.subviews.navigation')
+    <div class="wrapper">
+        @yield('content')
+    </div>
     <footer class="footer-nav">
         @include('layouts.subviews.footer')
     </footer>
+    <!-- Scripts to load at the end -->
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

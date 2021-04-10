@@ -4,6 +4,7 @@ use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,11 @@ Route::get('/help', [HelpController::class, 'index'])->name('help');
 
 // Search route
 Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+// Route that need Authentication to be used
+Route::middleware(['auth'])->group(function () {
+    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+});
 
 // Test Route for View, Backend logic and etc
 Route::get('/test', [TestController::class, 'index'])->name('test');

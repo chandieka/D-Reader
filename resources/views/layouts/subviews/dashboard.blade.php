@@ -1,3 +1,3 @@
-<div class="content shadow">
+<div class="content">
 
 </div>
