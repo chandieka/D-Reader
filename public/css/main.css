@@ -21,6 +21,7 @@ body {
     outline: none;
     border-radius: 10px;
     cursor: pointer;
+    font-size: medium;
 }
 
 .btn-auth {
@@ -178,7 +179,7 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin-right: 16px; 
+    margin-right: 16px;
 }
 
 button.nav-btn {
@@ -211,27 +212,27 @@ button.nav-btn {
         margin-right: 10px;
         margin-left: 10px;
     }
-    
+
     .nav-grid {
         grid-template-columns: auto;
     }
-    
+
     .nav-container .menu, .nav-items, .dropbtn, .nav-items {
         display: block;
     }
-    
+
     .nav-container {
         grid-template-columns: auto;
     }
-    
+
     .right, .left {
         float: none;
     }
-    
+
     .nav-items{
         text-align: center;
     }
-    
+
     .collapse.open {
         max-height: 1000px;
     }
@@ -242,25 +243,113 @@ button.nav-btn {
         max-height: 0;
         transition: max-height .5s;
     }
-    
+
     .nav-form-group {
-        margin-right: 0; 
+        margin-right: 0;
     }
 }
 
-/* Mid Content */
+/* Categories */
+
+.format-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    margin-bottom: 8px;
+}
+
+.format-grid-item {
+    padding: 8px;
+}
+
+.btn-extend {
+    width: 100%;
+}
+
+.format-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.format-form-items {
+    padding: 8px;
+}
+
+.format-form-extend {
+    grid-column: 1 / 4;
+}
+
+.format-form-search {
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    color: black;
+}
+
+@media only screen and (max-width: 600px) {
+    .format-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .format-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+    .format-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .format-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .format-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .format-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .format-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .format-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1800px) {
+    .format-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .format-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Content */
 
 .content-format {
     width: 40%;
-    /* Temp height */
-    height: 200px;
+    min-height: 200px;
     margin: 1em auto;
     border-radius: 1em;
+    padding: 16px;
 }
 
 .content {
     width: 70%;
-    height: 100vh;
+    min-height: 100vh;
     margin: 1em auto;
     padding: 1em;
     border-radius: 1em;
@@ -271,6 +360,89 @@ button.nav-btn {
     margin: 1em auto;
     padding: 15vh 2em 20vh 2em;
     border-radius: 1em;
+}
+
+/* Card */
+
+.card-collections {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.card {
+    width: 250px;
+    height: 425px;
+    background-color: rgb(154, 198, 197);
+    margin: auto;
+    margin-bottom: 16px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .card-collections {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+    .card-collections {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .card-collections {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .card-collections {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1600px){
+    .card-collections {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 1600px) and (max-width: 1800px){
+    .card-collections {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+/* Pagination */
+
+.center {
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.pagination-items {
+    text-decoration: none;
+    display: inline-block;
+    font-size: larger;
+    padding: 8px 16px;
+    float: left;
+    margin-right: 4px;
+    border-radius: 16px;
+}
+
+.pagination-items:hover {
+    background-color: rgba(91, 42, 134, .5);
+}
+
+.pagination-active {
+    background-color: rgba(91, 42, 134, 1);
 }
 
 /* Header */
@@ -317,24 +489,20 @@ button.nav-btn {
 }
 
 
-/* Media Queries */
+/* Glocal Media Queries */
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
     .content {
         width: 90%;
     }
-    
+
     .content-auth {
         width: 90%;
     }
-    
+
     .content-format {
         width: 90%;
-    }
-    
-    .nav-container {
-        grid-template-columns: 10% 30% 30% 30%;
     }
 }
 
@@ -343,11 +511,11 @@ button.nav-btn {
     .content {
         width: 90%;
     }
-    
+
     .content-auth {
         width: 80%;
     }
-    
+
     .content-format {
         width: 70%;
     }
@@ -358,11 +526,11 @@ button.nav-btn {
     .content {
         width: 80%;
     }
-    
+
     .content-auth {
         width: 70%;
     }
-    
+
     .content-format {
         width: 60%;
     }
@@ -373,11 +541,11 @@ button.nav-btn {
     .content {
         width: 80%;
     }
-    
+
     .content-auth {
         width: 60%;
     }
-    
+
     .content-format {
         width: 50%;
     }
@@ -386,13 +554,13 @@ button.nav-btn {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
     .content {
-        width: 70%;
+        width: 74%;
     }
-    
+
     .content-auth {
         width: 40%;
     }
-    
+
     .content-format {
         width: 40%;
     }
