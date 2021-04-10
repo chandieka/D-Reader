@@ -19,4 +19,5 @@ function showMenu() {
     }
     else {
         dropElement.className = 'collapse';
+    }
 }
