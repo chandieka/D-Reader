@@ -19,6 +19,7 @@
                 <li class="nav-items"><a href="/">Tags</a></li>
                 <li class="nav-items"><a href="/">Genres</a></li>
                 <li class="nav-items"><a href="/">Artists</a></li>
+                <li class="nav-items"><a href="/">Groups</a></li>
                 <li class="nav-items"><a href="{{ route('help') }}">Help</a></li>
             </ul>
             <ul class="menu right">
@@ -38,5 +39,5 @@
                 @endguest
             </ul>
         </div>
-    </div>     
+    </div>
 </nav>

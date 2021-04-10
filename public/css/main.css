@@ -156,14 +156,15 @@ input:checked + .slider:before {
     list-style: none;
 }
 
-.nav-items > a {
+.nav-items a {
     padding: 16px;
     text-decoration: none;
     display: inline-block;
     width: 100%;
+    cursor: pointer;
 }
 
-.nav-items:hover > a{
+.nav-items:hover a{
     background: rgb(91, 42, 134);
     transition: 0.2s
 }
