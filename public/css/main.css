@@ -218,7 +218,7 @@ button.nav-btn {
         grid-template-columns: auto;
     }
 
-    .nav-container .menu, .nav-items, .dropbtn, .nav-items {
+    .dropbtn{
         display: block;
     }
 
@@ -234,13 +234,20 @@ button.nav-btn {
         text-align: center;
     }
 
+    .collapse * {
+        display: none;
+    }
+
     .collapse.open {
+        width: 100%;
         max-height: 1000px;
     }
 
-    .collapse {
+    .collapse.open * {
         display: block;
-        width: 100%;
+    }
+
+    .collapse {
         max-height: 0;
         transition: max-height .5s;
     }

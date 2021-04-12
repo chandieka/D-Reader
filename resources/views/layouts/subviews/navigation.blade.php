@@ -1,3 +1,7 @@
+{{--
+    Var:
+        $user -> "User Model for the authenticated user"
+--}}
 <nav class="nav-container" role="navigation">
     <div class="nav-grid">
         <div class="nav-group">
