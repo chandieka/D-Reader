@@ -10,10 +10,10 @@ function formSubmit($id) {
 
 /**
 * Add a Class of "open" to an element with an id of "dropDown"
-* 
+*
 */
 function showMenu() {
-    let dropElement = document.getElementById('dropDown');
+    let dropElement = document.getElementById('nav-dropDown');
     if (dropElement.className == 'collapse') {
         dropElement.className += ' open';
     }

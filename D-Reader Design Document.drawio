@@ -1,6 +1,6 @@
 <mxfile>
     <diagram id="PR_Ww84SsKsOIUTe7WaN" name="Page-1">
-        <mxGraphModel dx="1544" dy="2227" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="3089" dy="3354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -242,7 +242,7 @@
                 <mxCell id="42" value="No file chosen" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" parent="JTVIHRpUMN5P8iNVOfML-1" vertex="1">
                     <mxGeometry x="530" y="805" width="120" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="JTVIHRpUMN5P8iNVOfML-25" value="&lt;font style=&quot;font-size: 30px&quot;&gt;My uploads page&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="nu6jds7Ks574xyjpLMmu-2" vertex="1">
+                <mxCell id="JTVIHRpUMN5P8iNVOfML-25" value="&lt;font style=&quot;font-size: 30px&quot;&gt;My uploads page (WIP)&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="nu6jds7Ks574xyjpLMmu-2" vertex="1">
                     <mxGeometry x="405" y="1470" width="300" height="120" as="geometry"/>
                 </mxCell>
                 <mxCell id="NW5faq9sN_R1lF73sy9v-6" value="" style="group;" parent="1" vertex="1" connectable="0">
@@ -1989,7 +1989,7 @@
                 <mxCell id="NW5faq9sN_R1lF73sy9v-1498" value="&lt;font style=&quot;font-size: 30px&quot;&gt;Items Page&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="850" y="2450" width="330" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="nu6jds7Ks574xyjpLMmu-26" value="&lt;font style=&quot;font-size: 30px&quot;&gt;My Account Page&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                <mxCell id="nu6jds7Ks574xyjpLMmu-26" value="&lt;font style=&quot;font-size: 30px&quot;&gt;My Account Page (WIP)&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="3855" y="1790" width="300" height="120" as="geometry"/>
                 </mxCell>
             </root>

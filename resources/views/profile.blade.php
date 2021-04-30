@@ -1,7 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div>
-    <H1>{{}}</H1>
+<div class="profile">
+    <div class="profile-header">
+    </div>
+    <div class="profile-content">
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, similique nesciunt mollitia nam ullam accusantium temporibus unde cum.
+            Earum nihil possimus id asperiores fugit animi expedita soluta recusandae tempore perferendis.
+        </p>
+    </div>
 </div>
 @endsection
