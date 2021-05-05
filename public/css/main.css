@@ -253,12 +253,21 @@ button.nav-btn {
         text-align: center;
     }
 
-    .collapse * {
+    .collapse  {
         display: none;
     }
 
-    .collapse.open *, .nav-dropbtn {
+    .collapse.open,
+    .collapse.open .menu,
+    .collapse.open .menu .nav-items,
+    .collapse.open .menu .acc-dropdown,
+    .nav-dropbtn {
         display: block;
+    }
+
+    .acc-dropdown-content {
+        min-width: 100%;
+        position: relative;
     }
 
     .collapse.open {
