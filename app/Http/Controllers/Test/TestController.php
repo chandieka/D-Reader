@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controller\Test;
 
 use DirectoryIterator;
 use Illuminate\Http\Request;
