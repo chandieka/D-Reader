@@ -1,4 +1,4 @@
-/* Global */
+/* Start Global */
 
 * {
     margin: 0;
@@ -110,8 +110,10 @@ input:checked + .slider:before {
     vertical-align: bottom;
 }
 
+/* End Global */
 
-/* Top Navigation */
+
+/* Start Top Navigation */
 .logo {
     display: block;
     margin-right: 20px;
@@ -285,7 +287,10 @@ button.nav-btn {
     }
 }
 
-/* Categories */
+/* End Top Navigation */
+
+
+/* Start Categories */
 
 .format-grid {
     display: grid;
@@ -375,7 +380,10 @@ button.nav-btn {
     }
 }
 
-/* Content */
+/* End Categories */
+
+
+/* Start Content */
 
 .content-format {
     width: 40%;
@@ -401,7 +409,10 @@ button.nav-btn {
     border-radius: 16px;
 }
 
-/* profile */
+/* End Content */
+
+
+/* Start profile */
 
 .profile {
     width: 70%;
@@ -421,7 +432,9 @@ button.nav-btn {
     padding: 16px;
 }
 
-/* Gallery Options */
+/* End profile */
+
+/* Start Gallery Options */
 
 .gall-opt {
     min-height: 70px;
@@ -433,7 +446,9 @@ button.nav-btn {
     grid-template-columns: repeat(12, 1fr) */
 }
 
-/* Card */
+/* End Gallery Options */
+
+/* Start Card */
 
 .card-collections {
     display: grid;
@@ -492,7 +507,9 @@ button.nav-btn {
     }
 }
 
-/* Pagination */
+/* End Card */
+
+/* Start Pagination */
 
 .center {
     text-align: center;
@@ -520,7 +537,9 @@ button.nav-btn {
     background-color: rgba(91, 42, 134, 1);
 }
 
-/* Header */
+/* End Pagination */
+
+/* Start Header */
 
 .header  {
     margin-bottom: 1em;
@@ -530,7 +549,9 @@ button.nav-btn {
     text-align: center;
 }
 
-/* Botton Footer */
+/* End Header */
+
+/* Start Botton Footer */
 
 .footer-nav {
     padding: 2em 0;
@@ -538,8 +559,9 @@ button.nav-btn {
     width: 100%;
 }
 
+/* Start Botton Footer */
 
-/* color style */
+/* Start color style */
 
 .btn {
     background-color: rgba(196, 153, 145,1);
@@ -574,8 +596,9 @@ body {
     background-color: rgb(7, 37, 54);
 }
 
+/* End color style */
 
-/* Glocal Media Queries */
+/* Start Glocal Media Queries */
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
@@ -643,3 +666,5 @@ body {
         width: 40%;
     }
 }
+
+/* End Glocal Media Queries */
