@@ -19,7 +19,7 @@ Epic Meme Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis q
     
 Run this **Epic** command
 
-    Composer install
+    composer install
     npm install && npm run dev
 
 ## **Development Server**
