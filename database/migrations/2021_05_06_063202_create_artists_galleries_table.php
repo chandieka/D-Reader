@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePagesTable extends Migration
+class CreateArtistsGalleriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('artists_galleries', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('artist_id')->constrained();
             $table->foreignId('gallery_id')->constrained();
-            $table->string('filename');
-            $table->integer('page_number');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('artists_galleries');
     }
 }
