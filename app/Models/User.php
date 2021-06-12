@@ -40,4 +40,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * Get all galleries that the user upload
+     *
+     */
+    public function MyUploads()
+    {
+        return $this->hasMany(Gallery::class);
+    }
 }

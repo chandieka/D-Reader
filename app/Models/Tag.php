@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+    ];
+
+    /**
+     * Get all the gallery with this tag
+     *
+     */
+    public function galleries()
+    {
+        return $this->belongsToMany(Gallery::class);
+    }
 }
