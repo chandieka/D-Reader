@@ -18,9 +18,10 @@ class CreateGalleriesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('language_id')->constrained();
-            $table->string('title');
-            $table->string('title_original');
-            $table->string('dir_path');
+            $table->string('title')->nullable(false);
+            $table->string('title_original')->nullable();
+            $table->string('thumbnail')->nullable();
+            $table->string('dir_path')->nullable(false);
             $table->boolean('isHidden')->default(false);
             $table->timestamps();
         });
