@@ -1,28 +1,55 @@
+@isset($paginator)
 <div class="center">
     <div class="pagination">
-        <a href="/" class="pagination-items">
+        @php
+        $currentPage = $paginator['currentPage'];
+        $totalPage = $paginator['totalPage'];
+        $uri = $paginator['uri'];
+        @endphp
+        {{-- only shows when its not on left end --}}
+        @if ($currentPage != 1)
+        <a href="{{ $uri."1" }}" class="pagination-items">
             <i class="fa fa-chevron-left"></i>
             <i class="fa fa-chevron-left"></i>
         </a>
-        <a href="/" class="pagination-items">
+        <a href="{{ $uri.$currentPage - 1 }}" class="pagination-items">
             <i class="fa fa-chevron-left"></i>
         </a>
-        {{-- TODO: Pagination Logic --}}
-        <a href="/" class="pagination-items pagination-active">1</a>
-        <a href="/" class="pagination-items">2</a>
-        <a href="/" class="pagination-items">3</a>
-        <a href="/" class="pagination-items">4</a>
-        <a href="/" class="pagination-items">5</a>
-        <a href="/" class="pagination-items">6</a>
-        <a href="/" class="pagination-items">7</a>
-        {{-- TODO: Pagination Logic --}}
+        @endif
+        {{-- Left hand page --}}
+        @php
+        $i = $currentPage - 3; // previous pages
+        $j = 0; // loop counter
+        while ($i < $currentPage && $j <= 3) {
+            if ($i > 0){
+                echo "<a href=\"$uri$i\" class=\"pagination-items\">$i</a>";
+            }
+            $i++;
+            $j++;
+        }
+        @endphp
+        {{-- Current page --}}
+        <a href="{{ $uri.$currentPage }}" class="pagination-items pagination-active">{{ $currentPage }}</a>
+        {{-- Righ hand page --}}
+        @php
+        for ($i = 1; $i + $currentPage <= $totalPage && $i <= 3; $i++) {
+            $page = $currentPage + $i;
+            echo "<a href=\"$uri$page\" class=\"pagination-items\">$page</a>";
+        }
+        @endphp
+        {{-- only shows when its not on right end --}}
+        @if ($currentPage < $totalPage)
         <a href="/" class="pagination-items">...</a>
-        <a href="/" class="pagination-items">
+        <a href="{{ $uri.$currentPage + 1 }}" class="pagination-items">
             <i class="fa fa-chevron-right"></i>
         </a>
-        <a href="/" class="pagination-items">
+        <a href="{{ $uri.$paginator['lastPage'] }}" class="pagination-items">
             <i class="fa fa-chevron-right"></i>
             <i class="fa fa-chevron-right"></i>
         </a>
+        @endif
     </div>
 </div>
+@endisset
+
+
