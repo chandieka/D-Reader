@@ -14,6 +14,19 @@ body {
     min-height:100vh;
 }
 
+.capsule {
+    padding: 6px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 4px;
+    margin-right: 4px;
+    transition: 0.3s;
+}
+
 .btn {
     padding: 9px;
     border: none;
@@ -21,6 +34,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: medium;
+    transition: 0.5s;
 }
 
 .btn-auth {
@@ -97,6 +111,14 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
+.container {
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 16px;
+    border-radius: 16px;
+    padding: 16px;
+}
+
 /* Rounded sliders */
 .slider.round {
     border-radius: 34px;
@@ -109,6 +131,21 @@ input:checked + .slider:before {
 .v-center {
     vertical-align: bottom;
 }
+
+h1.title{
+    font-size: x-large;
+    margin-bottom: 16px;
+}
+
+h2.title {
+    font-size: medium;
+    margin-bottom: 16px;
+}
+
+.title.fade {
+    opacity: 0.2;
+}
+
 
 /* End Global */
 
@@ -131,6 +168,7 @@ input:checked + .slider:before {
 }
 
 .nav-container {
+    margin-bottom: 16px;
     width: 100%;
 }
 
@@ -163,11 +201,11 @@ input:checked + .slider:before {
     display: inline-block;
     width: 100%;
     cursor: pointer;
+    transition: 0.3s
 }
 
 .nav-items:hover a{
     background: rgb(91, 42, 134);
-    transition: 0.2s
 }
 
 .nav-group {
@@ -388,7 +426,8 @@ button.nav-btn {
 .content-format {
     width: 40%;
     min-height: 200px;
-    margin: 16px auto;
+    margin: 0 auto;
+    margin-bottom: 16px;
     border-radius: 16px;
     padding: 16px;
 }
@@ -396,7 +435,7 @@ button.nav-btn {
 .content {
     width: 70%;
     min-height: 100vh;
-    margin: auto;
+    margin: 0 auto;
     margin-bottom: 16px;
     padding: 16px;
     border-radius: 16px;
@@ -406,6 +445,15 @@ button.nav-btn {
     width: 40%;
     margin: 16px auto;
     padding: 15vh 2em 20vh 2em;
+    border-radius: 16px;
+}
+
+.content-gallry {
+    width: 60%;
+    min-height: 100vh;
+    margin: 0 auto;
+    margin-bottom: 16px;
+    padding: 16px;
     border-radius: 16px;
 }
 
@@ -432,18 +480,165 @@ button.nav-btn {
     padding: 16px;
 }
 
+
 /* End profile */
+
+/* Start Gallery */
+
+.gallery {
+    display: flex;
+    flex-direction: row;
+}
+
+.gallery-thumb {
+    margin: 0 auto;
+    width: 30%;
+    transition: 0.3s;
+    opacity: 1;
+}
+
+.gallery-thumb:hover {
+    opacity: 0.7;
+}
+
+.gallery-thumb img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.gallery-info {
+    width: 60%;
+}
+
+.gallery-meta {
+    display: flex;
+    flex-direction: row;
+}
+
+.gallery-meta-info {
+    height: 360px;
+    width: 30%;
+    margin-right: 16px;
+    background-color: rgb(255, 102, 99);
+}
+
+.gallery-meta-tags {
+    height: 360px;
+    width: 70%;
+    background-color: rgb(255, 102, 99);
+}
+
+@media only screen and (max-width: 600px)  {
+    .gallery-info, .gallery-thumb {
+        display: block;
+    }
+
+    .gallery-info {
+        width: 100%;
+    }
+
+    .gallery-thumb {
+        width: 70%;
+    }
+
+    .gallery {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px)  {
+    .gallery-info, .gallery-thumb {
+        display: block;
+    }
+
+    .gallery-info {
+        width: 100%;
+    }
+
+    .gallery-thumb {
+        width: 50%;
+    }
+
+    .gallery {
+        flex-direction: column;
+    }
+}
+
+/* End Gallery */
+
+/* Start Pages */
+
+.page-options {
+    min-height: 50px;
+}
+
+.page-collections {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.page {
+    margin: 0 8px 8px 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    opacity: 1;
+}
+
+.page:hover {
+    opacity: 0.7;
+}
+
+.page-thumbnail {
+    width: 100%;
+    border-radius: 16px;
+    background-color: ;
+}
+
+@media only screen and (max-width: 600px) {
+    .page-collections {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+    .page-collections {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .page-collections {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .page-collections {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1600px){
+    .page-collections {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media only screen and (min-width: 1600px) and (max-width: 1800px){
+    .page-collections {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+/* End Pages */
 
 /* Start Gallery Options */
 
-.gall-opt {
+.option {
     min-height: 70px;
-    width: 100%;
     background-color: rgb(20, 41, 62);
-    margin-bottom: 16px;
+    margin: 0 8px 16px 8px ;
     border-radius: 5px;
-    /* display: grid;
-    grid-template-columns: repeat(12, 1fr) */
 }
 
 /* End Gallery Options */
@@ -459,15 +654,25 @@ button.nav-btn {
     /* width: 250px; */
     /* height: 425px; */
     width: 95%;
-    background-color: rgb(5, 25, 36);
     margin: auto;
+    margin-top: 0;
     margin-bottom: 16px;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    display: block;
+    text-decoration: none;
 }
 
-.card-thumb > img {
+.card-black {
+    background-color: rgb(5, 25, 36);
+}
+
+.card.card-black:hover {
+    background-color: rgb(226, 49, 49);
+}
+
+.card-thumb img {
     width: 100%;
 }
 
@@ -523,7 +728,7 @@ button.nav-btn {
 .pagination-items {
     text-decoration: none;
     display: inline-block;
-    font-size: larger;
+    font-size: medium;
     padding: 8px 16px;
     margin-right: 4px;
     border-radius: 5px;
@@ -570,7 +775,6 @@ button.nav-btn {
 
 .btn:hover {
     background-color: rgba(196, 153, 145,.7);
-    transition: 0.5s;
 }
 
 .btn-red {
@@ -583,12 +787,19 @@ button.nav-btn {
 }
 
 .footer-nav,
-/* .nav-container, */
- .content, .content-format, .content-auth, .profile {
+.content, .content-format, .content-auth, .profile, .container{
     /* background-color: rgba(54, 5, 104,1); */
     /* background-color: rgb(7, 37, 54); */
     background-color: rgb(11, 57, 84);
 
+}
+
+.capsule {
+    background-color: rgb(39, 154, 241);
+}
+
+.capsule:hover {
+    background-color: rgb(25, 95, 150) ;
 }
 
 body {
@@ -602,14 +813,14 @@ body {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    .content, .content-auth, .content-format {
+    .content, .content-auth, .content-format, .container {
         width: 100%;
     }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    .content {
+    .content, .container {
         width: 90%;
     }
 
@@ -624,7 +835,7 @@ body {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    .content {
+    .content, .container {
         width: 80%;
     }
 
@@ -639,7 +850,7 @@ body {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-    .content {
+    .content, .container {
         width: 80%;
     }
 
@@ -654,7 +865,7 @@ body {
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-    .content {
+    .content, .container {
         width: 74%;
     }
 
