@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title',  config('app.name').' - Register')
+
 @section('content')
 <div class="content-auth">
     @include('auth.header')
@@ -20,6 +22,10 @@
         <div class="form-group">
             <label for="password-confirm" class="label">{{ __('Confirm Password') }}</label>
             <input id="password-confirm" type="password" name="password_confirmation" class="form-input" required autocomplete="new-password">
+        </div>
+        <div class="form-group">
+            <span>Already have an account?</span>
+            <a href="{{ route('login') }}" class="capsule">Click Here!</a>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-auth">

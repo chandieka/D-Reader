@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title',  config('app.name').' - Login')
+
 @section('content')
 {{-- standard scaffold --}}
 <div class="content-auth">
