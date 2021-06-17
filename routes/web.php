@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\GalleryController as ApiGalleryController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
@@ -22,11 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes(); // web authentication default routes
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Route::get('/test', [TestController::class, 'index'])->name('test');
 
 Route::get('/help', [HelpController::class, 'index'])->name('help');
 
@@ -34,12 +31,18 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 Route::get('/galleries/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
 
-Route::get('/test', [ApiGalleryController::class, 'index']);
+Route::get('/galleries/{gallery}/{currentPage}', [GalleryController::class, 'reader'])->name('galleries.reader');
 
-// Route that need Authentication to be used
+Route::get('/test', [TestController::class, 'index'])->name('test.index');
+
+Route::post('/test', [TestController::class, 'favorite']);
+
+// Route that need Authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
     Route::get('/uploads', [UploadController::class, 'index'])->name('uploads.index');
+
     Route::get('/gallerries/create', [GalleryController::class, 'create'])->name('galleries.create');
 });
 

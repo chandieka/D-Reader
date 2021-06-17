@@ -47,17 +47,34 @@ body {
     margin-bottom: 0.5em;
 }
 
+.form-input.small {
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.form-input.medium {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.form-input.large {
+    padding: 16px;
+    border-radius: 16px;
+}
+
 .form-input {
     margin-bottom: 0.5em;
-    padding: 1em;
+    padding: 4px;
+    border-radius: 4px;
     border-style: none;
-    border-radius: 1em;
+    border-radius: 4px;
     width: 100%;
     color: black;
+    outline: none;
 }
 
 .form-group {
-    margin-bottom: 1em;
+    margin-bottom: 16px;
 }
 
 .switch {
@@ -146,6 +163,66 @@ h2.title {
     opacity: 0.2;
 }
 
+.icon {
+    display: inline-block;
+    list-style: none;
+    text-decoration: none;
+    padding: 8px;
+}
+
+.btn.success, .icon.success {
+background-color: #04AA6D;  /* Green */
+}
+
+.btn.success:hover, .icon.success:hover {
+    background-color: #46a049;
+}.btn
+
+.btn.info, .icon.info {
+    background-color: #2196F3;
+} /* Blue */
+
+.btn.info:hover, .icon.info:hover {
+    background: #0b7dda;
+}
+
+.btn.warning, .icon.warning {
+    background-color: #ff9800;
+} /* Orange */
+
+.btn.warning:hover, .icon.warning:hover {
+    background: #e68a00;
+}
+
+.btn.danger, .icon.danger {
+    background-color: #f44336;  /* Red */
+}
+
+.btn.danger:hover, .icon.danger:hover {
+    background: #da190b;}
+
+.btn.default, .icon.default {
+    background-color: #e7e7e7; color: black; /* Gray */
+}
+
+.btn.default:hover, .icon.default:hover {
+    background: #ddd;
+}
+
+.auth-errors {
+    display: block;
+    margin-top: 16px;
+}
+
+.auth-errors .error {
+    list-style: none;
+    background-color: red;
+    padding: 8px;
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
 
 /* End Global */
 
@@ -204,7 +281,7 @@ h2.title {
     transition: 0.3s
 }
 
-.nav-items:hover a{
+.nav-items.info:hover a{
     background: rgb(91, 42, 134);
 }
 
@@ -666,6 +743,7 @@ button.nav-btn {
 
 .card-black {
     background-color: rgb(5, 25, 36);
+    transition: 0.3s;
 }
 
 .card.card-black:hover {

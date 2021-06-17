@@ -55,7 +55,7 @@ class Gallery extends Model
      * Get the uploader of the gallery
      *
      */
-    public function uploader()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

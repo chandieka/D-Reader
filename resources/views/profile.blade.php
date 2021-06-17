@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title',  config('app.name').' - Account')
+
 @section('content')
 <div class="profile">
     <div class="profile-header">

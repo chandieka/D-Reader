@@ -46,7 +46,7 @@ class User extends Authenticatable
      * Get all galleries that the user upload
      *
      */
-    public function MyUploads()
+    public function galleries()
     {
         return $this->hasMany(Gallery::class);
     }

@@ -9,7 +9,6 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         dd($request->all());
-        
         return view('search');
     }
 }
