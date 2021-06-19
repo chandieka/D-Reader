@@ -18,5 +18,5 @@
     var pages = @json($pages);
     var paginator = @json($paginator);
 </script>
-<script src="{{ asset('js/readerEventHandler.js') }}"></script>
+<script src="{{ asset('js/reader/eventHandler.js') }}"></script>
 @endsection

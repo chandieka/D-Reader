@@ -12,34 +12,39 @@ window.addEventListener('load', () => {
             // change the image
             element.src = src;
             element.alt = "page " + paginator.currentPage;
+        }
 
-            // change the URL
+        function changeToPage(pageNumber) {
+            // change the paginator index
+            paginator.currentPage = pageNumber;
+
+            // update the page number on the paginator counter
+            pageCounter.forEach((element) => {
+                element.innerText = paginator.currentPage;
+            })
+
+            // prepare the new image
+            let src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
+
+            // update img src
+            changePage(src, pageImage);
+
+            // update the URL & push a new browser history
             let newURL = window.location.protocol + "//" + window.location.host + paginator.resource + paginator.currentPage;
             let newTitle = "D-Reader - " + gallery.title + " - Page " + paginator.currentPage;
+            document.title = newTitle; // change it in DOM
             history.pushState("page " + paginator.currentPage, newTitle, newURL);
         }
 
         function NextPage() {
             if (paginator.currentPage + 1 <= paginator.totalPages) {
-                paginator.currentPage += 1;
-                pageCounter.forEach((element) => {
-                    element.innerText = paginator.currentPage;
-                })
-                let src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
-                changePage(src, pageImage);
-                console.log("Next page");
+                changeToPage(paginator.currentPage + 1);
             }
         }
 
         function previousPage() {
             if (paginator.currentPage - 1 > 0) {
-                paginator.currentPage -= 1;
-                pageCounter.forEach((element) => {
-                    element.innerText = paginator.currentPage;
-                })
-                let src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
-                changePage(src, pageImage);
-                console.log("Previous page");
+                changeToPage(paginator.currentPage - 1);
             }
         }
 
@@ -74,25 +79,26 @@ window.addEventListener('load', () => {
         lastButton.forEach((element) => {
             element.addEventListener('click', (e) => {
                 paginator.currentPage = paginator.totalPages;
-                pageCounter.forEach((element) => {
-                    element.innerText = paginator.currentPage;
-                })
-                let src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
-                changePage(src, pageImage);
+                changeToPage(paginator.currentPage);
             });
         })
 
         firstButton.forEach((element) => {
             element.addEventListener('click', (e) => {
                 paginator.currentPage = 1;
-                pageCounter.forEach((element) => {
-                    element.innerText = paginator.currentPage;
-                })
-                let src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
-                changePage(src, pageImage);
-                console.log("Previous page");
+                changeToPage(paginator.currentPage);
             });
         });
+
+        pagePosition.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                let pageNumber = prompt("Move to page?");
+                if (!isNaN(pageNumber)) {
+                    paginator.currentPage = pageNumber;
+                    changeToPage(paginator.currentPage);
+                }
+            })
+        })
     }
     else {
         console.error('Error: list of page is missing!!');
