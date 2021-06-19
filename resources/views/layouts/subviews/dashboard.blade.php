@@ -22,7 +22,7 @@
             </div>
             <div class="card-info">
                 <p class="card-info-title">
-                    {{ App\Customs\Utils::stringShortener($gallery->title, 52)  }}
+                    {{ $gallery->id.": ".App\Customs\Utils::stringShortener($gallery->title, 52) }}
                 </p>
             </div>
         </a>

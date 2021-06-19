@@ -9,9 +9,40 @@
 }
 
 body {
-    display:grid;
+    display: grid;
     grid-template-rows: auto 1fr auto;
     min-height:100vh;
+}
+
+button {
+    border: none;
+    background: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.mt-sm { margin-top: 8px;}
+.mb-sm { margin-bottom: 8px;}
+
+.m-med { margin: 16px; }
+.mt-med { margin-top: 16px; }
+.mb-med { margin-bottom: 16px; }
+
+.p-sm { padding: 8px; }
+
+.p-med { padding: 16px; }
+.pl-med { padding-left: 16px; }
+.pr-med { padding-right: 16px; }
+
+
+.center {
+    text-align: center;
 }
 
 .capsule {
@@ -20,7 +51,6 @@ body {
     outline: none;
     cursor: pointer;
     border-radius: 8px;
-    text-decoration: none;
     display: inline-block;
     margin-left: 4px;
     margin-right: 4px;
@@ -166,7 +196,6 @@ h2.title {
 .icon {
     display: inline-block;
     list-style: none;
-    text-decoration: none;
     padding: 8px;
 }
 
@@ -245,7 +274,6 @@ background-color: #04AA6D;  /* Green */
 }
 
 .nav-container {
-    margin-bottom: 16px;
     width: 100%;
 }
 
@@ -274,7 +302,6 @@ background-color: #04AA6D;  /* Green */
 
 .nav-items  a {
     padding: 16px;
-    text-decoration: none;
     display: inline-block;
     width: 100%;
     cursor: pointer;
@@ -313,7 +340,7 @@ button.nav-btn {
     border-radius: 5px;
 }
 
-.menu {
+.menu, .menu-items {
     display: inline-block;
 }
 
@@ -362,7 +389,7 @@ button.nav-btn {
         grid-template-columns: auto;
     }
 
-    .right, .left {
+    .menu .right, .menu .left {
         float: none;
     }
 
@@ -504,7 +531,6 @@ button.nav-btn {
     width: 40%;
     min-height: 200px;
     margin: 0 auto;
-    margin-bottom: 16px;
     border-radius: 16px;
     padding: 16px;
 }
@@ -513,7 +539,6 @@ button.nav-btn {
     width: 70%;
     min-height: 100vh;
     margin: 0 auto;
-    margin-bottom: 16px;
     padding: 16px;
     border-radius: 16px;
 }
@@ -720,6 +745,91 @@ button.nav-btn {
 
 /* End Gallery Options */
 
+/* Start reader */
+
+.reader {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 80vh;
+    width: 100%;
+}
+
+.reader-bar {
+    display: flex;
+    flex-direction: row;
+    min-height: 25px;
+    justify-content: space-between;
+}
+
+
+.reader-menu-left {
+    display: flex;
+}
+
+.reader-pagination {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reader-bar .items {
+    display: inline-block;
+}
+
+.reader-img {
+    overflow: hidden;
+}
+
+.reader-img > img {
+    display: block;
+    margin: 0 auto;
+    width: 60%;
+    height: 100%;
+}
+
+.reader-bar {
+    /* background-color: rgb(21, 10, 31); */
+    /* background-color: rgb(20, 41, 62);s */
+    background-color: rgb(14, 74, 108);
+}
+
+@media only screen and (max-width: 600px) {
+    .reader-img > img  {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+    .reader-img > img  {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .reader-img > img  {
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .reader-img > img  {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1600px){
+    .reader-img > img  {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width: 1600px) and (max-width: 1800px){
+    .reader-img > img  {
+        width: 60%;
+    }
+}
+
+/* End reader */
+
 /* Start Card */
 
 .card-collections {
@@ -738,7 +848,6 @@ button.nav-btn {
     border-radius: 5px;
     cursor: pointer;
     display: block;
-    text-decoration: none;
 }
 
 .card-black {
@@ -794,29 +903,33 @@ button.nav-btn {
 
 /* Start Pagination */
 
-.center {
-    text-align: center;
-}
+
 
 .pagination {
     display: inline-block;
-    margin-bottom: 16px;
 }
 
-.pagination-items {
-    text-decoration: none;
+.pagination-items.size-m {
+    font-size: medium;
+}
+
+.pagination-items.size-s {
+    font-size: small;
+}
+
+.pagination .pagination-items {
     display: inline-block;
     font-size: medium;
     padding: 8px 16px;
-    margin-right: 4px;
+    /* margin-right: 4px; */
     border-radius: 5px;
 }
 
-.pagination-items:hover {
+.pagination .pagination-items:hover {
     background-color: rgba(91, 42, 134, .5);
 }
 
-.pagination-active {
+.pagination .pagination-active {
     background-color: rgba(91, 42, 134, 1);
 }
 
@@ -869,7 +982,6 @@ button.nav-btn {
     /* background-color: rgba(54, 5, 104,1); */
     /* background-color: rgb(7, 37, 54); */
     background-color: rgb(11, 57, 84);
-
 }
 
 .capsule {

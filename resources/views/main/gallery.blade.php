@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title',  config('app.name').' - title')
+@section('title',  config('app.name').' - '.$gallery->title)
 
 @section('content')
 @isset($gallery)
 <div class="container gallery">
     <div class="gallery-thumb">
         <a href="{{ isset($pages) ? route('galleries.reader', [$gallery->id, 1]) : "/" }}">
-            <img src="{{ $gallery->thumbnail }}" alt="gallery-thumbnail">
+            <img src="{{ asset($gallery->thumbnail) }}" alt="gallery-thumbnail">
         </a>
     </div>
     <div class="gallery-info">
@@ -40,7 +40,7 @@
         @foreach ($pages as $page)
         <div class="page">
             <a href="{{ route('galleries.reader', [$gallery->id, $page->page_number]) }}" class="page-link">
-                <img src="{{ $page->filename }}" alt="page-number" class="page-thumbnail">
+                <img src="{{ asset($page->filename) }}" alt="page-number" class="page-thumbnail">
             </a>
         </div>
         @endforeach

@@ -1,6 +1,6 @@
 @isset($paginator)
 <div class="center">
-    <div class="pagination">
+    <div class="pagination mb-med mt-med">
         @php
         $currentPage = $paginator['currentPage'];
         $totalPage = $paginator['totalPage'];

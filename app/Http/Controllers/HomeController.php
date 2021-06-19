@@ -32,8 +32,8 @@ class HomeController extends Controller
         // dd($users);
         $data = [];
 
-        $galleries = Gallery::orderBy('created_at', 'desc')->paginate(24);
-
+        // $galleries = Gallery::orderBy('created_at', 'desc')->get();
+        $galleries = Gallery::orderBy('id', 'desc')->paginate(24);
         $data['galleries'] = $galleries;
         $data['paginator'] = [
             'currentPage' => $galleries->currentPage(),
@@ -43,6 +43,6 @@ class HomeController extends Controller
             'uri' => "/?page=",
             'lastPage' => $galleries->lastPage(),
         ];
-        return view('home', $data);
+        return view('main.home', $data);
     }
 }

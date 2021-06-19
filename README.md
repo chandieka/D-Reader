@@ -15,7 +15,12 @@ Random Quote of the day
 Epic Meme Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quae vitae temporibus possimus quas odit delectus maiores debitis sint cum voluptatem voluptates laboriosam, fuga dignissimos? Asperiores sint iure quos? Esse.
 </p>
 
-## **Code Scaffolding**
+## **Requirement**
+- `PHP` 8.x version or higher
+- `PHP` rar extension
+- `PHP` zip extension
+
+## **Code Scafolding**
     
 Run this **Epic** command
 

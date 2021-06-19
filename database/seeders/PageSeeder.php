@@ -14,14 +14,16 @@ class PageSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=1; $i <= 20; $i++) {
-            DB::table('pages')->insert([
-                'gallery_id' => 1,
-                'filename' => asset('img/default/NotFound-720p.png'),
-                'page_number' => $i,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s"),
-            ]);
+        for ($j=1; $j <= 50; $j++) {
+            for ($i = 1; $i <= 20; $i++) {
+                DB::table('pages')->insert([
+                    'gallery_id' => $j,
+                    'filename' => 'img/default/NotFound-720p.png',
+                    'page_number' => $i,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s"),
+                ]);
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 Route::get('/galleries/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
 
-Route::get('/galleries/{gallery}/{currentPage}', [GalleryController::class, 'reader'])->name('galleries.reader');
+Route::get('/galleries/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
 
 Route::get('/test', [TestController::class, 'index'])->name('test.index');
 
@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/uploads', [UploadController::class, 'index'])->name('uploads.index');
 
-    Route::get('/gallerries/create', [GalleryController::class, 'create'])->name('galleries.create');
+    Route::get('/galleries/create', [GalleryController::class, 'create'])->name('galleries.create');
 });
 
 

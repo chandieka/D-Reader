@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gallery;
 use App\Models\Page;
 use App\Models\User;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,7 +57,7 @@ class GalleryController extends Controller
         $data['pages'] = $pages;
         $data['uploader'] = $uploader;
 
-        return view('gallery', $data);
+        return view('main.gallery', $data);
     }
 
     /**
@@ -93,24 +94,32 @@ class GalleryController extends Controller
         //
     }
 
-    public function reader(Request $request, Gallery $gallery, $currentPage)
+    /**
+     * Get the reader for the given gallery with all the pages related to it
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Gallery  $gallery
+     * @param \App\Models\Page $page this variable is used to check if the current page exist
+     * @return \Illuminate\Http\Response
+     */
+    public function reader(Request $request, Gallery $gallery, Page $page)
     {
         # code...
         $data = [];
         // $user = Auth::user();
         // $settings = $user->settings(); // fetch user UI or whatever needed in the future settings
-
-        $pages = $gallery->pages()->orderBy('page_number', 'asc')->get(); // assuring the array is retrive starting with the lowest page to highest page
-
-        $data['reader'] = [
-            'paginator' => [
-                'totalPage' => $pages->count(),
-                'currentPage' => $currentPage,
-            ],
-            'pages' => $pages,
-            // settings variable
+        $pages = $gallery->pages()->select(['page_number', 'filename'])->orderBy('page_number', 'asc')->get(); // assuring the array is retrive starting with the lowest page to highest page
+        $currentPageNumber = $page->page_number;
+        $data['gallery'] = $gallery;
+        $data['pages'] = $pages;
+        $data['paginator'] = [
+            'totalPages' => $pages->count(),
+            'currentPage' => $currentPageNumber,
+            'next' => ($currentPageNumber == $pages->count()) ? $currentPageNumber : $currentPageNumber + 1,
+            'previous' => ($currentPageNumber == 0) ? $currentPageNumber : $currentPageNumber - 1,
+            'resource' => "/galleries/".$gallery->id."/",
         ];
 
-        return view('reader', $data);
+        return view('main.reader', $data);
     }
 }
