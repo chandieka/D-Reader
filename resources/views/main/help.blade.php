@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title',  config('app.name').' - Help')
+
 @section('content')
 <div class="content">
     <h1>Help Page</h1>

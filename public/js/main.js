@@ -4,8 +4,8 @@
 *
 * @param {string} $id
 */
-function formSubmit($id) {
-    document.getElementById($id).submit();
+function formSubmit(id) {
+    document.getElementById(id).submit();
 }
 
 /**
@@ -21,3 +21,6 @@ function showMenu() {
         dropElement.className = 'collapse';
     }
 }
+
+
+

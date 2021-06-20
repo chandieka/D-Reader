@@ -14,5 +14,10 @@ class Page extends Model
      *
      * @var array
      */
-    protected $guard = [];
+    protected $guarded = [];
+
+    public function gallery()
+    {
+        return $this->belongsTo(Gallery::class);
+    }
 }

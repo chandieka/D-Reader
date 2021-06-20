@@ -15,11 +15,12 @@ class CreateGalleriesTable extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->constrained();
-            $table->foreignId('language_id')->constrained();
+            $table->foreignId('user_id')->constrained('users');
+            // $table->foreignId('category_id')->constrained();
+            // $table->foreignId('language_id')->constrained();
             $table->string('title')->nullable(false);
             $table->string('title_original')->nullable();
+            $table->decimal('fizesize')->nullable(); // either Bytes or Kilobytes or MegaBytes
             $table->string('thumbnail')->nullable();
             $table->string('dir_path')->nullable(false);
             $table->boolean('isHidden')->default(false);

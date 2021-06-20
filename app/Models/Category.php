@@ -14,5 +14,5 @@ class Category extends Model
      *
      * @var array
      */
-    protected $guard = [];
+    protected $guarded = [];
 }

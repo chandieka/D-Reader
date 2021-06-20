@@ -14,9 +14,7 @@ class Tag extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-    ];
+    protected $guarded = [];
 
     /**
      * Get all the gallery with this tag
