@@ -116,7 +116,7 @@ class GalleryController extends Controller
             'totalPages' => $pages->count(),
             'currentPage' => $currentPageNumber,
             'next' => ($currentPageNumber == $pages->count()) ? $currentPageNumber : $currentPageNumber + 1,
-            'previous' => ($currentPageNumber == 0) ? $currentPageNumber : $currentPageNumber - 1,
+            'previous' => ($currentPageNumber == 1) ? $currentPageNumber : $currentPageNumber - 1,
             'resource' => "/galleries/".$gallery->id."/",
         ];
 

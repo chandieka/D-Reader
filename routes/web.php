@@ -34,8 +34,8 @@ Route::get('/galleries/{gallery}', [GalleryController::class, 'show'])->name('ga
 Route::get('/galleries/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
 
 Route::get('/test', [TestController::class, 'index'])->name('test.index');
-
-Route::post('/test', [TestController::class, 'favorite']);
+Route::post('/test', [TestController::class, 'galleryUpload']);
+Route::get('/test/img', [TestController::class, 'fileStorageTest']);
 
 // Route that need Authentication
 Route::middleware(['auth'])->group(function () {

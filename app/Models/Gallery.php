@@ -22,7 +22,7 @@ class Gallery extends Model
      *
      * @var array
      */
-    protected $guard = [];
+    protected $guarded = [];
 
     /**
      *  Get all the pages from the gallery

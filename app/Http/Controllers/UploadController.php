@@ -17,13 +17,7 @@ class UploadController extends Controller
     {
         $data = [];
         if (Auth::check()) {
-            $user = Auth::user();
-            $uploads = $user->galleries()->paginate(12);
 
-            $data['galleries'] = $uploads->items();
-            $data['paginator'] = $uploads;
-
-            return view('upload', $data);
         }
         // TODO: add error message handling
         return redirect()->route('home');

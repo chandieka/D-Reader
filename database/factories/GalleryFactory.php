@@ -26,7 +26,7 @@ class GalleryFactory extends Factory
             'user_id' => 1,
             'title' => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, voluptatem est fuga",
             'title_original' => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, voluptatem est fuga",
-            'thumbnail' => asset('img/default/na-480.png'),
+            'thumbnail' => 'img/default/NotFound-720p.png',
             'dir_path' => "/",
             'isHidden' => false,
         ];

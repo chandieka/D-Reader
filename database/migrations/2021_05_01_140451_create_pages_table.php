@@ -16,7 +16,8 @@ class CreatePagesTable extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('gallery_id')->constrained();
-            $table->string('filename');
+            $table->string('filename'); // original file
+            // $table->string('thumbnail'); // downscale file
             $table->integer('page_number');
             $table->timestamps();
         });

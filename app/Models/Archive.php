@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Archive extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,4 @@ class Page extends Model
      * @var array
      */
     protected $guarded = [];
-
-    public function gallery()
-    {
-        return $this->belongsTo(Gallery::class);
-    }
 }

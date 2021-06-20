@@ -8,7 +8,8 @@ window.addEventListener('load', () => {
         let lastButton = document.querySelectorAll('.reader-last');
         let firstButton = document.querySelectorAll('.reader-first');
 
-        function changePage(src, element) {
+
+        function updateImage(src, element) {
             // change the image
             element.src = src;
             element.alt = "page " + paginator.currentPage;
@@ -27,7 +28,7 @@ window.addEventListener('load', () => {
             let src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
 
             // update img src
-            changePage(src, pageImage);
+            updateImage(src, pageImage);
 
             // update the URL & push a new browser history
             let newURL = window.location.protocol + "//" + window.location.host + paginator.resource + paginator.currentPage;
@@ -36,19 +37,40 @@ window.addEventListener('load', () => {
             history.pushState("page " + paginator.currentPage, newTitle, newURL);
         }
 
+        function updatePaginatorLinks(){
+            if (paginator.currentPage == 1){
+                let previousPage = paginator.currentPage - 1;
+                previousButton.forEach(element => {
+                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + previousPage;
+                });
+            }
+
+            if (paginator.currentPage != paginator.currentPage){
+                let nextPage = paginator.currentPage + 1;
+                nextButton.forEach(element => {
+                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + nextPage;
+                });
+            }
+        }
+
         function NextPage() {
             if (paginator.currentPage + 1 <= paginator.totalPages) {
-                changeToPage(paginator.currentPage + 1);
+                let newPage = paginator.currentPage + 1;
+                updatePaginatorLinks();
+                changeToPage(newPage);
             }
         }
 
         function previousPage() {
             if (paginator.currentPage - 1 > 0) {
-                changeToPage(paginator.currentPage - 1);
+                let newPage = paginator.currentPage - 1;
+                updatePaginatorLinks();
+                changeToPage(newPage);
             }
         }
 
         pageImage.addEventListener('click', (e) => {
+            e.preventDefault();
             let pageWidth = pageImage.offsetWidth;
             let rect = e.target.getBoundingClientRect();
             let x = e.clientX - rect.left; //x position within the element.
@@ -66,18 +88,21 @@ window.addEventListener('load', () => {
 
         nextButton.forEach((element) => {
             element.addEventListener('click', (e) => {
+                e.preventDefault();
                 NextPage();
             });
         });
 
         previousButton.forEach((element) => {
             element.addEventListener('click', (e) => {
+                e.preventDefault();
                 previousPage();
             });
         });
 
         lastButton.forEach((element) => {
             element.addEventListener('click', (e) => {
+                e.preventDefault();
                 paginator.currentPage = paginator.totalPages;
                 changeToPage(paginator.currentPage);
             });
@@ -85,6 +110,7 @@ window.addEventListener('load', () => {
 
         firstButton.forEach((element) => {
             element.addEventListener('click', (e) => {
+                e.preventDefault();
                 paginator.currentPage = 1;
                 changeToPage(paginator.currentPage);
             });
@@ -92,16 +118,14 @@ window.addEventListener('load', () => {
 
         pagePosition.forEach((element) => {
             element.addEventListener('click', (e) => {
+                e.preventDefault();
                 let pageNumber = prompt("Move to page?");
-                if (!isNaN(pageNumber)) {
+                if (pageNumber <= paginator.totalPages && pageNumber > 0 && !isNaN(pageNumber)){
                     paginator.currentPage = pageNumber;
                     changeToPage(paginator.currentPage);
                 }
             })
         })
-    }
-    else {
-        console.error('Error: list of page is missing!!');
     }
 })
 

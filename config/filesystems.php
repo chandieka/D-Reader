@@ -52,6 +52,19 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'gallery' => [
+            'driver' => 'local',
+            'root' => storage_path('app/galleries'),
+            'url' => env('APP_URL') . '/galleries',
+            'visibility' => 'public'
+        ],
+
+        'archive' => [
+            'driver' => 'local',
+            'root' => storage_path('app/archives'),
+            'url' => env('APP_URL') . '/archives',
+            'visibility' => 'public'
+        ],
     ],
 
     /*
@@ -67,6 +80,9 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('avatars') => storage_path('app/avatars'),
+        public_path('galleries') => storage_path('app/galleries'),
+        public_path('archives') => storage_path('app/archives'),
     ],
 
 ];

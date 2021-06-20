@@ -37,7 +37,7 @@ class HomeController extends Controller
         $data['galleries'] = $galleries;
         $data['paginator'] = [
             'currentPage' => $galleries->currentPage(),
-            'totalPage' => $galleries->lastPage(),
+            'totalPages' => $galleries->lastPage(),
             // idk, if the URI need its own logic so that later on
             // if needed when a new request var is added it can be append to the URI
             'uri' => "/?page=",
