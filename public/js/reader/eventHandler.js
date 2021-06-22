@@ -1,5 +1,7 @@
+const imagePreloaderPromise = import('./ImagePreloader.js');
+
 window.addEventListener('load', () => {
-    if (typeof pages !== 'undefined' && typeof paginator !== 'undefined' && typeof gallery !== 'undefined'){
+    if (typeof pages !== 'undefined' && typeof paginator !== 'undefined' && typeof gallery !== 'undefined') {
         let pageImage = document.querySelector('#reader-page');
         let pagePosition = document.querySelectorAll('.reader-position');
         let pageCounter = document.querySelectorAll('.reader-counter');
@@ -7,7 +9,7 @@ window.addEventListener('load', () => {
         let previousButton = document.querySelectorAll('.reader-previous');
         let lastButton = document.querySelectorAll('.reader-last');
         let firstButton = document.querySelectorAll('.reader-first');
-
+        let imagePreloader;
 
         function updateImage(src, element) {
             // change the image
@@ -25,35 +27,37 @@ window.addEventListener('load', () => {
             })
 
             // prepare the new image
-            let src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
+            const src = "/" + pages[paginator.currentPage - 1].filename; // temp solutions
 
             // update img src
             updateImage(src, pageImage);
 
             // update the URL & push a new browser history
-            let newURL = window.location.protocol + "//" + window.location.host + paginator.resource + paginator.currentPage;
-            let newTitle = "D-Reader - " + gallery.title + " - Page " + paginator.currentPage;
+            const newURL = paginator.resource + paginator.currentPage;
+            const newTitle = "D-Reader - " + gallery.title + " - Page " + paginator.currentPage;
             document.title = newTitle; // change it in DOM
             history.pushState("page " + paginator.currentPage, newTitle, newURL);
+
+            imagePreloader?.setCurrentPage(paginator.currentPage - 1);
         }
 
-        function updatePaginatorLinks(){
-            if (paginator.currentPage == 1){
+        function updatePaginatorLinks() {
+            if (paginator.currentPage == 1) {
                 let previousPage = paginator.currentPage - 1;
                 previousButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + previousPage;
+                    element.href = paginator.resource + previousPage;
                 });
             }
 
-            if (paginator.currentPage != paginator.currentPage){
+            if (paginator.currentPage != paginator.currentPage) {
                 let nextPage = paginator.currentPage + 1;
                 nextButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + nextPage;
+                    element.href = paginator.resource + nextPage;
                 });
             }
         }
 
-        function NextPage() {
+        function nextPage() {
             if (paginator.currentPage + 1 <= paginator.totalPages) {
                 let newPage = paginator.currentPage + 1;
                 updatePaginatorLinks();
@@ -78,7 +82,7 @@ window.addEventListener('load', () => {
 
             if (x > pageWidth / 2) {
                 // go to next page
-                NextPage();
+                nextPage();
             }
             else {
                 // go to previous page
@@ -89,7 +93,7 @@ window.addEventListener('load', () => {
         nextButton.forEach((element) => {
             element.addEventListener('click', (e) => {
                 e.preventDefault();
-                NextPage();
+                nextPage();
             });
         });
 
@@ -120,12 +124,18 @@ window.addEventListener('load', () => {
             element.addEventListener('click', (e) => {
                 e.preventDefault();
                 let pageNumber = prompt("Move to page?");
-                if (pageNumber <= paginator.totalPages && pageNumber > 0 && !isNaN(pageNumber)){
+                if (pageNumber <= paginator.totalPages && pageNumber > 0 && !isNaN(pageNumber)) {
                     paginator.currentPage = pageNumber;
                     changeToPage(paginator.currentPage);
                 }
             })
-        })
-    }
-})
+        });
 
+        imagePreloaderPromise
+            .then(({ default: ImagePreloader }) => {
+                imagePreloader = new ImagePreloader(pages);
+                imagePreloader.setCurrentPage(paginator.currentPage - 1);
+            })
+            .catch((err) => console.log('Was unable to load the image preloader module', err))
+    }
+});
