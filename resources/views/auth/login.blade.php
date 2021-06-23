@@ -11,12 +11,12 @@
         {{-- Email address --}}
         <div class="form-group">
             <label for="email" class="label">{{ __('E-Mail Address') }}</label>
-            <input id="email" type="email" class="form-input large" name="email" required autocomplete="email" autofocus>
+            <input id="email" type="email" class="form-control large" name="email" required autocomplete="email" autofocus placeholder="Pattern: /.*@.*/">
         </div>
         {{-- Password --}}
         <div class="form-group">
             <label for="password" class="label">{{ __('Password') }}</label>
-            <input id="password" type="password" class="form-input large" name="password" required autocomplete="current-password">
+            <input id="password" type="password" class="form-control large" name="password" required autocomplete="current-password" placeholder="Your password">
         </div>
         {{-- Remembered me --}}
         <div class="form-group">
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group">
             @if (Route::has('password.request'))
-            <a class="" href="{{ route('password.request') }}">
+            <a class="form-control-info" href="{{ route('password.request') }}">
                 {{ __('Forgot Your Password?') }}
             </a>
             @endif

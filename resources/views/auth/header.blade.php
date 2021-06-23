@@ -8,10 +8,6 @@
         <p> join the Mustache Gang!!</p>
         @endif
     </div>
-    <ul class="auth-errors">
-        @foreach ($errors->all() as $error)
-        <li class="error">{{ $error }}</li>
-        @endforeach
-    </ul>
+    @include('layouts.subviews.error.list', ['errors' => $errors])
 </div>
 
