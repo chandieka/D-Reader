@@ -10,6 +10,8 @@ window.addEventListener('load', () => {
         const lastButton = document.querySelectorAll('.reader-last');
         const firstButton = document.querySelectorAll('.reader-first');
 
+        let imagePreloader;
+
         function updateImage(src, element) {
             // change the image src
             element.src = src;
@@ -38,50 +40,36 @@ window.addEventListener('load', () => {
             document.title = newTitle; // change it in DOM
 
             history.pushState(`page ${paginator.currentPage}`, newTitle, newURL);
+
             imagePreloader?.setCurrentPage(paginator.currentPage - 1);
         }
 
         function updatePaginatorLinks(pageNumber){
-            let previousPageNumber = pageNumber - 1;
             // only change when the links if its not in the 1st index
-            if (previousPageNumber != 0){
+            if (pageNumber - 1 != 0){
                 previousButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + previousPageNumber;
-                });
-            }
-            else {
-                previousButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + 1;
-                });
-            }
-
-            let nextPageNumber = pageNumber + 1;
-            // change when its not more than totalpages
-            if (nextPageNumber <= paginator.totalPages){
-                nextButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + nextPageNumber;
-                });
-            }
-            else {
-                nextButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + paginator.totalPages;
-                });
-            }
-
-            history.pushState(`page ${paginator.currentPage}`, newTitle, newURL);
-        }
-
-        function updatePaginatorLinks() {
-            if (paginator.currentPage === 1) {
-                previousButton.forEach((element) => {
                     element.href = `${window.location.protocol}//${window.location.host}${paginator.resource}${paginator.currentPage - 1}`;
                 });
             }
+            else {
+                previousButton.forEach(element => {
+                    element.href = `${window.location.protocol}//${window.location.host}${paginator.resource}1`;
+                });
+            }
 
-            nextButton.forEach((element) => {
-                element.href = `${window.location.protocol}//${window.location.host}${paginator.resource}${paginator.currentPage + 1}`;
-            });
+            // change when its not more than totalpages
+            if (pageNumber + 1 <= paginator.totalPages){
+                nextButton.forEach(element => {
+                    element.href = `${window.location.protocol}//${window.location.host}${paginator.resource}${paginator.currentPage + 1}`;
+                });
+            }
+            else {
+                nextButton.forEach(element => {
+                    element.href = `${window.location.protocol}//${window.location.host}${paginator.resource}${paginator.totalPages}`;
+                });
+            }
         }
+
 
         function nextPage() {
             if (paginator.currentPage + 1 <= paginator.totalPages) {
@@ -161,13 +149,14 @@ window.addEventListener('load', () => {
             })
         });
 
-        imagePreloaderPromise
-            .then(({ default: ImagePreloader }) => {
+        // preload the image for the 1st time
+        // define the imagePreloader object as well
+        imagePreloaderPromise.then(({ default: ImagePreloader }) => {
                 imagePreloader = new ImagePreloader(pages);
                 imagePreloader.setCurrentPage(paginator.currentPage - 1);
+                console.log('preloader set!!');
             })
-            .catch((err) => console.log('Was unable to load the image preloader module', err))
-            });
-        });
+            .catch((err) => console.log('Was unable to load the image preloader module', err)
+            );
     }
 });
