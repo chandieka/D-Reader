@@ -1,3 +1,5 @@
+const imagePreloaderPromise = import('./ImagePreloader.js');
+
 window.addEventListener('load', () => {
     if (typeof pages !== 'undefined' && typeof paginator !== 'undefined' && typeof gallery !== 'undefined') {
         const pageImage = document.querySelector('#reader-page');
@@ -24,6 +26,7 @@ window.addEventListener('load', () => {
             });
 
             // prepare the new image
+
             const src = `/${pages[paginator.currentPage - 1].filename}`; // temp solutions
 
             // update img src
@@ -119,6 +122,15 @@ window.addEventListener('load', () => {
                     paginator.currentPage = pageNumber;
                     changeToPage(paginator.currentPage);
                 }
+            })
+        });
+
+        imagePreloaderPromise
+            .then(({ default: ImagePreloader }) => {
+                imagePreloader = new ImagePreloader(pages);
+                imagePreloader.setCurrentPage(paginator.currentPage - 1);
+            })
+            .catch((err) => console.log('Was unable to load the image preloader module', err))
             });
         });
     }
