@@ -27,7 +27,7 @@
                 @auth
                 {{-- TODO: Fixed responsive stylying for smaller devices --}}
                 <li class="nav-items shortcut">
-                    <a href=""><i class="fas fa-upload"></i></a>
+                    <a href="{{ route('galleries.create') }}"><i class="fas fa-upload"></i></a>
                 </li>
                 <li class="acc-dropdown">
                     <div class="nav-items info">

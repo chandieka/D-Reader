@@ -28,7 +28,7 @@ class GalleryController extends Controller
      */
     public function create()
     {
-
+        return view('main.gallery.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class GalleryController extends Controller
         $data['pages'] = $pages;
         $data['uploader'] = $uploader;
 
-        return view('main.gallery', $data);
+        return view('main.gallery.show', $data);
     }
 
     /**
@@ -120,6 +120,6 @@ class GalleryController extends Controller
             'resource' => "/galleries/".$gallery->id."/",
         ];
 
-        return view('main.reader', $data);
+        return view('main.gallery.reader', $data);
     }
 }

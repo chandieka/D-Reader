@@ -28,8 +28,6 @@ class HomeController extends Controller
     */
     public function index(Request $request)
     {
-        // $users = User::paginate();
-        // dd($users);
         $data = [];
 
         // $galleries = Gallery::orderBy('created_at', 'desc')->get();
