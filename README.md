@@ -23,9 +23,9 @@ Epic Meme Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis q
 ## **Code Scafolding**
     
 Run this **Epic** command
-
     composer install
     npm install && npm run dev
+    php artisan storage:link
 
 ## **Development Server**
 Run this **(Totally will work)** command and then Navigate to 'http://localhost:8000/'
