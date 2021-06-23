@@ -1,8 +1,8 @@
 window.addEventListener('load', () => {
     if (typeof pages !== 'undefined' && typeof paginator !== 'undefined' && typeof gallery !== 'undefined'){
         let pageImage = document.querySelector('#reader-page');
+        let pageCounter = document.querySelectorAll('.reader-counter')
         let pagePosition = document.querySelectorAll('.reader-position');
-        let pageCounter = document.querySelectorAll('.reader-counter');
         let nextButton = document.querySelectorAll('.reader-next');
         let previousButton = document.querySelectorAll('.reader-previous');
         let lastButton = document.querySelectorAll('.reader-last');
@@ -10,7 +10,7 @@ window.addEventListener('load', () => {
 
 
         function updateImage(src, element) {
-            // change the image
+            // change the image src
             element.src = src;
             element.alt = "page " + paginator.currentPage;
         }
@@ -35,20 +35,34 @@ window.addEventListener('load', () => {
             let newTitle = "D-Reader - " + gallery.title + " - Page " + paginator.currentPage;
             document.title = newTitle; // change it in DOM
             history.pushState("page " + paginator.currentPage, newTitle, newURL);
+
+            console.log('p: ' + paginator.currentPage);
         }
 
-        function updatePaginatorLinks(){
-            if (paginator.currentPage == 1){
-                let previousPage = paginator.currentPage - 1;
+        function updatePaginatorLinks(pageNumber){
+            let previousPageNumber = pageNumber - 1;
+            // only when change the links if its not in the 1st index
+            if (previousPageNumber != 0){
                 previousButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + previousPage;
+                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + previousPageNumber;
+                });
+            }
+            else {
+                previousButton.forEach(element => {
+                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + 1;
                 });
             }
 
-            if (paginator.currentPage != paginator.currentPage){
-                let nextPage = paginator.currentPage + 1;
+            let nextPageNumber = pageNumber + 1;
+            // change when its not more than totalpages
+            if (nextPageNumber <= paginator.totalPages){
                 nextButton.forEach(element => {
-                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + nextPage;
+                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + nextPageNumber;
+                });
+            }
+            else {
+                nextButton.forEach(element => {
+                    element.href = window.location.protocol + "//" + window.location.host + paginator.resource + paginator.totalPages;
                 });
             }
         }
@@ -56,7 +70,7 @@ window.addEventListener('load', () => {
         function NextPage() {
             if (paginator.currentPage + 1 <= paginator.totalPages) {
                 let newPage = paginator.currentPage + 1;
-                updatePaginatorLinks();
+                updatePaginatorLinks(newPage);
                 changeToPage(newPage);
             }
         }
@@ -64,12 +78,13 @@ window.addEventListener('load', () => {
         function previousPage() {
             if (paginator.currentPage - 1 > 0) {
                 let newPage = paginator.currentPage - 1;
-                updatePaginatorLinks();
+                updatePaginatorLinks(newPage);
                 changeToPage(newPage);
             }
         }
 
         pageImage.addEventListener('click', (e) => {
+            // determine if the user is on the right or the left area of the image
             e.preventDefault();
             let pageWidth = pageImage.offsetWidth;
             let rect = e.target.getBoundingClientRect();
@@ -77,11 +92,9 @@ window.addEventListener('load', () => {
             let y = e.clientY - rect.top;  //y position within the element.
 
             if (x > pageWidth / 2) {
-                // go to next page
                 NextPage();
             }
             else {
-                // go to previous page
                 previousPage();
             }
         });
@@ -104,6 +117,7 @@ window.addEventListener('load', () => {
             element.addEventListener('click', (e) => {
                 e.preventDefault();
                 paginator.currentPage = paginator.totalPages;
+                updatePaginatorLinks(paginator.currentPage);
                 changeToPage(paginator.currentPage);
             });
         })
@@ -112,6 +126,7 @@ window.addEventListener('load', () => {
             element.addEventListener('click', (e) => {
                 e.preventDefault();
                 paginator.currentPage = 1;
+                updatePaginatorLinks(paginator.currentPage);
                 changeToPage(paginator.currentPage);
             });
         });
@@ -122,6 +137,7 @@ window.addEventListener('load', () => {
                 let pageNumber = prompt("Move to page?");
                 if (pageNumber <= paginator.totalPages && pageNumber > 0 && !isNaN(pageNumber)){
                     paginator.currentPage = pageNumber;
+                    updatePaginatorLinks(paginator.currentPage);
                     changeToPage(paginator.currentPage);
                 }
             })

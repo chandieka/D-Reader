@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customs\Utils;
 use App\Models\Archive;
+use App\Models\Gallery;
 use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,11 +63,9 @@ class TestController extends Controller
         // else return to the upload page with error message
         $validated = $request->validate([
             'file' => 'required|file',
-            'originalTitle' => '',
-            'title' => '',
-            'category' => '',
-            ''
-            // 'galleryTitle' =>
+            // 'title' => 'required|string',
+            // 'titleOriginal' => 'nullable|string',
+            // 'category' => '',
         ]);
 
         $archiveFile = $request->file;
@@ -142,7 +141,6 @@ class TestController extends Controller
                         }
                         $rar->close();
                     }
-                    return redirect()->back();
                 }
                 else{
                     $zip = new ZipArchive();
@@ -160,6 +158,15 @@ class TestController extends Controller
                         $zip->close();
                     }
                 }
+
+                // $gallery = Gallery::create([
+                //     'user_id' => '',
+                //     'title' => '',
+                //     'title_original' => '',
+                //     'dir_path' => $galleryName,
+                // ]);
+
+                return redirect()->back();
             }
             else {
                 return "it's not a Zip or a Rar file";
