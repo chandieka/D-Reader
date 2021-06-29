@@ -43,4 +43,9 @@ class HomeController extends Controller
         ];
         return view('main.home', $data);
     }
+
+    public function help()
+    {
+        return view('main.help');
+    }
 }
