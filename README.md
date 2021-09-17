@@ -2,7 +2,7 @@
     <img src="./public/Logo.png" alt="Logo" style="width:300px;">
 </p>
 <p align="center" style="font-size: 20px;">
-Random Quote of the day
+My abs is twiching so hard right now!
 <p align="center" style="font-style: italic;">
 - Obama with mustache
 </p>
@@ -12,23 +12,39 @@ Random Quote of the day
 
 ## **About D-Reader**
 <p>
-Epic Meme Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quae vitae temporibus possimus quas odit delectus maiores debitis sint cum voluptatem voluptates laboriosam, fuga dignissimos? Asperiores sint iure quos? Esse.
+<font size="3">Do you feel that reading doujin online is too mainstream now?</font> 
+</p>
+<p>
+<font size="3">Or do you feel that managing your "pOoOoNs" collections using "window file explorer" are not sufficient?</font>
+</p>
+<p>
+    <font size="10"> SAY NO MORE! D-Reader got your back™ </font>
+</p>
+<p>
+<font size="3">D-Reader objective is to have a fully open-source application for allowing you to read, manage, upload, tag and etc for your collections of manga, doujin, CG-Artist, and other kinds of image base galleries.</font>
+</p>
+<p>
+<font size="3">And (hopefully) will have all the features you find in sad***da or nh**tai with a modern UI and non-bloated code that 
+won't hinder the User Experience while they're doing their "business"</font>
 </p>
 
 ## **Requirement**
 - `PHP` 8.x version or higher
 - `PHP` rar extension
 - `PHP` zip extension
+- Webserver that able to execute PHP scripts
+- Potato computer
 
 ## **Code Scafolding**
     
 Run this **Epic** command
-    composer install
-    npm install && npm run dev
-    php artisan storage:link
+    
+    $ composer install
+    $ npm install && npm run dev
+    $ php artisan storage:link
 
 ## **Development Server**
-Run this **(Totally will work)** command and then Navigate to 'http://localhost:8000/'
+Run this **(Totally will work)** command
 
     php artisan serve
 
@@ -36,7 +52,7 @@ Run this **(Totally will work)** command and then Navigate to 'http://localhost:
 
 ## **TODO:** 
 - Docker Compose
-- Apache & Nginx settings
+- Apache & Nginx config
 - Get the `ver. 0.1` out
 - Other ***meme-able*** stuff
 
