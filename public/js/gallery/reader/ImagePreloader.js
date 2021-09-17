@@ -4,11 +4,11 @@ export default class ImagePreloader {
 
     static #forwardCacheSize = 3;
     static #backCacheSize = 1;
-
     #pages;
-
-    constructor(pages) {
+    #gallery;
+    constructor(pages, gallery) {
         this.#pages = pages;
+        this.#gallery = gallery
     }
 
     setCurrentPage(pageIndex) {
@@ -17,6 +17,7 @@ export default class ImagePreloader {
 
     _preload(startIndex, endIndex) {
         const pages = this.#pages.slice(Math.max(0, startIndex), endIndex);
+        const path = `/assets/galleries/${this.#gallery.dir_path}`; // kinda bad
 
         (function loadNextImage() {
             const image = pages.pop();
@@ -27,7 +28,7 @@ export default class ImagePreloader {
 
             const img = new Image();
 
-            img.src = `/${image.filename}`;
+            img.src = `${path}/${image.filename}`;
             img.onload = () => loadNextImage();
         })();
     }

@@ -16,7 +16,7 @@
         {{-- Password --}}
         <div class="form-group">
             <label for="password" class="label">{{ __('Password') }}</label>
-            <input id="password" type="password" class="form-control large" name="password" required autocomplete="current-password" placeholder="Your password">
+            <input id="password" type="password" class="form-control large" name="password" required autocomplete="current-password" placeholder="Password...">
         </div>
         {{-- Remembered me --}}
         <div class="form-group">
@@ -43,4 +43,9 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+{{-- Not working  --}}
+    <script src="{{ asset('js/error/eventHandler.js') }}"></script>
 @endsection

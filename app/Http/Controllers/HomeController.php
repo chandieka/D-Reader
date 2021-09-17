@@ -30,15 +30,21 @@ class HomeController extends Controller
     {
         $data = [];
 
-        // $galleries = Gallery::orderBy('created_at', 'desc')->get();
-        $galleries = Gallery::orderBy('id', 'desc')->paginate(24);
+        // $galleries = Gallery::orderBy('id', 'desc')->paginate(24); // return the latest addition of galleries
+        $galleries = Gallery::with(['pages'=> function($query) {
+            $query->where('page_number', '=', 1);
+        }])->orderBy('id', 'desc')->paginate(24);
+
+        // dd(public_path('assets/galleries') . '/' . $galleries[0]->dir_path . '/' . $galleries[0]->pages[0]->filename);
+        // dd($galleries);
+
         $data['galleries'] = $galleries;
+
+        // metadata for paginator
         $data['paginator'] = [
             'currentPage' => $galleries->currentPage(),
             'totalPages' => $galleries->lastPage(),
-            // idk, if the URI need its own logic so that later on
-            // if needed when a new request var is added it can be append to the URI
-            'uri' => "/?page=",
+            'uri' => "/?page=", // URI template for page navigation
             'lastPage' => $galleries->lastPage(),
         ];
         return view('main.home', $data);

@@ -17,8 +17,9 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->foreignId('gallery_id')->constrained();
             $table->string('filename'); // original file
-            // $table->string('thumbnail'); // downscale file
+            $table->string('thumbnail')->nullable(); // downscale file
             $table->integer('page_number');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

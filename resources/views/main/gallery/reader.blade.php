@@ -3,10 +3,11 @@
 @section('title',  config('app.name')." - ".$gallery->title." - Page ".$paginator['currentPage'])
 
 @section('content')
-<div class="reader">
+<div class="reader" id="reader">
     @include('layouts.subviews.gallery.reader.pagination')
     <div class="reader-img">
-        <img src="{{ asset($pages[$paginator['currentPage'] - 1]['filename']) }}" alt="page-1" id="reader-page" class="point">
+        <img src="{{ asset('/assets/galleries/'.$gallery->dir_path.'/'.$pages[$paginator['currentPage'] - 1]['filename']) }}"
+        alt="page-1" id="reader-page" class="point">
     </div>
     @include('layouts.subviews.gallery.reader.pagination')
 </div>
@@ -17,5 +18,5 @@
     const pages = @json($pages);
     const paginator = @json($paginator);
 </script>
-<script src="{{ asset('js/reader/eventHandler.js') }}"></script>
+<script src="{{ asset('js/gallery/reader/eventHandler.js') }}"></script>
 @endsection

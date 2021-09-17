@@ -15,7 +15,8 @@ class CreateGalleriesTable extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users'); // owner or uploader
+            // $table->foreignId('archive_id')->nullable()->constrained('archives');
             // $table->foreignId('category_id')->constrained();
             // $table->foreignId('language_id')->constrained();
             $table->string('title')->nullable(false);
@@ -24,6 +25,7 @@ class CreateGalleriesTable extends Migration
             $table->string('thumbnail')->nullable();
             $table->string('dir_path')->nullable(false);
             $table->boolean('isHidden')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

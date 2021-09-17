@@ -1,4 +1,4 @@
-const imagePreloaderPromise = import('./ImagePreloader.js');
+const imagePreloaderPromise = import('./ImagePreloader');
 
 window.addEventListener('load', () => {
     if (typeof pages !== 'undefined' && typeof paginator !== 'undefined' && typeof gallery !== 'undefined') {
@@ -11,6 +11,10 @@ window.addEventListener('load', () => {
         const firstButton = document.querySelectorAll('.reader-first');
 
         let imagePreloader;
+
+        function scrollToTop(){
+            document.querySelector("#reader").scrollIntoView();
+        }
 
         function updateImage(src, element) {
             // change the image src
@@ -28,8 +32,8 @@ window.addEventListener('load', () => {
             });
 
             // prepare the new image
-
-            const src = `/${pages[paginator.currentPage - 1].filename}`; // temp solutions
+            const storagePath = '/assets/galleries/';
+            const src = `${window.location.protocol}//${window.location.host}${storagePath}${gallery.dir_path}/${pages[paginator.currentPage - 1].filename}`; // temp solutions
 
             // update img src
             updateImage(src, pageImage);
@@ -75,6 +79,7 @@ window.addEventListener('load', () => {
             if (paginator.currentPage + 1 <= paginator.totalPages) {
                 const newPage = paginator.currentPage + 1;
                 updatePaginatorLinks(newPage);
+                scrollToTop();
                 changeToPage(newPage);
             }
         }
@@ -84,6 +89,7 @@ window.addEventListener('load', () => {
 
             if (newPage > 0) {
                 updatePaginatorLinks(newPage);
+                scrollToTop();
                 changeToPage(newPage);
             }
         }
@@ -150,11 +156,10 @@ window.addEventListener('load', () => {
         });
 
         // preload the image for the 1st time
-        // define the imagePreloader object as well
+        // and define the imagePreloader object as well
         imagePreloaderPromise.then(({ default: ImagePreloader }) => {
-                imagePreloader = new ImagePreloader(pages);
+                imagePreloader = new ImagePreloader(pages, gallery);
                 imagePreloader.setCurrentPage(paginator.currentPage - 1);
-                console.log('preloader set!!');
             })
             .catch((err) => console.log('Was unable to load the image preloader module', err)
             );

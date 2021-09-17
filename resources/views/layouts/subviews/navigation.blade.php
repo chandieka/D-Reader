@@ -21,7 +21,7 @@
                 <li class="nav-items info"><a href="/">Artists</a></li>
                 <li class="nav-items info"><a href="/">Groups</a></li>
                 <li class="nav-items info"><a href="{{ route('help') }}">Help</a></li>
-                <li class="nav-items info"><a href="{{ route('test.index') }}">Test Page</a></li>
+                {{-- <li class="nav-items info"><a href="{{ route('test.index') }}">Test Page</a></li> --}}
             </ul>
             <ul class="menu right">
                 @auth

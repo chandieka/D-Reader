@@ -8,4 +8,3 @@
     @include('layouts.subviews.dashboard')
     @include('layouts.subviews.pagination')
 @endsection
-

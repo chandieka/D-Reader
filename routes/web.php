@@ -21,20 +21,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes(); // web authentication default routes
+    // web authentication default routes
+Auth::routes([
+    'login' => true,    // Login Routes...
+    'logout' => true,   // Logout Routes...
+    'register' => true, // Registration Routes...
+    'reset' => true,   // Password Reset Routes...
+    'confirm' => true, // Password Confirmation Routes...
+    'verify' => true,  // Email Verification Routes...
+]);
 
-// Route that need Authentication
+// Route that require Authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
     Route::get('/galleries/create', [GalleryController::class, 'create'])->name('galleries.create');
+
+    Route::post('/galleries', [GalleryController::class, 'store'])->name('galleries.store');
 
     Route::get('/uploads', [UploadController::class, 'index'])->name('uploads.index');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/help', [HelpController::class, 'index'])->name('help');
+Route::get('/help', [HomeController::class, 'help'])->name('help');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
@@ -42,10 +52,10 @@ Route::get('/galleries/{gallery}', [GalleryController::class, 'show'])->name('ga
 
 Route::get('/galleries/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
 
-// test route for algorithms
-Route::get('/test', [TestController::class, 'index'])->name('test.index');
-Route::post('/test', [TestController::class, 'galleryUpload']);
-Route::get('/test/img', [TestController::class, 'fileStorageTest']);
-
-
+/**
+ * Route for Testing
+ *
+ * comment and uncomment when needed.
+ */
+require __DIR__.'/test.php';
 

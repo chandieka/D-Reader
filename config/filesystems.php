@@ -35,12 +35,12 @@ return [
             'root' => storage_path('app'),
         ],
 
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-        ],
+        // 'public' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app/public'),
+        //     'url' => env('APP_URL').'/storage',
+        //     'visibility' => 'public',
+        // ],
 
         's3' => [
             'driver' => 's3',
@@ -65,6 +65,13 @@ return [
             'url' => env('APP_URL') . '/archives',
             'visibility' => 'public'
         ],
+
+        'gallery' => [
+            'driver' => 'local',
+            'root' => storage_path('app/thumbails'),
+            'url' => env('APP_URL') . '/thumbails',
+            'visibility' => 'public'
+        ],
     ],
 
     /*
@@ -79,10 +86,10 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
-        public_path('avatars') => storage_path('app/avatars'),
-        public_path('galleries') => storage_path('app/galleries'),
-        public_path('archives') => storage_path('app/archives'),
+        // public_path('storage') => storage_path('app/public'),
+        public_path('assets/avatars') => storage_path('app/avatars'),
+        public_path('assets/galleries') => storage_path('app/galleries'),
+        public_path('assets/archives') => storage_path('app/archives'),
+        public_path('assets/thumbails') => storage_path('app/thumbails'),
     ],
-
 ];
