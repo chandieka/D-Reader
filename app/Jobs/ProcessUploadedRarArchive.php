@@ -56,7 +56,7 @@ class ProcessUploadedRarArchive implements ShouldQueue
         $this->destination = public_path('assets/galleries') . "/" . $this->galleryName;
 
         $this->onConnection('database');
-        // $this->onQueue('ProcessUploadArchive'); // optional
+        // $this->onQueue('ProcessUploadArchives'); // optional
     }
 
     /**
@@ -76,6 +76,10 @@ class ProcessUploadedRarArchive implements ShouldQueue
 
         if ($rar !== false) {
             $entries = $rar->getEntries();
+            usort($entries, function($a, $b) {
+                return $a->getName() <=> $b->getName();
+            });
+
             // loop to extract the file
             for ($i = 0; $i < count($entries); $i++) {
                 $entry = $entries[$i];
@@ -99,6 +103,11 @@ class ProcessUploadedRarArchive implements ShouldQueue
                 'dir_path' => $this->galleryName,
             ]);
 
+            // add the gallery id to the parent archive
+            $this->archive->gallery_id = $gallery->id;
+            $this->archive->isProcess = true;
+            $this->archive->save();
+
             // create the pages entries in the datapase for the given for the gallery
             for ($i = 0; $i < count($pageNames); $i++) {
                 Page::create([
@@ -108,7 +117,7 @@ class ProcessUploadedRarArchive implements ShouldQueue
                 ]);
             }
 
-            $this->finish($gallery, $this->archive);
+            $this->finish($gallery);
         } else {
             throw new Exception("Failed to open the Archive ID: " . $this->archive->id);
         }
@@ -122,15 +131,8 @@ class ProcessUploadedRarArchive implements ShouldQueue
      *
      * @return void
      */
-    public function finish(Gallery $gallery, Archive $archive)
+    public function finish(Gallery $gallery)
     {
-        CreateThumbnailsForPages::dispatch($gallery)->chain([
-            function($archive, $gallery) {
-                // add the gallery id to the parent archive
-                $archive->gallery_id = $gallery->id;
-                $archive->isProcess = true;
-                $archive->save();
-            },
-        ]);
+        CreateThumbnailsForPages::dispatch($gallery);
     }
 }

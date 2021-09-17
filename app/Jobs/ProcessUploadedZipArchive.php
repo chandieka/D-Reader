@@ -67,6 +67,10 @@ class ProcessUploadedZipArchive implements ShouldQueue
         $zip = new ZipArchive();
         // open the archive with read-only access
         $res = $zip->open($archiveFilePath, ZipArchive::RDONLY);
+        // sort the array from small to big by filename
+        // here
+
+
         if ($res === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 // get the name for each pages
@@ -90,6 +94,11 @@ class ProcessUploadedZipArchive implements ShouldQueue
                 'title_original' => $this->galleryMetadata['titleOriginal'],
                 'dir_path' => $this->galleryName,
             ]);
+
+            // add the gallery id to the parent archive
+            $archive->gallery_id = $gallery->id;
+            $archive->isProcess = true;
+            $archive->save();
 
             // create the pages entries in the datapase for the given for the gallery
             for ($i = 0; $i < count($pageNames); $i++) {
@@ -116,13 +125,6 @@ class ProcessUploadedZipArchive implements ShouldQueue
      */
     public function finish(Gallery $gallery, Archive $archive)
     {
-        CreateThumbnailsForPages::dispatch($gallery)->chain([
-            function ($archive, $gallery) {
-                // add the gallery id to the parent archive
-                $archive->gallery_id = $gallery->id;
-                $archive->isProcess = true;
-                $archive->save();
-            },
-        ]);
+        CreateThumbnailsForPages::dispatch($gallery);
     }
 }

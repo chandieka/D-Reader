@@ -8,15 +8,11 @@ use App\Jobs\ProcessUploadedRarArchive;
 use App\Jobs\ProcessUploadedZipArchive;
 use App\Models\Gallery;
 use App\Models\Page;
-use App\Models\User;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Archive;
 use Exception;
 use Illuminate\Support\Str;
-use RarArchive;
-use ZipArchive;
 use Intervention\Image\ImageManagerStatic as Image;
 
 
@@ -126,12 +122,12 @@ class GalleryController extends Controller
                     ProcessUploadedRarArchive::dispatch(Auth::user(), $archive, $request->all([
                        'title',
                        'titleOriginal',
-                    ]))->afterResponse();
+                    ]));
                 } else {
                     ProcessUploadedZipArchive::dispatch(Auth::user(), $archive, $request->all([
                         'title',
                         'titleOriginal',
-                    ]))->afterResponse();
+                    ]));
                 }
 
                 return redirect()->route('home');

@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class CreateThumbnailsForPages implements ShouldQueue
@@ -40,6 +41,9 @@ class CreateThumbnailsForPages implements ShouldQueue
     public function __construct(Gallery $gallery)
     {
         $this->gallery = $gallery;
+
+        $this->onConnection('database');
+        // $this->onQueue('ProcessPagesThumbnails'); // optional
     }
 
     /**
@@ -49,31 +53,40 @@ class CreateThumbnailsForPages implements ShouldQueue
      */
     public function handle()
     {
-        $pages = $this->gallery->pages;
         $width = 640; // the witdh that will be use to ratio in the image height (in px)
+        $pages = $this->gallery->pages;
+        $destination = public_path('assets/thumbnails/') . $this->gallery->dir_path; // full path for save location
 
-        if (isset($pages)){
+        if (isset($pages) && !is_dir($destination)) {
+            if (!is_dir($destination)) {
+                // create the directory
+                mkdir($destination);
+            } else {
+                throw new Exception("Thumbnails directory already exist with the name of " . $this->gallery->dir_path, 1);
+            }
+
             foreach ($pages as $page) {
-                $filePath = public_path('/assets/galleries/') . $this->gallery->dir_path . '/' . $page->filename; // page image full path
-                $destination = public_path('/assets/thumbnails/') . $this->gallery->dir_path; // full path for save location
+                $filePath = public_path('assets/galleries/') . $this->gallery->dir_path . '/' . $page->filename; // page image full path
 
                 $img = Image::make($filePath);
-                if (!$img->width() <= $width){
+                if (!$img->width() <= $width) {
                     $ratio = $width / $img->width(); // get the ratio for the width
                 } else {
                     $ratio = 1;
+                    $width = $img->width();
                 }
 
                 $height = $img->height() * $ratio; // get the final width after adjusted by the ratio
-                $img->resize($width, $height)->save($destination . $img->filename, 100, 'jpg');
+                $img->resize($width, $height)->save($destination . '/' . $img->filename . '.jpg', 100, 'jpg');
                 $page->thumbnail = $img->filename . '.' . $img->extension;
                 $page->save();
             }
-            // set 1st page as gallery thumbnail
+
             $this->gallery->thumbnail = $page[0]->thumbnail;
             $this->gallery->save();
         } else {
-            throw new Exception("Gallery ". $this->gallery->id . " don't yet have pages");
+            throw new Exception("Gallery " . $this->gallery->id . " don't yet have pages");
         }
+
     }
 }

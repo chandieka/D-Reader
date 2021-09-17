@@ -68,8 +68,8 @@ return [
 
         'gallery' => [
             'driver' => 'local',
-            'root' => storage_path('app/thumbails'),
-            'url' => env('APP_URL') . '/thumbails',
+            'root' => storage_path('app/thumbnails'),
+            'url' => env('APP_URL') . '/thumbnails',
             'visibility' => 'public'
         ],
     ],
@@ -90,6 +90,6 @@ return [
         public_path('assets/avatars') => storage_path('app/avatars'),
         public_path('assets/galleries') => storage_path('app/galleries'),
         public_path('assets/archives') => storage_path('app/archives'),
-        public_path('assets/thumbails') => storage_path('app/thumbails'),
+        public_path('assets/thumbnails') => storage_path('app/thumbnails'),
     ],
 ];
