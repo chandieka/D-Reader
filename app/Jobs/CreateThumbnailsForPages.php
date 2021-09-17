@@ -82,7 +82,7 @@ class CreateThumbnailsForPages implements ShouldQueue
                 $page->save();
             }
 
-            $this->gallery->thumbnail = $page[0]->thumbnail;
+            $this->gallery->thumbnail = $pages[0]->thumbnail;
             $this->gallery->save();
         } else {
             throw new Exception("Gallery " . $this->gallery->id . " don't yet have pages");

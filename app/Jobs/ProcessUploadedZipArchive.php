@@ -3,17 +3,21 @@
 namespace App\Jobs;
 
 use App\Models\Archive;
+use App\Models\Gallery;
+use App\Models\Page;
+use App\Models\User;
+use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
+use ZipArchive;
 
 class ProcessUploadedZipArchive implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-/ uploaded archive to be process into gallery and pages
     protected $archive;
     protected $galleryMetadata;
     protected $galleryName;
@@ -70,15 +74,17 @@ class ProcessUploadedZipArchive implements ShouldQueue
         // sort the array from small to big by filename
         // here
 
-
         if ($res === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 // get the name for each pages
                 $pageNames[$i] = $zip->getNameIndex($i);
             }
+            usort($pageNames, function($a, $b){
+                return $a <=> $b;
+            });
 
             // extra all pages into the destination
-            if (!$zip->extractTo($destination)) {
+            if (!$zip->extractTo($this->destination)) {
                 $zip->close();
                 throw new Exception("Failed to Extract the Archive");
             }
@@ -96,9 +102,9 @@ class ProcessUploadedZipArchive implements ShouldQueue
             ]);
 
             // add the gallery id to the parent archive
-            $archive->gallery_id = $gallery->id;
-            $archive->isProcess = true;
-            $archive->save();
+            $this->archive->gallery_id = $gallery->id;
+            $this->archive->isProcess = true;
+            $this->archive->save();
 
             // create the pages entries in the datapase for the given for the gallery
             for ($i = 0; $i < count($pageNames); $i++) {
