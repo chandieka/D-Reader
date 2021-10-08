@@ -101,8 +101,7 @@ window.addEventListener('load', () => {
             const pageWidth = pageImage.offsetWidth;
             const rect = e.target.getBoundingClientRect();
             const x = e.clientX - rect.left; // x position within the element.
-
-            if (x > pageWidth / 2) {
+            if (x > pageWidth * 0.4) {
                 // go to next page
                 nextPage();
             } else {
