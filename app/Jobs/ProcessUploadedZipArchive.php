@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use ZipArchive;
 
@@ -50,7 +51,6 @@ class ProcessUploadedZipArchive implements ShouldQueue
         $this->galleryMetadata = $galleryMetadata;
         $this->galleryName = Str::uuid();
         $this->destination = public_path('assets/galleries') . "/" . $this->galleryName;
-
         $this->onConnection('database');
         // $this->onQueue('ProcessUploadArchive'); // optional
     }
@@ -62,8 +62,7 @@ class ProcessUploadedZipArchive implements ShouldQueue
     */
     public function handle()
     {
-        $archiveName = $this->archive->filename . '.' . $this->archive->archive_type;
-        $archiveFilePath = realpath(public_path('assets/archives') . "/" . $archiveName);
+        $archiveFilePath = public_path('assets/archives') . "/" . $this->archive->filename;
 
         // metas for gallery
         $pageNames = [];
@@ -71,14 +70,14 @@ class ProcessUploadedZipArchive implements ShouldQueue
         $zip = new ZipArchive();
         // open the archive with read-only access
         $res = $zip->open($archiveFilePath, ZipArchive::RDONLY);
-        // sort the array from small to big by filename
-        // here
 
         if ($res === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 // get the name for each pages
                 $pageNames[$i] = $zip->getNameIndex($i);
             }
+
+            // sort the array from small to big by filename
             usort($pageNames, function($a, $b){
                 return $a <=> $b;
             });
@@ -96,13 +95,13 @@ class ProcessUploadedZipArchive implements ShouldQueue
             // create a gallery entries in the datapase for the given archives
             $gallery = Gallery::create([
                 'user_id' => $this->uploader->id,
+                'archive_id' => $this->archive->id,
                 'title' => $this->galleryMetadata['title'],
                 'title_original' => $this->galleryMetadata['titleOriginal'],
                 'dir_path' => $this->galleryName,
             ]);
 
-            // add the gallery id to the parent archive
-            $this->archive->gallery_id = $gallery->id;
+            // add the archive id to the gallery
             $this->archive->isProcess = true;
             $this->archive->save();
 

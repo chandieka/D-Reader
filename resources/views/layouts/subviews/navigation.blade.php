@@ -10,7 +10,7 @@
                     <i class="fas fa-search fa-lg"></i>
                 </button>
             </form>
-            <button onclick="showMenu();" class="btn-red btn nav-dropbtn">
+            <button id="nav-dropdown-btn" class="nav-dropbtn">
                 <i class="fas fa-bars fa-2x"></i>
             </button>
         </div>
@@ -32,7 +32,7 @@
                 <li class="acc-dropdown">
                     <div class="nav-items info">
                         {{-- TODO: Add Profile pic --}}
-                        <a class="acc-dropbtn">
+                        <a class="nav-items acc-dropbtn">
                             {{ Auth::user()->name }} <i class="fas fa-angle-down fa-lg"></i>
                         </a>
                     </div>

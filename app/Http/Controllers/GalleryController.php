@@ -105,7 +105,7 @@ class GalleryController extends Controller
                 // store the metadata in a model
                 $archive = Archive::create([
                     'user_id' => Auth::user()->id, // should be changed to the current auth user
-                    'filename' => $archiveNewName, // uuid
+                    'filename' => $archiveNewName . '.' . $fileExtension, // uuid
                     'original_filename' => $archiveFile->getClientOriginalName(),
                     'size' => Utils::FileSizeConvert($archiveFile->getSize()), // formated size in (B, MB, GB and etc)
                     'archive_type' => $fileExtension, // zip or rar

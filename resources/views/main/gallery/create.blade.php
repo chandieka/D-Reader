@@ -2,15 +2,14 @@
 
 @section('title',  config('app.name').' - Create New Gallery')
 
-
 @section('content')
-<div class="container mt-med mb-med p-med">
+<div class="container standard mt-med mb-med p-med">
 
     <form action="{{ route('galleries.store') }}" method="POST" enctype="multipart/form-data" class="form">
         @csrf
         <div class="form-group">
             <label for="title" class="label">Gallery Title</label>
-            <input type="text" name="title" id="title" class="form-control"></input>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Title..."></input>
             @error('title')
             <div class="form-error">
                 <span class="error">{{ $message }}</span>
@@ -19,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="titleOriginal" class="label">Original Title</label>
-            <input type="text" name="titleOriginal" id="titleOriginal" class="form-control"></input>
+            <input type="text" name="titleOriginal" id="titleOriginal" class="form-control" placeholder="Original Title..."></input>
             @error('titleOriginal')
             <div class="form-error">
                 <span class="error">{{ $message }}</span>
@@ -51,11 +50,11 @@
             <button class="btn info">Reset</button>
         </div>
     </form>
-    @php
+    {{-- @php
         foreach ($errors as $error) {
             dd($error);
             echo "hello";
         }
-    @endphp
+    @endphp --}}
 </div>
 @endsection

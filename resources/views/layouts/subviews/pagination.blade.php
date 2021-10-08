@@ -15,6 +15,14 @@
         <a href="{{ $uri.$currentPage - 1 }}" class="pagination-items">
             <i class="fa fa-chevron-left"></i>
         </a>
+        @else
+        <a class="pagination-items disabled">
+            <i class="fa fa-chevron-left"></i>
+            <i class="fa fa-chevron-left"></i>
+        </a>
+        <a class="pagination-items disabled">
+            <i class="fa fa-chevron-left"></i>
+        </a>
         @endif
         {{-- previous page --}}
         @php
@@ -44,6 +52,14 @@
             <i class="fa fa-chevron-right"></i>
         </a>
         <a href="{{ $uri.$paginator['lastPage'] }}" class="pagination-items">
+            <i class="fa fa-chevron-right"></i>
+            <i class="fa fa-chevron-right"></i>
+        </a>
+        @else
+        <a class="pagination-items disabled">
+            <i class="fa fa-chevron-right"></i>
+        </a>
+        <a class="pagination-items disabled">
             <i class="fa fa-chevron-right"></i>
             <i class="fa fa-chevron-right"></i>
         </a>

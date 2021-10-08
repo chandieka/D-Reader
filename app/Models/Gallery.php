@@ -78,4 +78,9 @@ class Gallery extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function archive()
+    {
+        return $this->belongsTo(Archive::class);
+    }
 }

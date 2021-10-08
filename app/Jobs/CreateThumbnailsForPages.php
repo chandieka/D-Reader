@@ -53,13 +53,13 @@ class CreateThumbnailsForPages implements ShouldQueue
      */
     public function handle()
     {
-        $width = 640; // the witdh that will be use to ratio in the image height (in px)
+        $width = 320; // the witdh that will be use to ratio in the image height (in px)
         $pages = $this->gallery->pages;
         $destination = public_path('assets/thumbnails/') . $this->gallery->dir_path; // full path for save location
 
         if (isset($pages) && !is_dir($destination)) {
             if (!is_dir($destination)) {
-                // create the directory
+                // create the directory for thumbnails
                 mkdir($destination);
             } else {
                 throw new Exception("Thumbnails directory already exist with the name of " . $this->gallery->dir_path, 1);

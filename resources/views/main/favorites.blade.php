@@ -3,7 +3,7 @@
 @section('title',  config('app.name').' - Favorites')
 
 @section('content')
-<div class="container">
+<div class="container standard">
 
 </div>
 @endsection

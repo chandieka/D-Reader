@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Customs\Utils;
+use App\Models\Archive;
 use App\Models\Gallery;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RarArchive;
+use ZipArchive;
 
 class HomeController extends Controller
 {
@@ -29,7 +32,6 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $data = [];
-
         // $galleries = Gallery::orderBy('id', 'desc')->paginate(24); // return the latest addition of galleries
         $galleries = Gallery::with(['pages'=> function($query) {
             $query->where('page_number', '=', 1);
@@ -44,7 +46,7 @@ class HomeController extends Controller
         $data['paginator'] = [
             'currentPage' => $galleries->currentPage(),
             'totalPages' => $galleries->lastPage(),
-            'uri' => "/?page=", // URI template for page navigation
+            'uri' => route('home') . "/?page=", // URI template for page navigation
             'lastPage' => $galleries->lastPage(),
         ];
         return view('main.home', $data);

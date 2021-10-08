@@ -66,8 +66,7 @@ class ProcessUploadedRarArchive implements ShouldQueue
     */
     public function handle()
     {
-        $archiveName = $this->archive->filename . '.' . $this->archive->archive_type;
-        $archiveFilePath = realpath(public_path('assets/archives') . "/" . $archiveName);
+        $archiveFilePath = public_path('assets/archives') . "/" . $this->archive->filename;
 
         // metas for gallery
         $pageNames = [];
@@ -76,6 +75,7 @@ class ProcessUploadedRarArchive implements ShouldQueue
 
         if ($rar !== false) {
             $entries = $rar->getEntries();
+            // Sort from small to big by filename
             usort($entries, function($a, $b) {
                 return $a->getName() <=> $b->getName();
             });
@@ -98,13 +98,13 @@ class ProcessUploadedRarArchive implements ShouldQueue
             // create a gallery entries in the datapase for the given archives
             $gallery = Gallery::create([
                 'user_id' => $this->uploader->id,
+                'archive_id' => $this->archive->id,
                 'title' => $this->galleryMetadata['title'],
                 'title_original' => $this->galleryMetadata['titleOriginal'],
                 'dir_path' => $this->galleryName,
             ]);
 
             // add the gallery id to the parent archive
-            $this->archive->gallery_id = $gallery->id;
             $this->archive->isProcess = true;
             $this->archive->save();
 

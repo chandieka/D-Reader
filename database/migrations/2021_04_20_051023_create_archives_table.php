@@ -16,7 +16,6 @@ class CreateArchivesTable extends Migration
         Schema::create('archives', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('gallery_id')->nullable()->constrained('galleries');
             $table->string('filename')->nullable(false);
             $table->string('original_filename')->nullable(false);
             $table->boolean('isProcess')->default(false);

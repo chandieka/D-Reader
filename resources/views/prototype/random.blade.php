@@ -3,44 +3,43 @@
 @section('title',  config('app.name').' - Home')
 
 @section('content')
-<div class="content">
-    <form action="/test" enctype="multipart/form-data" class="form-group" method="POST">
-        @csrf
-        <input type="file" name="file" id="file" class="form-items">
-        <input type="submit" class="btn">
-    </form>
-    <input type="button" name="test" id="test" class="btn" value="Click me">
-    <script>
-        window.addEventListener('load', (e) => {
-            console.log(document.querySelector('#file'));
-        })
-    </script>
-    <div class="box-collection">
-        <div class="box"><div class="black">Hello worldHello worldHello worldHello worldHello worldHello worldHello world Hello worldHello worldHello worldHello worldHello worldHello worldHello worlds</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
-        <div class="box"><div class="black">Hello world</div></div>
+<style>
+.t-nav {
+    display: grid;
+    grid-template-rows: repeat(auto, 5);
+    text-align: center;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.5s
+}
+.t-nav a.t-nav-item {
+    display: block;
+    background-color: red;
+    border-radius: 4px;
+}
+</style>
+<div class="content mt-med">
+    <div class="t-nav">
+        <a href="" class="t-nav-item p-sm m-sm">1</a>
+        <a href="" class="t-nav-item p-sm m-sm">2</a>
+        <a href="" class="t-nav-item p-sm m-sm">3</a>
+        <a href="" class="t-nav-item p-sm m-sm">4</a>
+        <a href="" class="t-nav-item p-sm m-sm">5</a>
     </div>
-    <style>
-        .box-collection {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr)
-        }
-
-        .box {
-            padding: 8px;
-            margin-bottom: 16px;
-            background-color: orange
-        }
-
-        .black {
-            background-color: black;
-        }
-    </style>
+    <p id="test-e">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+        Autem in ut, possimus perferendis voluptatum accusamus optio a repellat eaque
+        inventore eum at cumque porro saepe ipsum numquam doloribus et eligendi?
+    </p>
 </div>
+<script>
+    window.addEventListener('load', (e) => {
+        // console.log('test');
+        let element = document.querySelector('#test-e');
+        element.addEventListener('click', (j) => {
+            document.querySelector('.t-nav').style
+        })
+    });
+</script>
 @endsection

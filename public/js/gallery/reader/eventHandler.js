@@ -13,7 +13,7 @@ window.addEventListener('load', () => {
         let imagePreloader;
 
         function scrollToTop(){
-            document.querySelector("#reader").scrollIntoView();
+            document.querySelector(".reader-img").scrollIntoView();
         }
 
         function updateImage(src, element) {
