@@ -26,8 +26,11 @@
             <ul class="menu right">
                 @auth
                 {{-- TODO: Fixed responsive stylying for smaller devices --}}
-                <li class="nav-items shortcut">
-                    <a href="{{ route('galleries.create') }}"><i class="fas fa-upload"></i></a>
+                <li class="shortcuts">
+                    <a href="{{ route('galleries.create') }}" class="shortcut"><i class="fas fa-upload"></i></a>
+                    <a href="{{ route('galleries.create') }}" class="shortcut"><i class="fas fa-upload"></i></a>
+                    <a href="{{ route('galleries.create') }}" class="shortcut"><i class="fas fa-upload"></i></a>
+                    <a href="{{ route('galleries.create') }}" class="shortcut"><i class="fas fa-upload"></i></a>
                 </li>
                 <li class="acc-dropdown">
                     <div class="nav-items info">

@@ -33,7 +33,7 @@
     </div>
     @include('layouts.subviews.pagination')
     <div class="manager-wrapper-items">
-        <div class="manager-collections column">
+        <div class="manager-collections @if (isset($galleries))row @elseif (isset($archives))column @endif">
             @if (isset($galleries))
             @include('layouts.subviews.upload.manager.galleries')
             @elseif (isset($archives))

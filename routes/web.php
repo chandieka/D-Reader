@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-    // web authentication default routes
+// web authentication default routes
 Auth::routes([
     'login' => true,    // Login Routes...
     'logout' => true,   // Logout Routes...
@@ -39,7 +39,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/galleries', [GalleryController::class, 'store'])->name('galleries.store');
 
-    Route::get('/uploads', [UploadController::class, 'index'])->name('uploads.index');
+    Route::get('/uploads/manager', [UploadController::class, 'index'])->name('uploads.index');
+
+    Route::get('/uploads/archives', [UploadController::class, 'archivesManager'])->name('uploads.archives');
+
+    Route::get('/uploads/galleries', [UploadController::class, 'galleriesManager'])->name('uploads.galleries');
+
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,9 +53,9 @@ Route::get('/help', [HomeController::class, 'help'])->name('help');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
-Route::get('/galleries/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
+Route::get('/g/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
 
-Route::get('/galleries/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
+Route::get('/g/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
 
 /**
  * Route for Testing

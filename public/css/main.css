@@ -43,12 +43,20 @@
     list-style: none;
 }
 
-.nav-items  a {
+.nav-items a {
     padding: 16px;
     display: inline-block;
-    width: 100%;
     cursor: pointer;
     transition: 0.3s
+}
+
+.shortcuts {
+    padding: 16px 0;
+    display: inline-block;
+}
+
+.nav-items a {
+    width: 100%;
 }
 
 .nav-items.info:hover a{
@@ -107,14 +115,6 @@ button.nav-btn {
     display: inline-block;
 }
 
-/* .acc-dropdown:hover .acc-dropdown-content {
-    max-height: 1000px;
-}
-
-.acc-dropdown:hover .acc-dropbtn {
-    background-color: rgb(11, 77, 100);
-} */
-
 .acc-dropdown-content {
     background-color: rgb(11, 57, 84);
     position: absolute;
@@ -147,6 +147,15 @@ button.nav-btn {
     background-color: rgb(11, 77, 100);
 }
 
+.shortcuts .shortcut {
+    margin-right: 8px;
+    padding: 8px;
+}
+
+.shortcuts .shortcut:hover i{
+    color: rgba(255, 255, 255, 0.6);
+}
+
 @media only screen and (max-width: 992px) {
     .logo {
         margin-right: 10px;
@@ -161,7 +170,7 @@ button.nav-btn {
         float: none;
     }
 
-    .nav-items{
+    .nav-items, .shortcuts{
         text-align: center;
     }
 
@@ -169,7 +178,7 @@ button.nav-btn {
     .collapse .menu,
     .collapse .menu .nav-items,
     .collapse .menu .acc-dropdown,
-    .nav-dropbtn {
+    .nav-dropbtn, .shortcuts {
         display: block;
     }
 
@@ -756,11 +765,17 @@ button.nav-btn {
     gap: 8px;
 }
 
+.manager-collections.row{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+}
+
 .manager-collections.column .manager-items {
     min-height: 460px;
 }
 
-.manager-collections.column .manager-items {
+.manager-collections .manager-items {
     border-radius: 4px;
     background-color: rgb(15, 31, 46);
 }
@@ -816,8 +831,31 @@ button.nav-btn {
     background-color: rgb(65, 98, 129);
 }
 
+.manager-collections.row .manager-new {
+    min-height: 200px;
+}
+
 .manager-new:hover {
     background-color: rgb(43, 68, 92);
+}
+
+.manager-items-wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.manager-items-thumbnail img {
+    height: auto;
+    max-width: 200px;
+}
+
+.manager-items-thumbnail {
+    margin: auto;
+}
+
+.manager-items-detail {
+    display: grid;
+    grid-template-rows: 1fr auto ;
 }
 
 /* End Uploads manager */
@@ -1257,11 +1295,25 @@ h2.title {
     border-radius: 8px;
 }
 
+.pill.pill-red {
+    background-color: rgba(255, 0, 0, 0.6);
+}
+
 .font-big { font-size: 1.5em; }
 .font-med { font-size: 1.15em; }
 .font-sm { font-size: 0.85em; }
 
+.m-xxsm { margin: 2px; }
+.mt-xxsm { margin-top: 2px;}
+.mb-xxsm { margin-bottom: 2px;}
+.ml-xxsm { margin-left: 2px;}
+.mr-xxsm { margin-right: 2px;}
+
 .m-xsm { margin: 4px; }
+.ml-xsm { margin-left: 4px; }
+.mr-xsm { margin-right: 4px; }
+.mt-xsm { margin-top: 4px; }
+.mb-xsm { margin-bottom: 4px; }
 
 .m-sm { margin: 8px; }
 .mt-sm { margin-top: 8px;}
