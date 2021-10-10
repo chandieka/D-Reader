@@ -29,8 +29,8 @@
                     @endif
                 </div>
                 <div class="card-info">
-                    <p class="card-info-title">
-                        {{ $gallery->id.": ".App\Customs\Utils::stringShortener($gallery->title, 70) }}
+                    <p class="card-info-title font-sm">
+                        {{ App\Customs\Utils::stringShortener($gallery->title, 50) }}
                     </p>
                 </div>
             </div>

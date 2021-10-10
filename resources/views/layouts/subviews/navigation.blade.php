@@ -33,10 +33,11 @@
                     <a href="{{ route('galleries.create') }}" class="shortcut"><i class="fas fa-upload"></i></a>
                 </li>
                 <li class="acc-dropdown">
-                    <div class="nav-items info">
+                    <div class="nav-items info acc-dropbtn">
                         {{-- TODO: Add Profile pic --}}
-                        <a class="nav-items acc-dropbtn">
-                            {{ Auth::user()->name }} <i class="fas fa-angle-down fa-lg"></i>
+                        <a>
+                            <span>{{ Auth::user()->name }}</span>
+                            <i class="fas fa-angle-down fa-lg"></i>
                         </a>
                     </div>
                     <ul class="acc-dropdown-content">

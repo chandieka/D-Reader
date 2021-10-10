@@ -102,11 +102,11 @@ button.nav-btn {
     display: inline-block;
 }
 
-.right {
+.menu.right {
     float: right;
 }
 
-.left {
+.menu.left {
     float: left;
 }
 
@@ -139,11 +139,11 @@ button.nav-btn {
     max-height: 0px;
 }
 
-.acc-dropdown.open .acc-dropdown-content {
+.acc-dropdown .acc-dropdown-content.open {
     max-height: 1000px;
 }
 
-.acc-dropdown.open .acc-dropbtn {
+.acc-dropbtn {
     background-color: rgb(11, 77, 100);
 }
 
@@ -353,7 +353,7 @@ button.nav-btn {
 .gallery {
     display: flex;
     flex-direction: row;
-    min-height: 500px;
+    min-height: 550px;
 }
 
 .gallery-thumb {
@@ -385,7 +385,7 @@ button.nav-btn {
 
 .gallery-meta-collections {
     display: grid;
-    grid-template-columns: minmax(auto, 30%) minmax(auto, 70%);
+    grid-template-columns: minmax(auto, 37%) minmax(auto, 63%);
     /* grid-template-columns: 30% 70%; */
     grid-gap: 10px;
     margin-bottom: 8px;
@@ -1291,6 +1291,7 @@ h2.title {
     display: inline-block;
     /* background-color: rgba(196, 153, 145,1); */
     background-color: rgb(58, 124, 190);
+    /* background-color: rgb(5, 25, 36); */
     padding: 4px 8px 4px 8px;
     border-radius: 8px;
 }
@@ -1299,9 +1300,37 @@ h2.title {
     background-color: rgba(255, 0, 0, 0.6);
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    background-color: rgb(11, 57, 84);
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    min-width: 200px;
+    /* right: 0; */
+    overflow: hidden;
+    transition: 0.5s;
+    max-height: 1000px;
+}
+.dropdown .dropdown-content {
+    max-height: 0px;
+}
+
+.dropdown .acc-dropdown-content.open {
+    max-height: 1000px;
+}
+
+.dropbtn {
+    /* background-color: rgb(11, 77, 100); */
+}
+
 .font-big { font-size: 1.5em; }
 .font-med { font-size: 1.15em; }
-.font-sm { font-size: 0.85em; }
+.font-sm { font-size: 0.9em; }
 
 .m-xxsm { margin: 2px; }
 .mt-xxsm { margin-top: 2px;}
