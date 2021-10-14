@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  config('app.name').' - Uploads Manager')
+@section('title', 'Uploads Manager - ' . config('app.name'))
 
 @section('content')
 <div class="container mt-med">
@@ -29,7 +29,14 @@
 </div>
 <div class="manager-wrapper content mt-med mb-med">
     <div class="manager-wrapper-items manager-options">
-
+        <div class="manager-option manager-option-style">
+            <button class="btn btn-red fright mr-sm">
+                <i class="fas fa-th fa-lg"></i>
+            </button>
+            <button class="btn btn-red fright mr-sm">
+                <i class="fas fa-th-list fa-lg"></i>
+            </button>
+        </div>
     </div>
     @include('layouts.subviews.pagination')
     <div class="manager-wrapper-items">

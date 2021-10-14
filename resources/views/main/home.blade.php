@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  config('app.name').' - Home')
+@section('title', 'Home - ' . config('app.name'))
 
 @section('content')
     {{-- @include('layouts.subviews.categories') --}}

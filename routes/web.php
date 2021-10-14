@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use App\Models\Gallery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +46,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/uploads/archives', [UploadController::class, 'archivesManager'])->name('uploads.archives');
 
     Route::get('/uploads/galleries', [UploadController::class, 'galleriesManager'])->name('uploads.galleries');
+
+    Route::delete('/g/{gallery}/delete', [GalleryController::class, 'destroy'])->name('galleries.delete');
+
+    Route::delete('/a/{gallery}/delete', [ArchiveController::class, 'destroy'])->name('archive.delete');
 
 });
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  config('app.name')." - ".$gallery->title." - Page ".$paginator['currentPage'])
+@section('title',  $gallery->title." - Page " . $paginator['currentPage'] . " - " . config('app.name'))
 
 @section('content')
 <div class="reader" id="reader">

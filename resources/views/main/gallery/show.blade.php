@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @isset($gallery)
-@section('title',  config('app.name').' - '.$gallery->title)
+@section('title', $gallery->title . ' - ' . config('app.name'))
 @endisset
 
 @section('content')
@@ -10,16 +10,8 @@
     <div class="gallery-thumb">
         {{-- if page var is set then give the link for first page else none --}}
         <a href="{{ isset($pages) ? route('galleries.reader', [$gallery->id, 1]) : "/" }}">
-            @if (isset($pages[0]))
-            {{-- retrive 1st Page to be Thumbnail  --}}
-                {{-- <img src="{{asset('/assets/galleries/'.$gallery->dir_path.'/'.$pages[0]->filename)}}" alt="{{ $pages[0]->filename }}"> --}}
+            @if (isset($pages[0]) && isset($gallery->thumbnail))
                 <img src="{{ asset('/assets/thumbnails/' . $gallery->dir_path . '/' . $gallery->thumbnail) }}" alt="gallery-thumbnail">
-                {{-- @else
-                @if ($gallery->thumbnail == null)
-                    <img src="{{ asset('img/default/NotFound-720p.png') }}" alt="gallery-thumbnail">
-                @else
-                    <img src="{{ asset($gallery->thumbnail) }}" alt="gallery-thumbnail">
-                @endif --}}
             @endif
         </a>
     </div>
@@ -39,20 +31,47 @@
         <div class="gallery-meta">
             <div class="gallery-meta-collections">
                 <div class="gallery-meta-info">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                        Eaque praesentium ex enim dolore temporibus veritatis recusandae nisi qui,
-                        asperiores natus ullam, minima totam consequatur quibusdam ab officiis veniam
-                        ipsum debitis.
-                    </p>
+                    <div class="tags">
+                        <span class="bold font-sm">Type: </span>
+                        {{-- <span class="pill bold m-xsm font-sm"></span> --}}
+                    </div>
+                    <div class="tags">
+                        <span class="bold font-sm">Uploader: </span>
+                        <span class="pill bold m-xsm font-sm">{{ $gallery->user->name }}<span class="font-sm" style="color: rgba(255, 0, 0, 0.5)">#</span>{{$gallery->user->id}}</span>
+                    </div>
+                    <div class="tags">
+                        <span class="bold font-sm">Date added: </span>
+                        <span class="pill bold m-xsm font-sm">{{$gallery->created_at}}</span>
+                    </div>
+                    <div class="tags">
+                        <span class="bold font-sm">Date updated: </span>
+                        <span class="pill bold m-xsm font-sm">{{$gallery->updated_at}}</span>
+                    </div>
+                    <div class="tags">
+                        <span class="bold font-sm">Total pages: </span>
+                        <span class="pill bold m-xsm font-sm">
+                            @if (isset($pages))
+                                {{ $pages->count() }}
+                            @else
+                                0 pages
+                            @endif
+                        </span>
+                    </div>
+                    <div class="tags">
+                        <span class="bold font-sm">Favorites: </span>
+                        <span class="pill bold m-xsm font-sm">
+                            0
+                        </span>
+                    </div>
+                    <div class="tags">
+                        <span class="bold font-sm">Favorites: </span>
+                        <span class="pill bold m-xsm font-sm">
+                            0
+                        </span>
+                    </div>
                 </div>
                 <div class="gallery-meta-tags">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                        Eaque praesentium ex enim dolore temporibus veritatis recusandae nisi qui,
-                        asperiores natus ullam, minima totam consequatur quibusdam ab officiis veniam
-                        ipsum debitis.
-                    </p>
+
                 </div>
             </div>
             <div class="gallery-action gallery-meta-items">

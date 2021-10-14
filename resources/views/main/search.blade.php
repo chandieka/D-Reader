@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', config('app.name').' - Search: ')
+@section('title', 'Search: ' . ' - ' . config('app.name'))
 
 @section('content')
     @include('layouts.subviews.search-navigation')

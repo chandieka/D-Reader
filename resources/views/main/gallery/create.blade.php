@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  config('app.name').' - Create New Gallery')
+@section('title',  'Create New Gallery - ' . config('app.name'))
 
 @section('content')
 <div class="container standard mt-med mb-med p-med">
