@@ -66,7 +66,7 @@ return [
             'visibility' => 'public'
         ],
 
-        'gallery' => [
+        'thumbnail' => [
             'driver' => 'local',
             'root' => storage_path('app/thumbnails'),
             'url' => env('APP_URL') . '/thumbnails',
