@@ -37,14 +37,24 @@ class UploadController extends Controller
     public function archivesManager(Request $request)
     {
         $request->validate([
-            'query' => 'string|'
+            'filter' => 'string|nullable'
         ]);
 
         $data = [];
-        $archives = Archive::where('user_id', '=', Auth()->user()->id)->orderBy('id', 'desc')->with(['user', 'gallery'])->paginate($this->show);
-        $data['archives'] = $archives;
 
-        $data['archives_count'] = $archives->total();
+        if ($request->input('filter') != null && $request->input('filter') != "") {
+            $q = $request->input('filter');
+            $archives = Archive::whereRaw("MATCH(original_filename, filename) AGAINST(? IN BOOLEAN MODE)", [$q])
+                ->paginate($this->show);
+            $data['archives'] = $archives;
+        } else {
+            $archives = Archive::where('user_id', '=', Auth()->user()->id)
+                ->orderBy('id', 'desc')->with(['user', 'gallery'])
+                ->paginate($this->show);
+            $data['archives'] = $archives;
+        }
+
+        $data['archives_count'] = Archive::where('user_id', '=', Auth()->user()->id)->count();
         $data['galleries_count'] = Gallery::where('user_id', '=', Auth()->user()->id)->count();
 
         $data['paginator'] = [
@@ -61,13 +71,25 @@ class UploadController extends Controller
      *
      *
      */
-    public function galleriesManager()
+    public function galleriesManager(Request $request)
     {
+        $request->validate([
+            'filter' => 'string|nullable'
+        ]);
+        $request->flash();
         $data = [];
-        $galleries = Gallery::where('user_id', '=' , Auth()->user()->id)->orderBy('id', 'desc')->with(['user',  'archive'])->paginate($this->show);
-        $data['galleries'] = $galleries;
 
-        $data['galleries_count'] = $galleries->total();
+        if ($request->input('filter') != null && $request->input('filter') != "") {
+            $q = $request->input('filter');
+            $galleries = Gallery::whereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$q])
+                ->paginate($this->show);
+            $data['galleries'] = $galleries;
+        } else {
+            $galleries = Gallery::where('user_id', '=' , Auth()->user()->id)->orderBy('id', 'desc')->with(['user',  'archive'])->paginate($this->show);
+            $data['galleries'] = $galleries;
+        }
+
+        $data['galleries_count'] = Gallery::where('user_id', '=', Auth()->user()->id)->count();
         $data['archives_count'] = Archive::where('user_id', '=', Auth()->user()->id)->count();
 
         $data['paginator'] = [

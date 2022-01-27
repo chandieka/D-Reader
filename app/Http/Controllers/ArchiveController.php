@@ -102,12 +102,11 @@ class ArchiveController extends Controller
 
         $requestData = $request->validate([
             'files.*' => 'required|file',
-            'process' => 'accepted'
         ]);
 
         // Get the uploaded file
         $archiveFiles = $requestData['files'];
-        $processNow = $request->process;
+        $processNow = $request->input('process');
         $archives = [];
 
         foreach ($archiveFiles as $archiveFile) {
