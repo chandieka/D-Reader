@@ -14,3 +14,7 @@ function formSubmit(id) {
     document.getElementById(id).submit();
 }
 
+
+function reset(elementId) {
+    document.querySelector(elementId).value = "";
+}

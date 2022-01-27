@@ -1178,14 +1178,43 @@ a {
 }
 
 .form-search .form-search-text {
+    width: 100%;
+    background-color: white;
+    border-radius: 4px 0 0 4px;
+    color: black;
+    display: flex;
+}
+
+.form-search-text input {
+    display: inline-block;
+    border-radius: 4px 0 0 4px;
+    width: 100%;
     color: black;
     padding: 10px;
     border: none;
-    border-radius: 4px 0 0 4px;
-    width: 100%;
 }
 
-.form-search .form-search-text:focus-visible {
+.form-search-text .delete {
+    display: inline-block;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 16px;
+    color: black;
+    opacity: 0.5;
+    cursor: pointer;
+    line-height: 0;
+    transition: 0.3s;
+}
+
+.form-search-text .delete:hover {
+    transform: scale(1.2);
+}
+
+.form-search-text input:focus-visible  {
+    outline: none;
+}
+
+.form-search .form-search-text{
     outline: none;
 }
 

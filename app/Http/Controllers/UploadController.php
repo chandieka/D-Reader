@@ -40,6 +40,7 @@ class UploadController extends Controller
             'filter' => 'string|nullable'
         ]);
 
+        $request->flash();
         $data = [];
 
         if ($request->input('filter') != null && $request->input('filter') != "") {

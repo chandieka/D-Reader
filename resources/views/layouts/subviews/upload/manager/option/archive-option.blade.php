@@ -1,7 +1,12 @@
 <div class="options">
     <span class="option ml-med bold">Filter: </span>
     <form action="" method="GET" class="form-search option left ml-med">
-        <input type="text" name="query" class="form-search-text" placeholder="Search..." value="">
+        <div class="form-search-text">
+        <input type="text" name="filter" placeholder="Search..." id="filter-search" value="{{ old('filter') }}">
+            <span class="delete font-large" onclick="reset('#filter-search')">
+                x
+            </span>
+        </div>
         <button class="form-search-btn btn-red">
             <i class="fas fa-search fa-lg"></i>
         </button>

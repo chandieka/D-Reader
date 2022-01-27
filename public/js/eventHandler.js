@@ -19,47 +19,53 @@ function navAccDropdown() {
 }
 
 function accDropDown() {
-    let subDropdownBtn = document.querySelector('.acc-dropbtn');
-    subDropdownBtn.addEventListener('click', (j) => {
-        let dropContent = document.querySelector('.acc-dropdown-content');
-        dropContent.classList.toggle('open');
-        if (dropContent.classList.contains('open')){
-            window.addEventListener('click', (k) => {
-                let dropContent = document.querySelector('.acc-dropdown-content');
-                if (!k.target.matches('.acc-dropbtn')) {
-                    if (dropContent.classList.contains('open')) {
-                        dropContent.classList.remove('open');
+    document.querySelectorAll('.acc-dropbtn').forEach(element => {
+        element.addEventListener('click', (j) => {
+            let dropContent = document.querySelector('.acc-dropdown-content');
+            dropContent.classList.toggle('open');
+            if (dropContent.classList.contains('open')){
+                window.addEventListener('click', (k) => {
+                    let dropContent = document.querySelector('.acc-dropdown-content');
+                    if (!k.target.matches('.acc-dropbtn')) {
+                        if (dropContent.classList.contains('open')) {
+                            dropContent.classList.remove('open');
+                        }
                     }
-                }
-            }, { once: true });
-        }
-        j.stopPropagation();
+                }, { once: true });
+            }
+            j.stopPropagation();
+        });
     });
 
-    document.querySelector('.acc-dropdown-content').addEventListener('click', (j) => {
-        j.stopPropagation();
+    document.querySelectorAll('.acc-dropdown-content').forEach((element) => {
+        element.addEventListener('click', (j) => {
+            j.stopPropagation();
+        })
     })
 }
 
 function standardDropDown() {
-    let subDropdownBtn = document.querySelector('.dropbtn');
-    subDropdownBtn.addEventListener('click', (j) => {
-        let dropContent = document.querySelector('.dropdown-content');
-        dropContent.classList.toggle('open');
-        if (dropContent.classList.contains('open')) {
-            window.addEventListener('click', (k) => {
-                let dropContent = document.querySelector('.dropdown-content');
-                if (!k.target.matches('.dropbtn')) {
-                    if (dropContent.classList.contains('open')) {
-                        dropContent.classList.remove('open');
+    document.querySelectorAll('.dropbtn').forEach(element => {
+        element.addEventListener('click', (j) => {
+            let dropContent = document.querySelector('.dropdown-content');
+            dropContent.classList.toggle('open');
+            if (dropContent.classList.contains('open')) {
+                window.addEventListener('click', (k) => {
+                    let dropContent = document.querySelector('.dropdown-content');
+                    if (!k.target.matches('.dropbtn')) {
+                        if (dropContent.classList.contains('open')) {
+                            dropContent.classList.remove('open');
+                        }
                     }
-                }
-            }, { once: true });
-        }
-        j.stopPropagation();
+                }, { once: true });
+            }
+            j.stopPropagation();
+        });
     });
 
-    document.querySelector('.dropdown-content').addEventListener('click', (j) => {
-        j.stopPropagation();
+    document.querySelectorAll('.dropdown-content').forEach((element) => {
+        element.addEventListener('click', (j) => {
+            j.stopPropagation();
+        })
     })
 }
