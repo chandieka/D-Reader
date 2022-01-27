@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Customs\UploadHandler;
 use App\Customs\Utils;
-use App\Jobs\ProcessUploadedArchive;
 use App\Jobs\ProcessUploadedRarArchive;
 use App\Jobs\ProcessUploadedZipArchive;
+use App\Jobs\StoreUploadedArchive;
 use App\Models\Gallery;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Archive;
 use Exception;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -19,185 +22,218 @@ use Intervention\Image\ImageManagerStatic as Image;
 class GalleryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function index()
     {
-
+        return Gallery::all();
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function create()
     {
         return view('main.gallery.create');
     }
 
     /**
-     * stored the uploaded Archive and process it into a gallery
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    * stored the uploaded Archive and process it into a gallery
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
     public function store(Request $request)
     {
         $requestData = $request->validate([
             'file' => 'required|file', // archive to be process
             'title' => 'required|string',
-            'titleOriginal' => 'required|string', // nullable later
+            'titleOriginal' => 'string', // nullable later
             // 'category' => '',
             // 'tags' => '',
         ]);
 
-        $errors = [];
-
         // Get the uploaded file
         $archiveFile = $request->file;
+        try {
 
-        if ($archiveFile->isValid()) {
-            $mimeType = $archiveFile->getMimeType();
-            $fileExtension = $archiveFile->extension();
-            $isZip = false;
-            $isRar = false;
+            if ($archiveFile->isValid()) {
+                $mimeType = $archiveFile->getMimeType();
+                $fileExtension = $archiveFile->extension();
+                $uploadHandler = new UploadHandler($archiveFile);
 
-            // check if the file is a Zip or a Rar
-            // by mime type
-            switch ($mimeType) {
-                case 'application/zip':
-                    $isZip = true;
-                    break;
-                case 'application/vnd.rar':
-                    $isRar = true;
-                    break;
-                    // case 'application/octet-stream':
-                    //     $isZipOrRar = true; // might be a zip or rar can't tell
-                    //     break;
-                case 'application/x-zip-compressed':
-                    $isZip = true;
-                    break;
-                case 'multipart/x-zip':
-                    $isZip = true;
-                    break;
-            }
+                if ($uploadHandler->checkArchiveTypeIsRar() || $uploadHandler->checkArchiveTypeIsZip()) {
+                    $archiveNewName = Str::uuid()->toString();
+                    // store the archived on the disk
+                    $archiveStoredPath = $archiveFile->storeAs("/", $archiveNewName . "." . $fileExtension, 'archive'); // store it in the root file of archive disk driver
 
-            // by File extension
-            switch ($fileExtension) {
-                case 'zip':
-                    $isZip = true;
-                    break;
-                case 'rar':
-                    $isRar = true;
-                    break;
-            }
+                    if ($archiveStoredPath != false) {
+                        // store the metadata in a model
+                        $archive = Archive::create([
+                            'user_id' => Auth::user()->id, // should be changed to the current auth user
+                            'filename' => $archiveNewName . '.' . $fileExtension, // uuid
+                            'original_filename' => $archiveFile->getClientOriginalName(),
+                            'size' => Utils::FileSizeConvert($archiveFile->getSize()), // formated size in (B, MB, GB and etc)
+                            'archive_type' => $fileExtension, // zip or rar
+                            'mime_type' => $archiveFile->getMimeType(),
+                        ]);
 
-            if ($isRar || $isZip) {
-                // store the archived on the disk
-                $archiveNewName = Str::uuid()->toString();
-                $archiveStoredPath = $archiveFile->storeAs("/", $archiveNewName . "." . $fileExtension, 'archive');
-                // $archiveStoredPath = "/", $archiveNewName . "." . $fileExtension, 'archive');
-                $archiveFilePath = realpath(public_path('assets/archives') . "/" . $archiveStoredPath);
+                        if ($uploadHandler->checkArchiveTypeIsRar()) {
+                            ProcessUploadedRarArchive::dispatch($archive, $request->all([
+                                'title',
+                                'titleOriginal',
+                            ]));
+                        } else {
+                            ProcessUploadedZipArchive::dispatch($archive, $request->all([
+                                'title',
+                                'titleOriginal',
+                            ]));
+                        }
 
-                // store the metadata in a model
-                $archive = Archive::create([
-                    'user_id' => Auth::user()->id, // should be changed to the current auth user
-                    'filename' => $archiveNewName . '.' . $fileExtension, // uuid
-                    'original_filename' => $archiveFile->getClientOriginalName(),
-                    'size' => Utils::FileSizeConvert($archiveFile->getSize()), // formated size in (B, MB, GB and etc)
-                    'archive_type' => $fileExtension, // zip or rar
-                    'mime_type' => $archiveFile->getMimeType(),
-                ]);
-
-                // extract the files into a gallery
-                $galleryName = Str::uuid();
-                $destination = public_path('assets/galleries') . "/" . $galleryName;
-                $pageNames = [];
-                $isExtracted = false;
-
-                if ($isRar) {
-                    ProcessUploadedRarArchive::dispatch(Auth::user(), $archive, $request->all([
-                       'title',
-                       'titleOriginal',
-                    ]));
+                        return redirect()->route('uploads.archives');
+                    } else {
+                        throw new Exception("Failed to store the Archive");
+                    }
                 } else {
-                    ProcessUploadedZipArchive::dispatch(Auth::user(), $archive, $request->all([
-                        'title',
-                        'titleOriginal',
-                    ]));
+                    throw new Exception("File type is not valid");
                 }
-
-                return redirect()->route('home');
-            } else {
-                throw new Exception("File is not valid");
             }
-        }
 
-        return back()->withInput($requestData);
+            return back()->withInput([
+                'title' => $request->title,
+                'titleOriginal' => $request->titleOriginal
+            ]);
+        } catch (Exception $ex) {
+            return back()->withErrors($ex->getMessage(), 'error');
+        }
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Gallery  $gallery
-     * @return \Illuminate\Http\Response
-     */
+    * Display the specified resource.
+    *
+    * @param  \App\Models\Gallery  $gallery
+    * @return \Illuminate\Http\Response
+    */
     public function show(Gallery $gallery)
     {
         $data = [];
         $pages = $gallery->pages()->get();
-        // $uploader = $gallery->user()->get();
         $data['gallery'] = $gallery;
         $data['pages'] = $pages;
-        // $data['uploader'] = $uploader;
+
         return view('main.gallery.show', $data);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Gallery  $gallery
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for editing the specified resource.
+    *
+    * @param  \App\Models\Gallery  $gallery
+    * @return \Illuminate\Http\Response
+    */
     public function edit(Gallery $gallery)
     {
-        //
+        $data = [];
+        $data['gallery'] = $gallery;
+
+        return view('main.gallery.edit', $data);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Gallery  $gallery
-     * @return \Illuminate\Http\Response
-     */
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\Models\Gallery  $gallery
+    * @return \Illuminate\Http\Response
+    */
     public function update(Request $request, Gallery $gallery)
     {
-        //
+        $requestdata = $request->validate([
+            'title' => 'required|string',
+            'titleOriginal' => 'required|string'
+        ]);
+
+        // Cleaning or evaluate the string more here
+
+        // Update gallery data fields
+        $data = [
+            'title' => $requestdata['title'],
+            'title_original' => $requestdata['titleOriginal'],
+        ];
+
+        $success = $gallery->update($data);
+
+        // All clear then redirect to its show page
+        return redirect()->route('galleries.show', $gallery->id);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Gallery  $gallery
-     * @return \Illuminate\Http\Response
-     */
+    * Soft delete the specified resource from storage.
+    *
+    * @param  \App\Models\Gallery  $gallery
+    * @return \Illuminate\Http\Response
+    */
     public function destroy(Gallery $gallery)
     {
-        //
+        // TODO: add gate authorization for resource ownership
+        // TODO: check if its the owner or the admin
+
+        $authUser = Auth::user();
+
+        try {
+            // Check who's the owner
+            if ($gallery->user->id == $authUser->id) {
+                // check if the dir for the resource exist
+                $thumbDirExist = Storage::disk('thumbnail')->exists($gallery->dir_path);
+                $galleryDirExist = Storage::disk('gallery')->exists($gallery->dir_path);
+
+                if ($galleryDirExist && $thumbDirExist){
+                    // delete the gallery directory
+                    $thumbnailDeleteSuccess = Storage::disk('thumbnail')->deleteDirectory($gallery->dir_path);
+                    $galleryDeleteSuccess = Storage::disk('gallery')->deleteDirectory($gallery->dir_path);
+
+                    if ($galleryDeleteSuccess && $thumbnailDeleteSuccess) {
+                        $parentArchive = $gallery->archive;
+                        // delete gallery entry in DB
+                        $gallery->forceDelete();
+                        // Unattached gallery relation with the parent archive
+                        $parentArchive->update([
+                            'isProcess' => '0'
+                        ]);
+                        return back();
+                    } else {
+                        if (!$thumbnailDeleteSuccess){
+                            throw new Exception("Delete Request Error: failed to delete thumbnails from the disk for gallery $gallery->id");
+                        } else {
+                            throw new Exception("Delete Request Error: failed to delete gallery $gallery->id from the disk");
+                        }
+                    }
+                } else {
+                    if (!$thumbDirExist) {
+                        throw new Exception("Delete Request Error: the thumbnail directory for gallery $gallery->id don't exist");
+                    } else {
+                        throw new Exception("Delete Request Error: the directory for gallery $gallery->id don't exist");
+                    }
+                }
+            } else {
+                throw new Exception("Delete Request Error: Gallery $gallery->id is not owned by the user $authUser->name");
+            }
+        } catch (Exception $ex) {
+            return back()->withErrors($ex->getMessage(), 'error');
+        }
     }
 
     /**
-     * Get the reader for the given gallery with all the pages related to it
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Gallery  $gallery
-     * @param \App\Models\Page $page
-     * @return \Illuminate\Http\Response
-     */
+    * Get the reader for the given gallery with all the pages related to it
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\Models\Gallery  $gallery
+    * @param \App\Models\Page $page
+    * @return \Illuminate\Http\Response
+    */
     public function reader(Request $request, Gallery $gallery, Page $page)
     {
         $data = [];
@@ -215,18 +251,18 @@ class GalleryController extends Controller
             'currentPage' => $currentPageNumber,
             'next' => ($currentPageNumber == $pages->count()) ? $currentPageNumber : $currentPageNumber + 1,
             'previous' => ($currentPageNumber == 1) ? $currentPageNumber : $currentPageNumber - 1,
-            'resource' => "/galleries/".$gallery->id."/",
+            'resource' => "/g/".$gallery->id."/",
         ];
 
         return view('main.gallery.reader', $data);
     }
 
     /**
-     * Get the thumbnail for a page on fly
-     *
-     * @param  \App\Models\Gallery  $gallery
-     * @param \App\Models\Page
-     */
+    * Get the thumbnail for a page on fly
+    *
+    * @param  \App\Models\Gallery  $gallery
+    * @param \App\Models\Page
+    */
     public function thumbnail(Gallery $gallery, Page $page)
     {
         $path = public_path('/assets/galleries/') . $gallery->dir_path . '/' . $page->filename;

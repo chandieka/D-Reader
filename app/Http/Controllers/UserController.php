@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Customs\Utils;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 
 class UserController extends Controller
 {
@@ -48,7 +50,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('main.user.profile', ['user' => $user]);
+        $data = [];
+        $data['user'] = $user;
+
+        return view('main.user.profile', $data);
     }
 
     /**
@@ -59,7 +64,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        // add Gate to check if the current auth user is the same user that want to be editted
+        $data = [];
+        $data['user'] = $user;
+
+        return view('main.user.edit', $data);
     }
 
     /**

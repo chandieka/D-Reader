@@ -1,10 +1,12 @@
 /*
-    this is where generic event is handle which mean that on every page will have the callbacks assigned
+    this is where generic/global event is handle which mean that on every page it will have the callbacks assigned
     to the appropiate event for each respective Elements
 */
 window.addEventListener('load', (e) => {
+    // add your event callback here
     navAccDropdown();
     accDropDown();
+    standardDropDown();
 })
 
 function navAccDropdown() {
@@ -52,7 +54,7 @@ function standardDropDown() {
                         dropContent.classList.remove('open');
                     }
                 }
-            });
+            }, { once: true });
         }
         j.stopPropagation();
     });
@@ -60,5 +62,4 @@ function standardDropDown() {
     document.querySelector('.dropdown-content').addEventListener('click', (j) => {
         j.stopPropagation();
     })
-
 }

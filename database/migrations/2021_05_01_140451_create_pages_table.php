@@ -15,7 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gallery_id')->constrained();
+            $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
             $table->string('filename'); // original file
             $table->string('thumbnail')->nullable(); // downscale file
             $table->integer('page_number');

@@ -2,8 +2,6 @@
 
 namespace App\Customs;
 
-use Illuminate\Support\Facades\Auth;
-
 class Utils
 {
     public static function stringShortener(string $sentance, int $lenght)

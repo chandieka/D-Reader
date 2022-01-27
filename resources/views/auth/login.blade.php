@@ -30,7 +30,7 @@
         </div>
         {{-- Submit button --}}
         <div class="form-group">
-            <button type="submit" class="btn btn-auth">
+            <button type="submit" class="btn btn-auth standard">
                 {{ __('Login') }}
             </button>
         </div>
@@ -45,7 +45,3 @@
 </div>
 @endsection
 
-@section('scripts')
-{{-- Not working  --}}
-    <script src="{{ asset('js/error/eventHandler.js') }}"></script>
-@endsection

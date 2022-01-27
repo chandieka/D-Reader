@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Uploads Manager - ' . config('app.name'))
+@section('title', 'Uploads Manager')
 
 @section('content')
-<div class="container mt-med">
-    <h1 class="center page-title">
-        Upload Manager - USERNAME<span style="color: red;">#</span>123425
+<div class="container center mt-sm mb-sm">
+    <h1 class="container-title p-sm pr-med pl-med r-font-big">
+        Upload Manager - {{Auth::user()->name}}<span style="color: red;">#</span>{{Auth::user()->id}}
     </h1>
 </div>
 <div class="container">
@@ -27,30 +27,24 @@
         @endif
     </div>
 </div>
-<div class="manager-wrapper content mt-med mb-med">
-    <div class="manager-wrapper-items manager-options">
-        <div class="manager-option manager-option-style">
-            <button class="btn btn-red fright mr-sm">
-                <i class="fas fa-th fa-lg"></i>
-            </button>
-            <button class="btn btn-red fright mr-sm">
-                <i class="fas fa-th-list fa-lg"></i>
-            </button>
-        </div>
-    </div>
+<div class="container standard mt-med">
+    @if (isset($galleries))
+    @include('layouts.subviews.upload.manager.option.galleries-option')
+    @elseif (isset($archives))
+    @include('layouts.subviews.upload.manager.option.archive-option')
+    @endif
     @include('layouts.subviews.pagination')
-    <div class="manager-wrapper-items">
-        <div class="manager-collections @if (isset($galleries))row @elseif (isset($archives))column @endif">
-            @if (isset($galleries))
-            @include('layouts.subviews.upload.manager.galleries')
-            @elseif (isset($archives))
-            @include('layouts.subviews.upload.manager.archives')
-            @endif
-            <a href="{{ route('galleries.create') }}" class="manager-items manager-new">
-                <i class="fas fa-plus fa-3x fa-fw"></i>
-            </a>
-        </div>
+    <div class="scroll">
+        @if (isset($galleries))
+        @include('layouts.subviews.upload.manager.show.galleries-list')
+        @elseif (isset($archives))
+        @include('layouts.subviews.upload.manager.show.archives-list')
+        @endif
     </div>
     @include('layouts.subviews.pagination')
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/manager/eventHandler.js') }}"></script>
 @endsection

@@ -1,7 +1,10 @@
-const imagePreloaderPromise = import('./ImagePreloader');
+const imagePreloaderPromise = import('./ImagePreloader.js'); // this does work
+// const imagePreloaderPromise = import('./ImagePreloader'); // this doesn't work
+
 
 window.addEventListener('load', () => {
     if (typeof pages !== 'undefined' && typeof paginator !== 'undefined' && typeof gallery !== 'undefined') {
+        const pageImageContainer = document.querySelector('.reader-img')
         const pageImage = document.querySelector('#reader-page');
         const pagePosition = document.querySelectorAll('.reader-position');
         const pageCounter = document.querySelectorAll('.reader-counter');
@@ -9,17 +12,28 @@ window.addEventListener('load', () => {
         const previousButton = document.querySelectorAll('.reader-previous');
         const lastButton = document.querySelectorAll('.reader-last');
         const firstButton = document.querySelectorAll('.reader-first');
-
+        // Preloader
         let imagePreloader;
 
-        function scrollToTop(){
-            document.querySelector(".reader-img").scrollIntoView();
+        function scrollToTop(element){
+            element.scrollIntoView();
         }
 
-        function updateImage(src, element) {
-            // change the image src
-            element.src = src;
-            element.alt = `page ${paginator.currentPage}`;
+        function updateImage(src) {
+            // delete the old img element
+            pageImageContainer.innerHTML = "";
+            // create new img with the new src
+            let imgObj = new Image();
+            imgObj.src = src;
+            imgObj.alt = `page ${paginator.currentPage}`;
+            imgObj.id = 'reader-page'
+            imgObj.className += "point";
+            // add event lisnter
+            changePageOnClickListner(imgObj);
+
+            // add to the document
+            pageImageContainer.insertAdjacentElement('afterbegin', imgObj)
+            scrollToTop(imgObj);
         }
 
         function changeToPage(pageNumber) {
@@ -35,22 +49,23 @@ window.addEventListener('load', () => {
             const storagePath = '/assets/galleries/';
             const src = `${window.location.protocol}//${window.location.host}${storagePath}${gallery.dir_path}/${pages[paginator.currentPage - 1].filename}`; // temp solutions
 
-            // update img src
+            // update img
             updateImage(src, pageImage);
 
             // update the URL & push a new browser history
             const newURL = `${window.location.protocol}//${window.location.host}${paginator.resource}${paginator.currentPage}`;
-            const newTitle = `D-Reader - ${gallery.title} - Page ${paginator.currentPage}`;
+            const newTitle = `${gallery.title} - Page ${paginator.currentPage} - D-Reader`;
             document.title = newTitle; // change it in DOM
 
             history.pushState(`page ${paginator.currentPage}`, newTitle, newURL);
 
+            // fire preload for the next
             imagePreloader?.setCurrentPage(paginator.currentPage - 1);
         }
 
         function updatePaginatorLinks(pageNumber){
-            // only change when the links if its not in the 1st index
-            if (pageNumber - 1 != 0){
+            // Update the links for "previous button"
+            if (pageNumber - 1 != 0){ // if the page number is not 1
                 previousButton.forEach(element => {
                     element.href = `${window.location.protocol}//${window.location.host}${paginator.resource}${paginator.currentPage - 1}`;
                 });
@@ -61,8 +76,8 @@ window.addEventListener('load', () => {
                 });
             }
 
-            // change when its not more than totalpages
-            if (pageNumber + 1 <= paginator.totalPages){
+            // Update the links for "Next button"
+            if (pageNumber + 1 <= paginator.totalPages){ // if the page number is at less than maximum number of page
                 nextButton.forEach(element => {
                     element.href = `${window.location.protocol}//${window.location.host}${paginator.resource}${paginator.currentPage + 1}`;
                 });
@@ -76,39 +91,41 @@ window.addEventListener('load', () => {
 
 
         function nextPage() {
+            const newPage = paginator.currentPage + 1;
             if (paginator.currentPage + 1 <= paginator.totalPages) {
-                const newPage = paginator.currentPage + 1;
                 updatePaginatorLinks(newPage);
-                scrollToTop();
                 changeToPage(newPage);
             }
         }
 
         function previousPage() {
             const newPage = paginator.currentPage - 1;
-
             if (newPage > 0) {
                 updatePaginatorLinks(newPage);
-                scrollToTop();
                 changeToPage(newPage);
             }
         }
 
-        pageImage.addEventListener('click', (e) => {
-            // determine if the user is on the right or the left area of the image
-            e.preventDefault();
+        function changePageOnClickListner(element) {
+            element.addEventListener('click', (e) => {
+                // determine if the user is on the right or the left area of the image
+                e.preventDefault();
 
-            const pageWidth = pageImage.offsetWidth;
-            const rect = e.target.getBoundingClientRect();
-            const x = e.clientX - rect.left; // x position within the element.
-            if (x > pageWidth * 0.4) {
-                // go to next page
-                nextPage();
-            } else {
-                // go to previous page
-                previousPage();
-            }
-        });
+                const pageWidth = element.offsetWidth;
+                const rect = e.target.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the element.
+                if (x > pageWidth * 0.4) {
+                    // go to next page
+                    nextPage();
+                } else {
+                    // go to previous page
+                    previousPage();
+                }
+            });
+        }
+
+        // attach a click event on the first image
+        changePageOnClickListner(pageImage);
 
         nextButton.forEach((element) => {
             element.addEventListener('click', (e) => {
@@ -157,10 +174,13 @@ window.addEventListener('load', () => {
         // preload the image for the 1st time
         // and define the imagePreloader object as well
         imagePreloaderPromise.then(({ default: ImagePreloader }) => {
-                imagePreloader = new ImagePreloader(pages, gallery);
-                imagePreloader.setCurrentPage(paginator.currentPage - 1);
-            })
-            .catch((err) => console.log('Was unable to load the image preloader module', err)
-            );
+            // pages and gallery var is a const, define in reader.blade.php
+            imagePreloader = new ImagePreloader(pages, gallery);
+            imagePreloader.setCurrentPage(paginator.currentPage - 1);
+        })
+        .catch((err) => console.log('Was unable to load the image preloader module', err)
+        );
+        // imagePreloader = new ImagePreloader(pages, gallery);
+        // imagePreloader.setCurrentPage(paginator.currentPage - 1);
     }
 });

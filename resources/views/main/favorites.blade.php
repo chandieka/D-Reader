@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Favorites - ' . config('app.name'))
+@section('title','Favorites')
 
 @section('content')
 <div class="container standard">

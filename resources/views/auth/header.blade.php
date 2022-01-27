@@ -8,6 +8,6 @@
         <p> join the Mustache Gang!!</p>
         @endif
     </div>
-    @include('layouts.subviews.error.list', ['errors' => $errors])
+    {{-- @include('layouts.subviews.info.error.list') --}}
 </div>
 

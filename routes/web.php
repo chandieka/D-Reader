@@ -8,6 +8,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use App\Models\Archive;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // web authentication default routes
+// Change the values to false in case the feature is not needed
 Auth::routes([
     'login' => true,    // Login Routes...
     'logout' => true,   // Logout Routes...
@@ -36,31 +38,32 @@ Auth::routes([
 // Route that require Authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 
-    Route::get('/galleries/create', [GalleryController::class, 'create'])->name('galleries.create');
-
-    Route::post('/galleries', [GalleryController::class, 'store'])->name('galleries.store');
-
-    Route::get('/uploads/manager', [UploadController::class, 'index'])->name('uploads.index');
-
-    Route::get('/uploads/archives', [UploadController::class, 'archivesManager'])->name('uploads.archives');
-
-    Route::get('/uploads/galleries', [UploadController::class, 'galleriesManager'])->name('uploads.galleries');
-
+    Route::get('/g/create', [GalleryController::class, 'create'])->name('galleries.create');
+    Route::post('/g/store', [GalleryController::class, 'store'])->name('galleries.store');
+    Route::get('/g/{gallery}/edit', [GalleryController::class, 'edit'])->name('galleries.edit');
+    Route::put('/g/{gallery}/edit', [GalleryController::class, 'update'])->name('galleries.update');
     Route::delete('/g/{gallery}/delete', [GalleryController::class, 'destroy'])->name('galleries.delete');
 
-    Route::delete('/a/{gallery}/delete', [ArchiveController::class, 'destroy'])->name('archive.delete');
+    Route::get('/uploads/manager', [UploadController::class, 'index'])->name('uploads.index');
+    Route::get('/uploads/archives', [UploadController::class, 'archivesManager'])->name('uploads.archives');
+    Route::get('/uploads/galleries', [UploadController::class, 'galleriesManager'])->name('uploads.galleries');
 
+    Route::get('/a/{archive}/edit', [ArchiveController::class, 'edit'])->name('archives.edit');
+    Route::put('/a/{archive}/edit', [ArchiveController::class, 'update'])->name('archives.update');
+    Route::delete('/a/{archive}/delete', [ArchiveController::class, 'destroy'])->name('archives.delete');
+    Route::get('/a/create', [ArchiveController::class, 'create'])->name('archives.create');
+    Route::post('/a/store', [ArchiveController::class, 'store'])->name('archives.store');
+    Route::post('/a/stores', [ArchiveController::class, 'stores'])->name('archives.stores');
+    Route::get('/a/{archive}/process', [ArchiveController::class, 'process'])->name('archives.process');
 });
 
+// Globally Accessible route
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('/help', [HomeController::class, 'help'])->name('help');
-
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
-
 Route::get('/g/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
-
 Route::get('/g/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
 
 /**
@@ -69,4 +72,5 @@ Route::get('/g/{gallery}/{page:page_number}', [GalleryController::class, 'reader
  * comment and uncomment when needed.
  */
 require __DIR__.'/test.php';
+
 

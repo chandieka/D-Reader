@@ -2,8 +2,8 @@
 
 export default class ImagePreloader {
 
-    static #forwardCacheSize = 3;
-    static #backCacheSize = 1;
+    static #forwardCacheSize = 5; // preload x image forward from the current position
+    static #backCacheSize = 1; // preload x image back from the current position
     #pages;
     #gallery;
     constructor(pages, gallery) {
@@ -19,9 +19,9 @@ export default class ImagePreloader {
         const pages = this.#pages.slice(Math.max(0, startIndex), endIndex);
         const path = `/assets/galleries/${this.#gallery.dir_path}`; // kinda bad
 
+
         (function loadNextImage() {
             const image = pages.pop();
-
             if (!image) {
                 return;
             }

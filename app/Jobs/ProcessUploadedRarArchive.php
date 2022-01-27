@@ -26,7 +26,6 @@ class ProcessUploadedRarArchive implements ShouldQueue
     protected $galleryMetadata;
     protected $galleryName;
     protected $destination;
-    protected $uploader;
 
     /**
     * The number of times the job may be attempted.
@@ -47,9 +46,8 @@ class ProcessUploadedRarArchive implements ShouldQueue
     *
     * @return void
     */
-    public function __construct(User $uploader, Archive $archive, Array $galleryMetadata)
+    public function __construct(Archive $archive, Array $galleryMetadata = null)
     {
-        $this->uploader = $uploader;
         $this->archive = $archive;
         $this->galleryMetadata = $galleryMetadata;
         $this->galleryName = Str::uuid();
@@ -69,17 +67,12 @@ class ProcessUploadedRarArchive implements ShouldQueue
         $archiveFilePath = public_path('assets/archives') . "/" . $this->archive->filename;
 
         // metas for gallery
-        $pageNames = [];
 
         $rar = RarArchive::open($archiveFilePath);
 
         if ($rar !== false) {
+            $pageNames = [];
             $entries = $rar->getEntries();
-            // Sort from small to big by filename
-            usort($entries, function($a, $b) {
-                return $a->getName() <=> $b->getName();
-            });
-
             // loop to extract the file
             for ($i = 0; $i < count($entries); $i++) {
                 $entry = $entries[$i];
@@ -96,17 +89,29 @@ class ProcessUploadedRarArchive implements ShouldQueue
 
             // Persist if succeed
             // create a gallery entries in the datapase for the given archives
-            $gallery = Gallery::create([
-                'user_id' => $this->uploader->id,
-                'archive_id' => $this->archive->id,
-                'title' => $this->galleryMetadata['title'],
-                'title_original' => $this->galleryMetadata['titleOriginal'],
-                'dir_path' => $this->galleryName,
-            ]);
+            if ($this->galleryMetadata != null) {
+                $gallery = Gallery::create([
+                    'user_id' => $this->archive->user->id,
+                    'archive_id' => $this->archive->id,
+                    'title' => $this->galleryMetadata['title'],
+                    'title_original' => $this->galleryMetadata['titleOriginal'],
+                    'dir_path' => $this->galleryName,
+                ]);
+            } else {
+                $gallery = Gallery::create([
+                    'user_id' => $this->archive->user->id,
+                    'archive_id' => $this->archive->id,
+                    'title' => pathinfo($this->archive->original_filename, PATHINFO_FILENAME), // use archive filename as gallery title
+                    'dir_path' => $this->galleryName,
+                ]);
+            }
 
             // add the gallery id to the parent archive
             $this->archive->isProcess = true;
             $this->archive->save();
+
+            // sort the array from small to big by filename
+            sort($pageNames, SORT_NATURAL | SORT_FLAG_CASE);
 
             // create the pages entries in the datapase for the given for the gallery
             for ($i = 0; $i < count($pageNames); $i++) {

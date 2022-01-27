@@ -19,18 +19,18 @@ use ZipArchive;
 class ProcessUploadedZipArchive implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     protected $archive;
     protected $galleryMetadata;
     protected $galleryName;
     protected $destination;
-    protected $uploader;
 
     /**
     * The number of times the job may be attempted.
     *
     * @var int
     */
-    public $tries = 1;
+    public $tries = 1; // TODO: add to 3 tries and handle the clean up before retries
 
     /**
     * The maximum number of unhandled exceptions to allow before failing.
@@ -44,9 +44,8 @@ class ProcessUploadedZipArchive implements ShouldQueue
     *
     * @return void
     */
-    public function __construct(User $uploader, Archive $archive, Array $galleryMetadata)
+    public function __construct(Archive $archive, Array $galleryMetadata = null)
     {
-        $this->uploader = $uploader;
         $this->archive = $archive;
         $this->galleryMetadata = $galleryMetadata;
         $this->galleryName = Str::uuid();
@@ -64,23 +63,17 @@ class ProcessUploadedZipArchive implements ShouldQueue
     {
         $archiveFilePath = public_path('assets/archives') . "/" . $this->archive->filename;
 
-        // metas for gallery
-        $pageNames = [];
-
         $zip = new ZipArchive();
         // open the archive with read-only access
         $res = $zip->open($archiveFilePath, ZipArchive::RDONLY);
 
         if ($res === true) {
+            $pageNames = [];
+            // get the name for each pages
             for ($i = 0; $i < $zip->numFiles; $i++) {
-                // get the name for each pages
                 $pageNames[$i] = $zip->getNameIndex($i);
             }
 
-            // sort the array from small to big by filename
-            usort($pageNames, function($a, $b){
-                return $a <=> $b;
-            });
 
             // extra all pages into the destination
             if (!$zip->extractTo($this->destination)) {
@@ -93,17 +86,29 @@ class ProcessUploadedZipArchive implements ShouldQueue
 
             // Persist if succeed
             // create a gallery entries in the datapase for the given archives
-            $gallery = Gallery::create([
-                'user_id' => $this->uploader->id,
-                'archive_id' => $this->archive->id,
-                'title' => $this->galleryMetadata['title'],
-                'title_original' => $this->galleryMetadata['titleOriginal'],
-                'dir_path' => $this->galleryName,
-            ]);
+            if ($this->galleryMetadata != null) {
+                $gallery = Gallery::create([
+                    'user_id' => $this->archive->user->id,
+                    'archive_id' => $this->archive->id,
+                    'title' => $this->galleryMetadata['title'],
+                    'title_original' => $this->galleryMetadata['titleOriginal'],
+                    'dir_path' => $this->galleryName,
+                ]);
+            } else {
+                $gallery = Gallery::create([
+                    'user_id' => $this->archive->user->id,
+                    'archive_id' => $this->archive->id,
+                    'title' => pathinfo($this->archive->original_filename, PATHINFO_FILENAME), // use archive filename as gallery title
+                    'dir_path' => $this->galleryName,
+                ]);
+            }
 
             // add the archive id to the gallery
             $this->archive->isProcess = true;
             $this->archive->save();
+
+            // sort the array from small to big by filename
+            sort($pageNames, SORT_NATURAL | SORT_FLAG_CASE);
 
             // create the pages entries in the datapase for the given for the gallery
             for ($i = 0; $i < count($pageNames); $i++) {
@@ -114,9 +119,9 @@ class ProcessUploadedZipArchive implements ShouldQueue
                 ]);
             }
 
-            $this->finish($gallery, $this->archive);
+            $this->finish($gallery);
         } else {
-            throw new Exception("Failed to open the Archive");
+            throw new Exception("Failed to open the Archive ID: " . $this->archive->id);
         }
     }
 
@@ -124,11 +129,11 @@ class ProcessUploadedZipArchive implements ShouldQueue
      * Call this method when the job is finish
      *
      * @param App\Models\Gallery $gallery
-     * @param App\Models\Archive $Archive
+     *
      *
      * @return void
      */
-    public function finish(Gallery $gallery, Archive $archive)
+    public function finish(Gallery $gallery)
     {
         CreateThumbnailsForPages::dispatch($gallery);
     }
