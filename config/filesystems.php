@@ -35,12 +35,12 @@ return [
             'root' => storage_path('app'),
         ],
 
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-        ],
+        // 'public' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app/public'),
+        //     'url' => env('APP_URL').'/storage',
+        //     'visibility' => 'public',
+        // ],
 
         's3' => [
             'driver' => 's3',
@@ -52,6 +52,26 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'gallery' => [
+            'driver' => 'local',
+            'root' => storage_path('app/galleries'),
+            'url' => env('APP_URL') . '/galleries',
+            'visibility' => 'public'
+        ],
+
+        'archive' => [
+            'driver' => 'local',
+            'root' => storage_path('app/archives'),
+            'url' => env('APP_URL') . '/archives',
+            'visibility' => 'public'
+        ],
+
+        'thumbnail' => [
+            'driver' => 'local',
+            'root' => storage_path('app/thumbnails'),
+            'url' => env('APP_URL') . '/thumbnails',
+            'visibility' => 'public'
+        ],
     ],
 
     /*
@@ -66,7 +86,10 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('app/public'),
+        public_path('assets/avatars') => storage_path('app/avatars'),
+        public_path('assets/galleries') => storage_path('app/galleries'),
+        public_path('assets/archives') => storage_path('app/archives'),
+        public_path('assets/thumbnails') => storage_path('app/thumbnails'),
     ],
-
 ];

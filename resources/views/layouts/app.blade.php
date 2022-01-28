@@ -5,26 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title')</title>
+    <title>@yield('title') - {{ config('app.name') }}</title>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/eventHandler.js') }}"></script>
+    @yield('event')
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- Icon Styles --}}
+    {{-- Credit to: https://fontawesome.com/ --}}
     <link href="{{ asset('css/fontawesome/css/all.css') }}" rel="stylesheet">
     {{-- favicon --}}
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-    <nav class="nav-container">
-        @include('layouts.nav')
-    </nav>
-    @yield('content')
+    @include('layouts.subviews.navigation')
+    <div class="wrapper">
+        @include('layouts.subviews.info.error.list')
+        @yield('content')
+    </div>
     <footer class="footer-nav">
-        @include('layouts.footer')
+        @include('layouts.subviews.footer')
     </footer>
+    <!-- Scripts to load at the end -->
+    @yield('scripts')
+    <script src="{{ asset('js/error/eventHandler.js') }}"></script>
 </body>
 </html>

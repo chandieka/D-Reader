@@ -1,0 +1,107 @@
+@extends('layouts.app')
+
+@isset($gallery)
+@section('title', $gallery->title)
+@endisset
+
+@section('content')
+@isset($gallery)
+<div class="container standard gallery mt-med">
+    <div class="gallery-thumb">
+        {{-- if page var is set then give the link for first page else none --}}
+        <a href="{{ isset($pages) ? route('galleries.reader', [$gallery->id, 1]) : "/" }}">
+            @if (isset($pages[0]) && isset($gallery->thumbnail))
+                <img src="{{ asset('/assets/thumbnails/' . $gallery->dir_path . '/' . $gallery->thumbnail) }}" alt="gallery-thumbnail">
+            @endif
+        </a>
+    </div>
+    <div class="gallery-info">
+        {{-- Gallery info --}}
+        <div class="gallery-title p-med mb-med">
+            <h1 class="title big mb-med">
+               {{ $gallery->title }}
+            </h1>
+            <h2 class="title med fade mb-med">
+                {{ $gallery->title_original }}
+            </h2>
+            <h2 class="title med fade">
+                #{{ $gallery->id }}
+            </h2>
+        </div>
+        <div class="gallery-meta">
+            <div class="gallery-meta-options">
+                <div class="gallery-meta-option bold font-large pr-big pl-big pt-sm pb-sm selected">
+                    Tags
+                </div>
+                <div class="gallery-meta-option bold font-large pr-big pl-big pt-sm pb-sm">
+                    Details
+                </div>
+            </div>
+            <div class="gallery-meta-selections p-med mb-med">
+                <div class="gallery-meta-selection gallery-meta-info show">
+                    <div class="gallery-tags">
+                        <span class="description inline-block bold font-sm pt-sm pb-sm">Type: </span>
+                        <span class="tags">
+                            <span class="pill bold m-xsm font-sm">Doujin</span>
+                        </span>
+                    </div>
+                    <div class="gallery-tags">
+                        <span class="description inline-block bold font-sm pt-sm pb-sm">Uploader: </span>
+                        <span class="tag">
+                            <span class="pill bold m-xsm font-sm">
+                                {{ $gallery->user->name }}
+                                <span class="font-sm" style="color: rgba(255, 0, 0, 0.5)">#</span>
+                                {{$gallery->user->id}}
+                            </span>
+                        </span>
+                    </div>
+                    <div class="gallery-tags">
+                        <span class="description inline-block bold font-sm pt-sm pb-sm">Date added: </span>
+                        <span class="tag">
+                            <span class="pill bold m-xsm font-sm">{{ $gallery->created_at->format('d-m-Y') }}</span>
+                        </span>
+                    </div>
+                    <div class="gallery-tags">
+                        <span class="description inline-block bold font-sm pt-sm pb-sm">Total pages: </span>
+                        <span class="tag">
+                            <span class="pill bold m-xsm font-sm">
+                                @if (isset($pages))
+                                    {{ $pages->count() }}
+                                @else
+                                    0 pages
+                                @endif
+                            </span>
+                        </span>
+                    </div>
+                    <div class="gallery-tags">
+                        <span class="description inline-block bold font-sm pt-sm pb-sm">Favorites: </span>
+                        <span class="tag">
+                            <span class="pill bold m-xsm font-sm">
+                                0
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class=" gallery-meta-selection gallery-meta-tags">
+
+                </div>
+            </div>
+            <div class="gallery-action p-med">
+                <button class="btn btn-red font-large pl-med pr-med mr-sm">
+                    <span class="bold">Favorites</span>
+                </button>
+                <button class="btn btn-red font-large pl-med pr-med mr-sm">
+                    <span class="bold">Download</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@endisset
+@include('layouts.subviews.gallery.page.show')
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/gallery/eventHandler.js') }}"></script>
+@endsection
+
