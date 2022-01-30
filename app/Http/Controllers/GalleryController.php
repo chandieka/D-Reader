@@ -136,6 +136,8 @@ class GalleryController extends Controller
     */
     public function edit(Gallery $gallery)
     {
+        $this->authorize('update');
+
         $data = [];
         $data['gallery'] = $gallery;
 
@@ -151,6 +153,8 @@ class GalleryController extends Controller
     */
     public function update(Request $request, Gallery $gallery)
     {
+        $this->authorize('update');
+
         $requestdata = $request->validate([
             'title' => 'required|string',
             'titleOriginal' => 'required|string'
@@ -178,6 +182,8 @@ class GalleryController extends Controller
     */
     public function destroy(Gallery $gallery)
     {
+        $this->authorize('forceDelete');
+
         // TODO: add gate authorization for resource ownership
         // TODO: check if its the owner or the admin
 

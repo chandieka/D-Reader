@@ -53,7 +53,7 @@ class GalleryPolicy
      */
     public function update(User $user, Gallery $gallery)
     {
-        //
+        return $user->id === $gallery->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class GalleryPolicy
      */
     public function delete(User $user, Gallery $gallery)
     {
-        //
+        return $user->id === $gallery->user_id;
     }
 
     /**
@@ -77,7 +77,7 @@ class GalleryPolicy
      */
     public function restore(User $user, Gallery $gallery)
     {
-        //
+        return $user->id === $gallery->user_id;
     }
 
     /**
@@ -89,6 +89,6 @@ class GalleryPolicy
      */
     public function forceDelete(User $user, Gallery $gallery)
     {
-        //
+        return $user->id === $gallery->user_id;
     }
 }

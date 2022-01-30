@@ -161,6 +161,7 @@ class ArchiveController extends Controller
     */
     public function edit(Archive $archive)
     {
+        $this->authorize('update');
         $data = [];
         $data['archive'] = $archive;
 
@@ -176,6 +177,8 @@ class ArchiveController extends Controller
     */
     public function update(Request $request, Archive $archive)
     {
+        $this->authorize('update');
+
         $validate = $request->validate([
 
         ]);
@@ -189,6 +192,8 @@ class ArchiveController extends Controller
     */
     public function destroy(Archive $archive)
     {
+        $this->authorize('forceDelete');
+
         $authUser = Auth::user();
         // Check who is the owner
         try {

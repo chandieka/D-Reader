@@ -53,7 +53,7 @@ class ArchivePolicy
      */
     public function create(User $user)
     {
-        return true;
+
     }
 
     /**
@@ -65,7 +65,7 @@ class ArchivePolicy
      */
     public function update(User $user, Archive $archive)
     {
-        //
+        return $user->id === $archive->user_id;
     }
 
     /**
@@ -77,7 +77,7 @@ class ArchivePolicy
      */
     public function delete(User $user, Archive $archive)
     {
-        //
+        return $user->id === $archive->user_id;
     }
 
     /**
@@ -89,7 +89,7 @@ class ArchivePolicy
      */
     public function restore(User $user, Archive $archive)
     {
-        //
+        return $user->id === $archive->user_id;
     }
 
     /**
@@ -101,7 +101,7 @@ class ArchivePolicy
      */
     public function forceDelete(User $user, Archive $archive)
     {
-        //
+        return $user->id === $archive->user_id;
     }
 
     /**
