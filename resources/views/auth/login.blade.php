@@ -11,7 +11,7 @@
         {{-- Email address --}}
         <div class="form-group">
             <label for="email" class="label">{{ __('E-Mail Address') }}</label>
-            <input id="email" type="email" class="form-control large" name="email" required autocomplete="email" autofocus placeholder="Pattern: /.*@.*/">
+            <input id="email" type="email" class="form-control large" name="email" required autocomplete="email" autofocus placeholder="Pattern: /.*@.*/" value="{{ old('email') }}">
         </div>
         {{-- Password --}}
         <div class="form-group">

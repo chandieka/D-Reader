@@ -2,8 +2,8 @@
 @section('title', 'Gallery Edit #'. $gallery->id)
 
 @section('content')
-<div class="title-container center mt-sm">
-    <h1 class="title-container-item p-sm pl-med pr-med">
+<div class="container center mt-sm">
+    <h1 class="container-title p-sm pl-med pr-med">
         Gallery Edit - <span style="color: red;">#</span>{{ $gallery->id }}
     </h1>
 </div>
