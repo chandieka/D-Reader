@@ -28,7 +28,7 @@ class GalleryController extends Controller
     */
     public function index()
     {
-        return Gallery::all();
+        // return Gallery::all();
     }
 
     /**
@@ -136,7 +136,7 @@ class GalleryController extends Controller
     */
     public function edit(Gallery $gallery)
     {
-        $this->authorize('update');
+        $this->authorize('update', [$gallery]);
 
         $data = [];
         $data['gallery'] = $gallery;
@@ -153,7 +153,7 @@ class GalleryController extends Controller
     */
     public function update(Request $request, Gallery $gallery)
     {
-        $this->authorize('update');
+        $this->authorize('update', [$gallery]);
 
         $requestdata = $request->validate([
             'title' => 'required|string',
@@ -182,7 +182,7 @@ class GalleryController extends Controller
     */
     public function destroy(Gallery $gallery)
     {
-        $this->authorize('forceDelete');
+        $this->authorize('forceDelete', [$gallery]);
 
         // TODO: add gate authorization for resource ownership
         // TODO: check if its the owner or the admin

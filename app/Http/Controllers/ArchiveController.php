@@ -161,7 +161,8 @@ class ArchiveController extends Controller
     */
     public function edit(Archive $archive)
     {
-        $this->authorize('update');
+        $this->authorize('update', [$archive]);
+
         $data = [];
         $data['archive'] = $archive;
 
@@ -177,7 +178,7 @@ class ArchiveController extends Controller
     */
     public function update(Request $request, Archive $archive)
     {
-        $this->authorize('update');
+        $this->authorize('update', [$archive]);
 
         $validate = $request->validate([
 
@@ -192,7 +193,7 @@ class ArchiveController extends Controller
     */
     public function destroy(Archive $archive)
     {
-        $this->authorize('forceDelete');
+        $this->authorize('forceDelete', [$archive]);
 
         $authUser = Auth::user();
         // Check who is the owner
@@ -235,6 +236,7 @@ class ArchiveController extends Controller
     public function process(Archive $archive)
     {
         $this->authorize('process', $archive);
+
         if ($archive->isProcess) {
             return back()->withErrors("Archive Process Error: the archive #$archive->id had been processed", 'error');
         }
