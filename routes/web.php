@@ -37,7 +37,6 @@ Auth::routes([
 
 // Route that require Authentication
 Route::middleware(['auth'])->group(function () {
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 
     Route::get('/g/create', [GalleryController::class, 'create'])->name('galleries.create');
@@ -60,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Globally Accessible route
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/help', [HomeController::class, 'help'])->name('help');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');

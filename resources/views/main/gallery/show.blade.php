@@ -11,7 +11,7 @@
         {{-- if page var is set then give the link for first page else none --}}
         <a href="{{ isset($pages) ? route('galleries.reader', [$gallery->id, 1]) : "/" }}">
             @if (isset($pages[0]) && isset($gallery->thumbnail))
-                <img src="{{ asset('/assets/thumbnails/' . $gallery->dir_path . '/' . $gallery->thumbnail) }}" alt="gallery-thumbnail">
+            <img src="{{ asset('/assets/thumbnails/' . $gallery->dir_path . '/' . $gallery->thumbnail) }}" alt="gallery-thumbnail">
             @endif
         </a>
     </div>
@@ -19,7 +19,7 @@
         {{-- Gallery info --}}
         <div class="gallery-title p-med mb-med">
             <h1 class="title big mb-med">
-               {{ $gallery->title }}
+                {{ $gallery->title }}
             </h1>
             <h2 class="title med fade mb-med">
                 {{ $gallery->title_original }}
@@ -66,9 +66,9 @@
                         <span class="tag">
                             <span class="pill bold m-xsm font-sm">
                                 @if (isset($pages))
-                                    {{ $pages->count() }}
+                                {{ $pages->count() }}
                                 @else
-                                    0 pages
+                                0 pages
                                 @endif
                             </span>
                         </span>
@@ -96,6 +96,13 @@
             </div>
         </div>
     </div>
+    @auth
+        @if (Auth::user()->id === $gallery->user_id)
+        <div class="gallery-options">
+
+        </div>
+        @endif
+    @endauth
 </div>
 @endisset
 @include('layouts.subviews.gallery.page.show')

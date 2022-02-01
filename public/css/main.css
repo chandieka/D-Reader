@@ -355,7 +355,9 @@ button.nav-btn {
     position: relative;
     min-height: 360px;
     background-color: rgb(91, 42, 134);
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    /* flex-direction: column; */
 }
 
 .profile-setting {
@@ -367,9 +369,7 @@ button.nav-btn {
 .profile-header-items {
     display: flex;
     flex-direction: row;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    margin-top: auto;
     width: 100%;
 }
 
@@ -378,17 +378,32 @@ button.nav-btn {
 }
 
 .profile-header-item.thumbnail {
-
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .profile-header-item.info {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.profile-tools {
+    display: inline-block;
+    /* margin-right: auto; */
+    /* margin-left: auto; */
+    border-radius: 8px;
+    background-color: rgb(20, 41, 62);
+    padding: 16px 16px 8px 16px;
+    width: 100%;
 }
 
 .profile-tools a{
     display: inline-block;
+    margin-bottom: 8px;
 }
 
 .profile-header-item.thumbnail img {
@@ -401,10 +416,17 @@ button.nav-btn {
 @media only screen and (max-width: 600px)  {
     .profile-header-items {
         flex-direction: column;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .profile-header-item.info {
         text-align: center;
+        width: auto;
+    }
+
+    .profile-header-item.thumbnail img {
+        max-width: 170px;
     }
 }
 
@@ -419,7 +441,8 @@ button.nav-btn {
 }
 
 .gallery-thumb {
-    margin: 0 auto;
+    margin: auto;
+    margin-left: auto;
     width: 30%;
     transition: 0.3s;
     opacity: 1;
@@ -437,7 +460,16 @@ button.nav-btn {
 .gallery-info {
     width: 60%;
     display: grid;
+    margin-left: 8px;
     grid-template-rows: auto 1fr auto;
+}
+
+.gallery-options {
+    background-color: rgb(20, 41, 62);
+    width: 50px;
+    margin-left: 16px;
+    border-radius: 8px;
+    min-height: 50px;
 }
 
 .gallery-meta {
@@ -511,14 +543,22 @@ button.nav-btn {
 
     .gallery-info {
         width: 100%;
+        margin-left: 0px;
     }
 
     .gallery-thumb {
         width: 70%;
+        margin-bottom: 8px;
     }
 
     .gallery {
         flex-direction: column;
+    }
+
+    .gallery-options {
+        width: 100%;
+        margin-top: 16px;
+        margin-left: 0;
     }
 }
 
@@ -529,14 +569,22 @@ button.nav-btn {
 
     .gallery-info {
         width: 100%;
+        margin-left: 0px;
     }
 
     .gallery-thumb {
         width: 50%;
+        margin-bottom: 8px;
     }
 
     .gallery {
         flex-direction: column;
+    }
+
+    .gallery-options {
+        width: 100%;
+        margin-top: 16px;
+        margin-left: 0;
     }
 }
 
@@ -1037,7 +1085,7 @@ body {
     color: white;
 }
 
-body {
+.app {
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 100%;
@@ -1220,8 +1268,8 @@ a {
 
 .form-search-text .delete {
     display: inline-block;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-top: 16px;
+    margin-bottom: 10px;
     margin-right: 16px;
     color: black;
     opacity: 0.5;
