@@ -24,14 +24,16 @@
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-    @include('layouts.subviews.navigation')
-    <div class="wrapper">
-        @include('layouts.subviews.info.error.list')
-        @yield('content')
+    <div class="app">
+        @include('layouts.subviews.navigation')
+        <div class="wrapper">
+            @include('layouts.subviews.info.error.list')
+            @yield('content')
+        </div>
+        <footer class="footer-nav">
+            @include('layouts.subviews.footer')
+        </footer>
     </div>
-    <footer class="footer-nav">
-        @include('layouts.subviews.footer')
-    </footer>
     <!-- Scripts to load at the end -->
     @yield('scripts')
     <script src="{{ asset('js/error/eventHandler.js') }}"></script>
