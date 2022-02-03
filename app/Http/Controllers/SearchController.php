@@ -35,37 +35,26 @@ class SearchController extends Controller
         $data['query'] = $query; // pass the query string for show in the view
 
         // Note: idk if this good or not but it work... and its hella inefficient
+        // thie statement is not totally safe, the $query variable need to sanitize first beforehand
         // this group of code is essentially repeating where statement for each "word" in the query
         $querys = Str::of($query)->explode(' ');
         $queryBuilder = Gallery::where('title', 'LIKE', "%$querys[0]%");
         $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[0]%");
         for ($i=1; $i < $querys->count(); $i++) {
-            $queryBuilder->orWhere('title', 'LIKE', "%$querys[$i]%");
-            $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[$i]%");
+            $queryBuilder->Where('title', 'LIKE', "%$querys[$i]%");
+            $queryBuilder->Where('title_original', 'LIKE', "%$querys[$i]%");
         }
         // do a fulltext on the string againts predefined index
-        // not safe, the $query variable need to sanitize first beforehand
         $queryBuilder->orWhereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$query]);
-        $queryResults = $queryBuilder->get();
+        $queryBuilder->orderBy('created_at', 'desc');
+        $queryResults = $queryBuilder->paginate(24);
 
-        $galleries = array_unique($queryResults->all(), SORT_STRING); // remove duplicates
-
-        // sort by date new to old
-        usort($galleries, function($a, $b) {
-            return -($a->created_at <=> $b->created_at);
-        });
-
-        // turn back $galleries array back into collection
-        $galleries = collect($galleries);
-
-        $galleries = new LengthAwarePaginator($galleries, $galleries->count(), 24, $request->input('page'));
-
-        $data['galleries'] = $galleries; // will be use on the view to iterate a card with the info of the galleris
+        $data['galleries'] = $queryResults; // will be use on the view to iterate a card with the info of the galleris
         $data['paginator'] = [
-            'currentPage' => $galleries->currentPage(),
-            'totalPages' => $galleries->currentPage(),
+            'currentPage' => $queryResults->currentPage(),
+            'totalPages' => $queryResults->lastPage(),
             'uri' => route('search.index') . "/?query=$query&page=", // URI template for page navigation
-            'lastPage' => $galleries->lastPage(),
+            'lastPage' => $queryResults->lastPage(),
         ];
 
         return view('main.search', $data);
