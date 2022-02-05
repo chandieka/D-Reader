@@ -34,7 +34,7 @@ class SearchController extends Controller
 
         $data['query'] = $query; // pass the query string for show in the view
 
-        // Note: idk if this good or not but it work... and its hella inefficient
+        // Note: idk if this code is good or not but it work... and its hella inefficient
         // thie statement is not totally safe, the $query variable need to sanitize first beforehand
         // this group of code is essentially repeating where statement for each "word" in the query
         $querys = Str::of($query)->explode(' ');
