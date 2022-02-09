@@ -196,34 +196,22 @@ class GalleryController extends Controller
                 $thumbDirExist = Storage::disk('thumbnail')->exists($gallery->dir_path);
                 $galleryDirExist = Storage::disk('gallery')->exists($gallery->dir_path);
 
-                if ($galleryDirExist && $thumbDirExist){
-                    // delete the gallery directory
-                    $thumbnailDeleteSuccess = Storage::disk('thumbnail')->deleteDirectory($gallery->dir_path);
-                    $galleryDeleteSuccess = Storage::disk('gallery')->deleteDirectory($gallery->dir_path);
-
-                    if ($galleryDeleteSuccess && $thumbnailDeleteSuccess) {
-                        $parentArchive = $gallery->archive;
-                        // delete gallery entry in DB
-                        $gallery->forceDelete();
-                        // Unattached gallery relation with the parent archive
-                        $parentArchive->update([
-                            'isProcess' => '0'
-                        ]);
-                        return back();
-                    } else {
-                        if (!$thumbnailDeleteSuccess){
-                            throw new Exception("Delete Request Error: failed to delete thumbnails from the disk for gallery $gallery->id");
-                        } else {
-                            throw new Exception("Delete Request Error: failed to delete gallery $gallery->id from the disk");
-                        }
-                    }
-                } else {
-                    if (!$thumbDirExist) {
-                        throw new Exception("Delete Request Error: the thumbnail directory for gallery $gallery->id don't exist");
-                    } else {
-                        throw new Exception("Delete Request Error: the directory for gallery $gallery->id don't exist");
-                    }
+                if ($galleryDirExist) {
+                    Storage::disk('gallery')->deleteDirectory($gallery->dir_path);
                 }
+
+                if ($thumbDirExist) {
+                    Storage::disk('thumbnail')->deleteDirectory($gallery->dir_path);
+                }
+
+                $parentArchive = $gallery->archive;
+                // delete gallery entry in DB
+                $gallery->forceDelete();
+                // Unattached gallery relation with the parent archive
+                $parentArchive->update([
+                    'isProcess' => '0'
+                ]);
+                return back();
             } else {
                 throw new Exception("Delete Request Error: Gallery $gallery->id is not owned by the user $authUser->name");
             }

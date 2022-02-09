@@ -53,40 +53,51 @@ class CreateThumbnailsForPages implements ShouldQueue
      */
     public function handle()
     {
-        $width = 320; // the witdh that will be use to ratio in the image height (in px)
         $pages = $this->gallery->pages;
         $destination = public_path('assets/thumbnails/') . $this->gallery->dir_path; // full path for save location
 
         if (isset($pages) && !is_dir($destination)) {
             if (!is_dir($destination)) {
-                // create the directory for thumbnails
                 mkdir($destination);
-            } else {
-                throw new Exception("Thumbnails directory already exist with the name of " . $this->gallery->dir_path, 1);
             }
 
             foreach ($pages as $page) {
-                $filePath = public_path('assets/galleries/') . $this->gallery->dir_path . '/' . $page->filename; // page image full path
+                $width = 320; // the witdh that will be use to ratio in the image height (in px)
+                $filePath = public_path('assets/galleries/') . $this->gallery->dir_path . '/' . $page->filename;
 
                 $img = Image::make($filePath);
-                if (!$img->width() <= $width) {
-                    $ratio = $width / $img->width(); // get the ratio for the width
-                } else {
-                    $ratio = 1;
+
+                if ($img->width() <= $width) {
                     $width = $img->width();
                 }
 
-                $height = $img->height() * $ratio; // get the final width after adjusted by the ratio
-                $img->resize($width, $height)->save($destination . '/' . $img->filename . '.jpg', 100, 'jpg');
+                $img->resize($width, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination . '/' . $img->filename . '.jpg', 100, 'jpg');
+
                 $page->thumbnail = $img->filename . '.' . $img->extension;
                 $page->save();
             }
 
             $this->gallery->thumbnail = $pages[0]->thumbnail;
             $this->gallery->save();
+
+            $this->finish($this->gallery);
         } else {
             throw new Exception("Gallery " . $this->gallery->id . " don't yet have pages");
         }
+    }
 
+    /**
+     * Call this method when the job is finish
+     *
+     * @param App\Models\Gallery $gallery
+     *
+     *
+     * @return void
+     */
+    public function finish(Gallery $gallery)
+    {
+        ResizeGalleryPage::dispatch($gallery, $gallery->pages);
     }
 }
