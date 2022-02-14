@@ -1,5 +1,4 @@
 window.addEventListener("load", (e) => {
-    let form = document.querySelector('#form-delete');
     let formButtons = document.querySelectorAll('.form-delete-button');
 
     formButtons.forEach(element => {
@@ -7,7 +6,7 @@ window.addEventListener("load", (e) => {
             j.preventDefault()
 
             if (confirm("WARNING!!! This action will permanently delete the item")){
-                form.submit();
+                element.parentNode.submit();
             }
         })
     });
