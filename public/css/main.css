@@ -524,10 +524,6 @@ button.nav-btn {
     max-width: 100%;
 }
 
-.gallery-tags .tag {
-
-}
-
 .gallery-meta-selections .gallery-meta-selection.show {
     display: block;
 }
@@ -1151,10 +1147,6 @@ a {
     margin-bottom: 8px;
 }
 
-/* .form * {
-    display: block;
-    margin-bottom: 8px;
-} */
 
 .form-group {
     display: block;
@@ -1499,7 +1491,7 @@ input:checked + .slider:before {
     background-color: rgb(20, 89, 129);
     /* background-color: rgb(5, 25, 36); */
     padding: 4px 8px 4px 8px;
-    border-radius: 8px;
+    border-radius: 4px;
 }
 
 .pill.pill-red {

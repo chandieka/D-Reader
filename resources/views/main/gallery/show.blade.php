@@ -30,25 +30,25 @@
         </div>
         <div class="gallery-meta">
             <div class="gallery-meta-options">
-                <div class="gallery-meta-option bold font-large pr-big pl-big pt-sm pb-sm selected">
+                <div class="gallery-meta-option gallery-meta-option-tags bold font-large pr-big pl-big pt-sm pb-sm selected">
                     Tags
                 </div>
-                <div class="gallery-meta-option bold font-large pr-big pl-big pt-sm pb-sm">
+                <div class="gallery-meta-option gallery-meta-option-details bold font-large pr-big pl-big pt-sm pb-sm">
                     Details
                 </div>
             </div>
             <div class="gallery-meta-selections p-med mb-med">
-                <div class="gallery-meta-selection gallery-meta-info show">
+                <div class="gallery-meta-selection gallery-meta-selection-details">
                     <div class="gallery-tags">
                         <span class="description inline-block bold font-sm pt-sm pb-sm">Type: </span>
                         <span class="tags">
-                            <span class="pill bold m-xsm font-sm">Doujin</span>
+                            <span class="pill bold mt-xsm mb-xsm font-sm">Doujin</span>
                         </span>
                     </div>
                     <div class="gallery-tags">
                         <span class="description inline-block bold font-sm pt-sm pb-sm">Uploader: </span>
                         <span class="tag">
-                            <span class="pill bold m-xsm font-sm">
+                            <span class="pill bold mt-xsm mb-xsm font-sm">
                                 {{ $gallery->user->name }}
                                 <span class="font-sm" style="color: rgba(255, 0, 0, 0.5)">#</span>
                                 {{$gallery->user->id}}
@@ -58,13 +58,13 @@
                     <div class="gallery-tags">
                         <span class="description inline-block bold font-sm pt-sm pb-sm">Date added: </span>
                         <span class="tag">
-                            <span class="pill bold m-xsm font-sm">{{ $gallery->created_at->format('d-m-Y') }}</span>
+                            <span class="pill bold mt-xsm mb-xsm font-sm">{{ $gallery->created_at->format('d-m-Y') }}</span>
                         </span>
                     </div>
                     <div class="gallery-tags">
                         <span class="description inline-block bold font-sm pt-sm pb-sm">Total pages: </span>
                         <span class="tag">
-                            <span class="pill bold m-xsm font-sm">
+                            <span class="pill bold mt-xsm mb-xsm font-sm">
                                 @if (isset($pages))
                                 {{ $pages->count() }}
                                 @else
@@ -76,14 +76,21 @@
                     <div class="gallery-tags">
                         <span class="description inline-block bold font-sm pt-sm pb-sm">Favorites: </span>
                         <span class="tag">
-                            <span class="pill bold m-xsm font-sm">
+                            <span class="pill bold mt-xsm mb-xsm font-sm">
                                 0
                             </span>
                         </span>
                     </div>
                 </div>
-                <div class=" gallery-meta-selection gallery-meta-tags">
-
+                <div class="gallery-meta-selection gallery-meta-selection-tags show">
+                    <div class="gallery-tags">
+                        <span class="description inline-block bold font-sm pt-sm pb-sm">Tags: </span>
+                        <span class="tags">
+                            @for ($i = 0; $i < 10; $i++)
+                            <span class="pill bold mt-xsm mb-xsm font-sm">Test test</span>
+                            @endfor
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="gallery-action p-med">
@@ -97,11 +104,11 @@
         </div>
     </div>
     @auth
-        @if (Auth::user()->id === $gallery->user_id)
-        <div class="gallery-options">
+    @if (Auth::user()->id === $gallery->user_id)
+    <div class="gallery-options">
 
-        </div>
-        @endif
+    </div>
+    @endif
     @endauth
 </div>
 @endisset
@@ -109,6 +116,6 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/gallery/eventHandler.js') }}"></script>
+<script type="module" src="{{ asset('js/gallery/show/eventHandler.js') }}"></script>
 @endsection
 
