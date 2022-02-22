@@ -41,11 +41,11 @@ class SearchController extends Controller
         $queryBuilder = Gallery::where('title', 'LIKE', "%$querys[0]%");
         $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[0]%");
         for ($i=1; $i < $querys->count(); $i++) {
-            $queryBuilder->Where('title', 'LIKE', "%$querys[$i]%");
-            $queryBuilder->Where('title_original', 'LIKE', "%$querys[$i]%");
+            $queryBuilder->orWhere('title', 'LIKE', "%$querys[$i]%");
+            $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[$i]%");
         }
         // do a fulltext on the string againts predefined index
-        $queryBuilder->orWhereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$query]);
+        // $queryBuilder->orWhereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$query]);
         $queryBuilder->orderBy('created_at', 'desc');
         $queryResults = $queryBuilder->paginate(24);
 
