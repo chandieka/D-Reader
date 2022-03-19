@@ -62,13 +62,12 @@ class Utils
             ),
         );
 
+
         foreach ($arBytes as $arItem) {
             if ($bytes >= $arItem["VALUE"]) {
                 $result = $bytes / $arItem["VALUE"];
-                $result = str_replace(".", ",", strval(round($result, 2))) . " " . $arItem["UNIT"];
-                break;
+                return $result = str_replace(".", ",", strval(round($result, 2))) . " " . $arItem["UNIT"];
             }
         }
-        return $result;
     }
 }
