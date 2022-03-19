@@ -4,6 +4,7 @@ use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReaderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UploadController;
@@ -64,7 +65,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/help', [HomeController::class, 'help'])->name('help');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/g/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
-Route::get('/g/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
+// Route::get('/g/{gallery}/list', [ReaderController::class, 'index'])->name('reader.list');
+Route::get('/g/{gallery}/{page:page_number}', [ReaderController::class, 'index'])->name('reader.index');
 
 /**
  * Route for Testing

@@ -221,37 +221,6 @@ class GalleryController extends Controller
     }
 
     /**
-    * Get the reader for the given gallery with all the pages related to it
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  \App\Models\Gallery  $gallery
-    * @param \App\Models\Page $page
-    * @return \Illuminate\Http\Response
-    */
-    public function reader(Request $request, Gallery $gallery, Page $page)
-    {
-        $data = [];
-        // $user = Auth::user();
-        // $settings = $user->settings(); // fetch user UI or whatever needed in the future settings
-
-        // assuring the Galleries is retrive starting with the lowest page to highest page
-        $pages = $gallery->pages()->select(['page_number', 'filename'])->orderBy('page_number', 'asc')->get();
-
-        $currentPageNumber = $page->page_number;
-        $data['gallery'] = $gallery;
-        $data['pages'] = $pages;
-        $data['paginator'] = [
-            'totalPages' => $pages->count(),
-            'currentPage' => $currentPageNumber,
-            'next' => ($currentPageNumber == $pages->count()) ? $currentPageNumber : $currentPageNumber + 1,
-            'previous' => ($currentPageNumber == 1) ? $currentPageNumber : $currentPageNumber - 1,
-            'resource' => "/g/".$gallery->id."/",
-        ];
-
-        return view('main.gallery.reader', $data);
-    }
-
-    /**
     * Get the thumbnail for a page on fly
     *
     * @param  \App\Models\Gallery  $gallery

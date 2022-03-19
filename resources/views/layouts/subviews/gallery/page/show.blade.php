@@ -6,7 +6,7 @@
     <div class="page-collections">
         @foreach ($pages as $page)
         <div class="page">
-            <a href="{{ route('galleries.reader', [$gallery->id, $page->page_number]) }}" class="page-link">
+            <a href="{{ route('reader.index', [$gallery->id, $page->page_number]) }}" class="page-link">
                 <img src="{{ asset('/assets/thumbnails/'.$gallery->dir_path.'/'.$page->thumbnail) }}" alt="{{ $page->filename }}" class="page-thumbnail">
             </a>
         </div>

@@ -29,8 +29,10 @@ export class TabBar {
     }
 
     tabBarHandler() {
-        this.tabBtn.addEventListener('click', e => {
-            this.show();
-        })
+        if (this.tabBtn != null) {
+            this.tabBtn.addEventListener('click', e => {
+                this.show();
+            })
+        }
     }
 }

@@ -824,6 +824,14 @@ button.nav-btn {
     background-color: rgb(11, 57, 84);
 }
 
+.reader-img > img.small{
+    width: 720px;
+}
+
+.reader-img > img.medium {
+    width: 1020px;
+}
+
 .reader-bar {
     /* background-color: rgb(21, 10, 31); */
     /* background-color: rgb(20, 41, 62);s */

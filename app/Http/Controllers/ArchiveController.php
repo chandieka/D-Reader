@@ -131,10 +131,12 @@ class ArchiveController extends Controller
 
         if ($processNow) {
             foreach ($archives as $archive) {
-                if ($archive->archive_type == 'zip'){
-                    ProcessUploadedZipArchive::dispatch($archive);
-                } else if ($archive->archive_type == 'rar'){
-                    ProcessUploadedRarArchive::dispatch($archive);
+                if ($archive->isProcess) {
+                    if ($archive->archive_type == 'zip'){
+                        ProcessUploadedZipArchive::dispatch($archive);
+                    } else if ($archive->archive_type == 'rar'){
+                        ProcessUploadedRarArchive::dispatch($archive);
+                    }
                 }
             }
         }

@@ -9,7 +9,7 @@
 <div class="container standard gallery mt-med">
     <div class="gallery-thumb">
         {{-- if page var is set then give the link for first page else none --}}
-        <a href="{{ isset($pages) ? route('galleries.reader', [$gallery->id, 1]) : "/" }}">
+        <a href="{{ isset($pages) ? route('reader.index', [$gallery->id, 1]) : "/" }}">
             @if (isset($pages[0]) && isset($gallery->thumbnail))
             <img src="{{ asset('/assets/thumbnails/' . $gallery->dir_path . '/' . $gallery->thumbnail) }}" alt="gallery-thumbnail">
             @endif
