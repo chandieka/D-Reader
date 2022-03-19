@@ -5,7 +5,12 @@
                 <img src="{{ asset('Logo.png') }}" alt="App logo" class="logo">
             </a>
             <form action="{{ route('search.index') }}" method="get" class="nav-form-group">
-                <input type="text" name="query" class="nav-search" placeholder="Search..." required>
+                <div class="nav-search">
+                    <input type="text" name="query" class="nav-search" placeholder="Search..." id="filter-search" value="{{ old('query') }}">
+                    <span class="delete font-large" onclick="reset('#filter-search')">
+                        x
+                    </span>
+                </div>
                 <button type="submit" class="btn btn-red nav-btn">
                     <i class="fas fa-search fa-lg"></i>
                 </button>

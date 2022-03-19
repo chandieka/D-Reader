@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th></th>
+            <th class="bold">ID</th>
             <th class="bold">Filename</th>
             <th class="bold">Original Filename</th>
             <th class="bold">Child Gallery</th>
@@ -19,6 +20,9 @@
                     <span class="checkmark"></span>
                 </label>
             </td>
+            <td>
+                {{ $archive->id }}
+            </td>
             <td>{{$archive->filename}}</td>
             <td>{{App\Customs\Utils::stringShortener($archive->original_filename, 40)}}</td>
             <td>
@@ -31,7 +35,7 @@
             <td>{{$archive->created_at->format('d-m-Y')}}</td>
             <td>{{$archive->updated_at->format('d-m-Y')}}</td>
             <td>
-                <form action="{{ route('archives.delete', $archive->id) }}" method="POST" class="icon-form" id="form-delete">
+                <form action="{{ route('archives.delete', $archive->id) }}" method="POST" class="icon-form form-delete">
                     @csrf
                     @method('DELETE')
                     <button class="form-delete-button icon icon-sm danger mr-med">

@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Models\Archive;
 use App\Models\Gallery;
 use App\Models\Page;
-use App\Models\User;
+use App\Providers\AppServiceProvider;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ZipArchive;
 
@@ -86,6 +87,7 @@ class ProcessUploadedZipArchive implements ShouldQueue
 
             // Persist if succeed
             // create a gallery entries in the datapase for the given archives
+            $gallery = null;
             if ($this->galleryMetadata != null) {
                 $gallery = Gallery::create([
                     'user_id' => $this->archive->user->id,
@@ -106,6 +108,24 @@ class ProcessUploadedZipArchive implements ShouldQueue
             // add the archive id to the gallery
             $this->archive->isProcess = true;
             $this->archive->save();
+
+            // sanitised the item so only image remain
+            for ($i = 0; $i < count($pageNames); $i++) {
+                $pageName = $pageNames[$i];
+                $path = public_path('/assets/galleries/') . $gallery->dir_path . '/' . $pageName;
+                $isAccepted = false;
+
+                foreach (AppServiceProvider::ACCEPTABLE_TYPE as $type) {
+                    if ($type == mime_content_type($path)) {
+                        $isAccepted = true;
+                    }
+                }
+
+                if (!$isAccepted) {
+                    array_splice($pageNames, $i, 1);
+                    Storage::disk('gallery')->delete($path);
+                }
+            }
 
             // sort the array from small to big by filename
             sort($pageNames, SORT_NATURAL | SORT_FLAG_CASE);

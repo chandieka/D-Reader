@@ -2,8 +2,8 @@
     <span class="option ml-med bold">Filter: </span>
     <form action="" method="GET" class="form-search option left ml-med">
         <div class="form-search-text">
-            <input type="text" name="filter" placeholder="Search..." id="filter-search" value="{{ old('filter') }}">
-            <span class="delete font-large" onclick="reset('#filter-search')">
+            <input type="text" name="filter" placeholder="Search..." id="galleries-filter-search" value="{{ old('filter') }}">
+            <span class="delete font-large" onclick="reset('#galleries-filter-search')">
                 x
             </span>
         </div>

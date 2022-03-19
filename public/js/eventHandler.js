@@ -1,13 +1,29 @@
+import { TabBar } from "./lib/TabBar.js";
+import { TagHandler } from "./lib/TagHandler.js";
+
 /*
-    this is where generic/global event is handle which mean that on every page it will have the callbacks assigned
-    to the appropiate event for each respective Elements
+this is where generic/global event is handle which mean that on every page it will have the callbacks assigned
+to the appropiate event for each respective Elements
 */
 window.addEventListener('load', (e) => {
     // add your event callback here
     navAccDropdown();
     accDropDown();
     standardDropDown();
-})
+    new TagHandler(document.querySelector('#test-tag'), 'tags');
+    new TabBar(
+        document.querySelector('.gallery-meta-option-tags'),
+        document.querySelector('.gallery-meta-options'),
+        document.querySelector('.gallery-meta-selection-tags'),
+        document.querySelector('.gallery-meta-selections'),
+    );
+    new TabBar(
+        document.querySelector('.gallery-meta-option-details'),
+        document.querySelector('.gallery-meta-options'),
+        document.querySelector('.gallery-meta-selection-details'),
+        document.querySelector('.gallery-meta-selections'),
+    );
+});
 
 function navAccDropdown() {
     let dropElement = document.getElementById('nav-dropdown-btn');

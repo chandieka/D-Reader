@@ -161,6 +161,8 @@ class ArchiveController extends Controller
     */
     public function edit(Archive $archive)
     {
+        $this->authorize('update', [$archive]);
+
         $data = [];
         $data['archive'] = $archive;
 
@@ -176,6 +178,8 @@ class ArchiveController extends Controller
     */
     public function update(Request $request, Archive $archive)
     {
+        $this->authorize('update', [$archive]);
+
         $validate = $request->validate([
 
         ]);
@@ -189,13 +193,15 @@ class ArchiveController extends Controller
     */
     public function destroy(Archive $archive)
     {
+        $this->authorize('forceDelete', [$archive]);
+
         $authUser = Auth::user();
         // Check who is the owner
         try {
             if ($authUser->id == $archive->user->id) {
 
                 // check if a gallery is attacked to the archive
-                if (!$archive->isProcess) {
+                if ($archive->gallery == null) { // better indication if an archive is process
                     // check if the file exist on the disk
                     $archiveExist = Storage::disk('archive')->exists($archive->filename);
                     if ($archiveExist) {
@@ -221,7 +227,8 @@ class ArchiveController extends Controller
     }
 
     /**
-    * process the specified archive to a gallery
+    * process the specified archive into a gallery
+    * Different job will be dispact depending on the archive type
     *
     * @param  \Illuminate\Http\Request  $request
     * @param  \App\Models\Archive  $archive
@@ -230,15 +237,22 @@ class ArchiveController extends Controller
     public function process(Archive $archive)
     {
         $this->authorize('process', $archive);
+
         if ($archive->isProcess) {
             return back()->withErrors("Archive Process Error: the archive #$archive->id had been processed", 'error');
         }
 
         if (Storage::disk('archive')->exists($archive->filename)) {
-            if ($archive->archive_type == "zip") {
-                ProcessUploadedZipArchive::dispatch($archive);
-            } else {
-                ProcessUploadedRarArchive::dispatch($archive);
+            switch ($archive->archive_type) {
+                case 'zip':
+                    ProcessUploadedZipArchive::dispatch($archive);
+                    break;
+                case 'rar':
+                    ProcessUploadedRarArchive::dispatch($archive);
+                    break;
+                default:
+                    throw new Exception("Archive Process Error: the archive #$archive->id format is not acceptable (RAR, ZIP, or etc)");
+                    break;
             }
             return redirect()->route('uploads.archives');
         } else {

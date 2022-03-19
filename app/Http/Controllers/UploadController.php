@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Customs\UploadHandler;
 use App\Customs\Utils;
-use App\Jobs\ProcessUploadedRarArchive;
-use App\Jobs\ProcessUploadedZipArchive;
 use App\Jobs\StoreUploadedArchive;
 use App\Models\Archive;
 use App\Models\Gallery;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Str;
 
 class UploadController extends Controller
@@ -44,15 +40,28 @@ class UploadController extends Controller
         $data = [];
 
         if ($request->input('filter') != null && $request->input('filter') != "") {
-            $q = $request->input('filter');
-            $archives = Archive::whereRaw("MATCH(original_filename, filename) AGAINST(? IN BOOLEAN MODE)", [$q])
-                ->paginate($this->show);
+            $query = Str::of($request->input('filter'))->explode(' ');
+
+            $queryBuilder = Archive::where('filename', 'LIKE', "%$query[0]%");
+            $queryBuilder->orWhere('original_filename', 'LIKE', "%$query[0]%");
+
+            for ($i = 1; $i < $query->count(); $i++) {
+                $queryBuilder->orWhere('filename', 'LIKE', "%$query[$i]%");
+                $queryBuilder->orWhere('original_filename', 'LIKE', "%$query[$i]%");
+            }
+
+            // $queryBuilder->orWhereRaw("MATCH(original_filename, filename) AGAINST(? IN BOOLEAN MODE)", [$request->input('filter')]);
+            $queryBuilder->orderBy('created_at', 'desc');
+            $archives = $queryBuilder->paginate($this->show);
+
             $data['archives'] = $archives;
+            $uri = route('uploads.archives') . "/?filter=" . $request->input('filter') . "&page=";
         } else {
             $archives = Archive::where('user_id', '=', Auth()->user()->id)
                 ->orderBy('id', 'desc')->with(['user', 'gallery'])
                 ->paginate($this->show);
             $data['archives'] = $archives;
+            $uri = route('uploads.archives') . "?page=";
         }
 
         $data['archives_count'] = Archive::where('user_id', '=', Auth()->user()->id)->count();
@@ -61,7 +70,7 @@ class UploadController extends Controller
         $data['paginator'] = [
             'currentPage' => $archives->currentPage(),
             'totalPages' => $archives->lastPage(),
-            'uri' => route('uploads.archives') . "/?page=", // URI template for page navigation
+            'uri' => $uri, // URI template for page navigation
             'lastPage' => $archives->lastPage(),
         ];
 
@@ -81,9 +90,20 @@ class UploadController extends Controller
         $data = [];
 
         if ($request->input('filter') != null && $request->input('filter') != "") {
-            $q = $request->input('filter');
-            $galleries = Gallery::whereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$q])
-                ->paginate($this->show);
+            $querys = Str::of($request->input('filter'))->explode(' ');
+
+            $queryBuilder = Gallery::where('title', 'LIKE', "%$querys[0]%");
+            $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[0]%");
+
+            for ($i = 1; $i < $querys->count(); $i++) {
+                $queryBuilder->orWhere('title', 'LIKE', "%$querys[$i]%");
+                $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[$i]%");
+            }
+
+            $queryBuilder->orWhereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$request->input('filter')]);
+            $queryBuilder->orderBy('created_at', 'desc');
+            $galleries = $queryBuilder->paginate($this->show);
+
             $data['galleries'] = $galleries;
         } else {
             $galleries = Gallery::where('user_id', '=' , Auth()->user()->id)->orderBy('id', 'desc')->with(['user',  'archive'])->paginate($this->show);
