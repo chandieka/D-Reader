@@ -3,10 +3,10 @@ import { TagHandler } from "./lib/TagHandler.js";
 
 /*
 this is where generic/global event is handle which mean that on every page it will have the callbacks assigned
-to the appropiate event for each respective Elements
+to the appropiate event
 */
 window.addEventListener('load', (e) => {
-    // add your event callback here
+    // add your global event callback here
     navAccDropdown();
     accDropDown();
     standardDropDown();
@@ -23,6 +23,7 @@ window.addEventListener('load', (e) => {
         document.querySelector('.gallery-meta-selection-details'),
         document.querySelector('.gallery-meta-selections'),
     );
+    reloadOnPopstate();
 });
 
 function navAccDropdown() {
@@ -84,4 +85,10 @@ function standardDropDown() {
             j.stopPropagation();
         })
     })
+}
+
+function reloadOnPopstate() {
+    window.addEventListener('popstate', (e) => {
+        window.location.reload();
+    });
 }
