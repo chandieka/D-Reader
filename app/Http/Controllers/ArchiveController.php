@@ -101,12 +101,13 @@ class ArchiveController extends Controller
          */
 
         $requestData = $request->validate([
-            'files.*' => 'required|file',
+            "files.*" => 'required|file',
+            'process' => 'accepted',
         ]);
 
         // Get the uploaded file
         $archiveFiles = $requestData['files'];
-        $processNow = $request->input('process');
+        $processNow = $requestData['process'];
         $archives = [];
 
         foreach ($archiveFiles as $archiveFile) {
@@ -131,7 +132,7 @@ class ArchiveController extends Controller
 
         if ($processNow) {
             foreach ($archives as $archive) {
-                if ($archive->isProcess) {
+                if (!$archive->isProcess) {
                     if ($archive->archive_type == 'zip'){
                         ProcessUploadedZipArchive::dispatch($archive);
                     } else if ($archive->archive_type == 'rar'){
