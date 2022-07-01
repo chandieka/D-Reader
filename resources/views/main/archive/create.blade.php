@@ -32,12 +32,12 @@
                 voluptas id aliquid rerum consequuntur placeat libero ratione architecto perspiciatis quidem commodi nostrum? Quibusdam.
             </p>
             <div class="form-control">
-                <input type="file" name="files[]" id="files" multiple >
+                <input type="file" name="files[]" id="files" multiple>
             </div>
         </div>
         <div class="form-group">
             <label class="switch">
-                <input type="checkbox" name="process" id="process">
+                <input type="checkbox" name="process" id="process" checked>
                 <span class="slider round"></span>
             </label>
             <label class="label v-center" for="process">
