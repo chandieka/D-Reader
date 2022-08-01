@@ -6,14 +6,13 @@ use App\Customs\UploadHandler;
 use App\Customs\Utils;
 use App\Jobs\ProcessUploadedRarArchive;
 use App\Jobs\ProcessUploadedZipArchive;
-use App\Jobs\StoreUploadedArchive;
 use App\Models\Gallery;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Archive;
+use App\Models\View;
 use Exception;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -118,12 +117,26 @@ class GalleryController extends Controller
     * @param  \App\Models\Gallery  $gallery
     * @return \Illuminate\Http\Response
     */
-    public function show(Gallery $gallery)
+    public function show(Request $request, Gallery $gallery)
     {
+        if (Auth::check()) {
+            View::create([
+                'user_id' => Auth::user()->id,
+                'gallery_id' => $gallery->id,
+                'ip' => $request->ip()
+            ]);
+        } else {
+            View::create([
+                'gallery_id' => $gallery->id,
+                'ip' => $request->ip()
+            ]);
+        }
+
+        $gallery->loadCount('views');
         $data = [];
-        $pages = $gallery->pages()->get();
         $data['gallery'] = $gallery;
-        $data['pages'] = $pages;
+        $data['pages'] = $gallery->pages()->get();
+        $data['views'] = $gallery->views_count;
 
         return view('main.gallery.show', $data);
     }

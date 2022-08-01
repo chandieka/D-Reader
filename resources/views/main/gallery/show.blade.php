@@ -6,7 +6,7 @@
 
 @section('content')
 @isset($gallery)
-<div class="container standard gallery mt-med">
+<div class="container standard shadow gallery mt-med">
     <div class="gallery-thumb">
         {{-- if page var is set then give the link for first page else none --}}
         <a href="{{ isset($pages) ? route('reader.index', [$gallery->id, 1]) : "/" }}">
@@ -81,6 +81,14 @@
                             </span>
                         </span>
                     </div>
+                    <div class="gallery-tags">
+                        <span class="description inline-block bold font-sm pt-sm pb-sm">Views: </span>
+                        <span class="tag">
+                            <span class="pill bold mt-xsm mb-xsm font-sm">
+                                {{ $views }}
+                            </span>
+                        </span>
+                    </div>
                 </div>
                 <div class="gallery-meta-selection gallery-meta-selection-tags show">
                     <div class="gallery-tags">
@@ -93,11 +101,11 @@
                     </div>
                 </div>
             </div>
-            <div class="gallery-action p-med">
-                <button class="btn btn-red font-large pl-med pr-med mr-sm">
+            <div class="gallery-action p-sm">
+                <button class="btn btn-red font-large pl-med pr-med m-sm">
                     <span class="bold">Favorites</span>
                 </button>
-                <button class="btn btn-red font-large pl-med pr-med mr-sm">
+                <button class="btn btn-red font-large pl-med pr-med m-sm">
                     <span class="bold">Download</span>
                 </button>
             </div>
@@ -105,8 +113,16 @@
     </div>
     @auth
     @if (Auth::user()->id === $gallery->user_id)
-    <div class="gallery-options">
-
+    <div class="gallery-options p-sm">
+        <div class="gallery-option icon default">
+            <i class="fas fa-cog fa-lg"></i>
+        </div>
+        <div class="gallery-option icon default">
+            <i class="fas fa-trash-alt fa-lg"></i>
+        </div>
+        <div class="gallery-option icon default">
+            <i class="far fa-edit fa-lg"></i>
+        </div>
     </div>
     @endif
     @endauth

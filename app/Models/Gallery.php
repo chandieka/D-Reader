@@ -83,4 +83,9 @@ class Gallery extends Model
     {
         return $this->belongsTo(Archive::class);
     }
+
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
 }

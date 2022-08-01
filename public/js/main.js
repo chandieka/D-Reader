@@ -18,12 +18,3 @@ function formSubmit(id) {
 function reset(elementId) {
     document.querySelector(elementId).value = "";
 }
-
-/**
- * Check if the input string is empty or whitespace or null
- *
- * @param {String} str
- */
-function isEmptyOrSpaces(str) {
-    return str === null || str.match(/^ *$/) !== null;
-}

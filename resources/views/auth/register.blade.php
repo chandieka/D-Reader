@@ -28,7 +28,7 @@
             <a href="{{ route('login') }}" class="capsule">Click Here!</a>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-auth standard">
+            <button type="submit" class="btn btn-wide standard">
                 {{ __('Register') }}
             </button>
         </div>

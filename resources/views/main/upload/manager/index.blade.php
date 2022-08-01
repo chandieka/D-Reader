@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container center mt-sm mb-sm">
-    <h1 class="container-title p-sm pr-med pl-med r-font-big">
+    <h1 class="container-title shadow p-sm pr-med pl-med r-font-big">
         Upload Manager - {{Auth::user()->name}}<span style="color: red;">#</span>{{Auth::user()->id}}
     </h1>
 </div>
@@ -27,7 +27,7 @@
         @endif
     </div>
 </div>
-<div class="container standard mt-med">
+<div class="container standard shadow mt-med">
     @if (isset($galleries))
     @include('layouts.subviews.upload.manager.option.galleries-option')
     @elseif (isset($archives))

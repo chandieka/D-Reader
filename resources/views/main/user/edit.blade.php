@@ -3,12 +3,12 @@
 @section('title','Users Edit')
 
 @section('content')
-<div class="container center mt-sm">
+<div class="container center shadow mt-sm">
     <h1 class="container-title p-sm pl-med pr-med">
         User Edit - {{ $user->name }}<span style="color: red">#</span>{{ $user->id }}
     </h1>
 </div>
-<div class="container standard small mt-sm mb-sm">
+<div class="container standard shadow small mt-sm mb-sm">
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <div class="form-group">

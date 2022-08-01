@@ -47,7 +47,7 @@
                 <a href="{{ route('galleries.edit', $gallery->id) }}" class="icon warning icon-sm default mr-med">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a class="icon icon-sm default mr-med">
+                <a href="{{ route('archives.download', $gallery->archive->id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-file-download"></i>
                 </a>
             </td>

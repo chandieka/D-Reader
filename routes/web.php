@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/a/store', [ArchiveController::class, 'store'])->name('archives.store');
     Route::post('/a/stores', [ArchiveController::class, 'stores'])->name('archives.stores');
     Route::get('/a/{archive}/process', [ArchiveController::class, 'process'])->name('archives.process');
+    Route::get('/a/{archive}/download', [ArchiveController::class, 'download'])->name('archives.download');
 });
 
 // Globally Accessible route

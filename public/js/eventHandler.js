@@ -24,6 +24,7 @@ window.addEventListener('load', (e) => {
         document.querySelector('.gallery-meta-selections'),
     );
     reloadOnPopstate();
+    jumpToPage();
 });
 
 function navAccDropdown() {
@@ -91,4 +92,28 @@ function reloadOnPopstate() {
     window.addEventListener('popstate', (e) => {
         window.location.reload();
     });
+}
+
+function jumpToPage() {
+    let element = document.querySelector('.page-jump');
+    if (element != null){
+        element.addEventListener('click', (e) => {
+            let page = window.prompt("Jump to page?");
+            if (page != null && page > 0){
+                window.location.href = window.location.origin + "/?page=" + page;
+            }
+        });
+    }
+}
+
+function fadeOut() {
+    let elements = document.querySelectorAll('.fade-out');
+    Array.from(elements).forEach(el => {
+        el.addEventListener(e => {
+            el.style.opacity = '0';
+            setTimeout(() => {
+                el.remove();
+            }, 500);
+        })
+    })
 }

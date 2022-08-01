@@ -1,5 +1,5 @@
 @isset($pages)
-<div class="container standard">
+<div class="container standard shadow">
     <div class="options">
     </div>
     @include('layouts.subviews.gallery.page.pagination')

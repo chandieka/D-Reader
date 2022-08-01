@@ -16,16 +16,6 @@ use Illuminate\Support\Str;
 class ArchiveController extends Controller
 {
     /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function index()
-    {
-        //
-    }
-
-    /**
     * Show the form for creating a new resource.
     *
     * @return \Illuminate\Http\Response
@@ -121,7 +111,7 @@ class ArchiveController extends Controller
                     'user_id' => Auth::user()->id, // should be changed to the current auth user
                     'filename' => $archiveNewName . '.' . $fileExtension, // uuid
                     'original_filename' => $archiveFile->getClientOriginalName(),
-                    'size' => Utils::FileSizeConvert($archiveFile->getSize()), // formated size in (B, MB, GB and etc)
+                    'filesize' => $archiveFile->getSize(), // formated size in (B, MB, GB and etc)
                     'archive_type' => $fileExtension, // zip or rar
                     'mime_type' => $archiveFile->getMimeType(),
                 ]);
@@ -143,17 +133,6 @@ class ArchiveController extends Controller
         }
 
         return redirect()->route('uploads.archives');
-    }
-
-    /**
-    * Display the specified resource.
-    *
-    * @param  \App\Models\Archive  $archive
-    * @return \Illuminate\Http\Response
-    */
-    public function show(Archive $archive)
-    {
-        //
     }
 
     /**
@@ -261,5 +240,18 @@ class ArchiveController extends Controller
         } else {
             return back()->withErrors("Archive Process Error: the archive #$archive->id file is not present in the disk", 'error');
         }
+    }
+
+    /**
+     * give archive as a downloadable payload
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Archive  $archive
+     */
+    public function download(Request $request, Archive $archive)
+    {
+        $filePath = public_path('assets/archives') . "/" . $archive->filename;
+
+        return response()->download($filePath, $archive->original_filename);
     }
 }

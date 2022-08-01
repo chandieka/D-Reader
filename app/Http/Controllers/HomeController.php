@@ -34,11 +34,10 @@ class HomeController extends Controller
         $data = [];
         // $galleries = Gallery::orderBy('id', 'desc')->paginate(24); // return the latest addition of galleries
         $galleries = Gallery::with(['pages'=> function($query) {
-            $query->where('page_number', '=', 1);
+            $query->where('page_number', '=', 1); // get the first page along with the gallery for thumnbnail
         }])->orderBy('id', 'desc')->paginate(24);
 
         // dd(public_path('assets/galleries') . '/' . $galleries[0]->dir_path . '/' . $galleries[0]->pages[0]->filename);
-        // dd($galleries);
 
         $data['galleries'] = $galleries;
 
