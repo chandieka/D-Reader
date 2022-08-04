@@ -3,8 +3,8 @@
 @section('title','Users Edit')
 
 @section('content')
-<div class="container center shadow mt-sm">
-    <h1 class="container-title p-sm pl-med pr-med">
+<div class="container center mt-sm">
+    <h1 class="container-title shadow p-sm pl-med pr-med">
         User Edit - {{ $user->name }}<span style="color: red">#</span>{{ $user->id }}
     </h1>
 </div>
@@ -32,7 +32,7 @@
             required autocomplete="new_password"" placeholder="New Password...">
         </div>
         <div class="form-group mt-big">
-            <button type="submit" class="btn btn-auth standard">
+            <button type="submit" class="btn btn-wide standard">
                     Update
             </button>
         </div>

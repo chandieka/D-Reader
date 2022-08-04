@@ -26,6 +26,7 @@
         </a>
         @endif
     </div>
+
 </div>
 <div class="container standard shadow mt-med">
     @if (isset($galleries))
@@ -34,7 +35,7 @@
     @include('layouts.subviews.upload.manager.option.archive-option')
     @endif
     @include('layouts.subviews.pagination')
-    <div class="scroll">
+    <div class="table-wrapper scroll">
         @if (isset($galleries))
         @include('layouts.subviews.upload.manager.show.galleries-list')
         @elseif (isset($archives))
