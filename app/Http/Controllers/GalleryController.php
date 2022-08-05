@@ -133,10 +133,13 @@ class GalleryController extends Controller
         }
 
         $gallery->loadCount('views');
+        $gallery->loadCount('favorites');
+
         $data = [];
         $data['gallery'] = $gallery;
         $data['pages'] = $gallery->pages()->get();
         $data['views'] = $gallery->views_count;
+        $data['isFavorite'] = boolval($gallery->isFavorite(Auth::user()));
 
         return view('main.gallery.show', $data);
     }

@@ -30,10 +30,10 @@
         </div>
         <div class="gallery-meta">
             <div class="gallery-meta-options">
-                <div class="gallery-meta-option gallery-meta-option-tags bold font-large pr-big pl-big pt-sm pb-sm selected">
+                <div class="gallery-meta-option gallery-meta-option-tags bold pr-big pl-big pt-sm pb-sm selected">
                     Tags
                 </div>
-                <div class="gallery-meta-option gallery-meta-option-details bold font-large pr-big pl-big pt-sm pb-sm">
+                <div class="gallery-meta-option gallery-meta-option-details bold pr-big pl-big pt-sm pb-sm">
                     Details
                 </div>
             </div>
@@ -102,11 +102,17 @@
                 </div>
             </div>
             <div class="gallery-action p-sm">
-                <button class="btn btn-red font-large pl-med pr-med m-sm">
-                    <span class="bold">Favorites</span>
-                </button>
-                <button class="btn btn-red font-large pl-med pr-med m-sm">
-                    <span class="bold">Download</span>
+                <a href="{{ $isFavorite ? route('galleries.unFavorite', $gallery->id) : route('galleries.favorite', $gallery->id) }}" class="btn btn-black pl-med pr-med ml-sm mt-sm mb-sm">
+                    @if ($isFavorite)
+                    <span><i class="fas fa-heart"></i></span>
+                    @else
+                    <span><i class="far fa-heart"></i></span>
+                    @endif
+                    <span>Favorites</span>
+                    <span> ({{ $gallery->favorites_count }}) </span>
+                </a>
+                <button class="btn btn-black pl-med pr-med ml-sm mt-sm mb-sm">
+                    <span>Download</span>
                 </button>
             </div>
         </div>
@@ -114,13 +120,13 @@
     @auth
     @if (Auth::user()->id === $gallery->user_id)
     <div class="gallery-options p-sm">
-        <div class="gallery-option icon default">
+        <div class="gallery-option icon">
             <i class="fas fa-cog fa-lg"></i>
         </div>
-        <div class="gallery-option icon default">
+        <div class="gallery-option icon">
             <i class="fas fa-trash-alt fa-lg"></i>
         </div>
-        <div class="gallery-option icon default">
+        <div class="gallery-option icon">
             <i class="far fa-edit fa-lg"></i>
         </div>
     </div>
