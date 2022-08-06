@@ -47,7 +47,7 @@
         @endphp
         {{-- Last Page --}}
         @if ($currentPage < $totalPages)
-        <a href="/" class="pagination-items">...</a>
+        <a class="pagination-items page-jump">...</a>
         <a href="{{ $uri.$currentPage + 1 }}" class="pagination-items">
             <i class="fa fa-chevron-right"></i>
         </a>

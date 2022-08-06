@@ -15,7 +15,6 @@ class CreateGalleriesIndex extends Migration
     public function up()
     {
         DB::statement('ALTER TABLE `galleries` ADD FULLTEXT INDEX gallery_index (title_original, title)');
-
     }
 
     /**

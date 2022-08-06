@@ -44,10 +44,19 @@
                         <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                @if ($gallery->isHidden)
+                <a href="{{ route('galleries.change.status', [$gallery->id, 0]) }}" class="icon icon-sm default mr-med">
+                    <i class="fas fa-eye-slash"></i>
+                </a>
+                @else
+                <a href="{{ route('galleries.change.status', [$gallery->id, 1]) }}" class="icon icon-sm default mr-med">
+                    <i class="fas fa-eye"></i>
+                </a>
+                @endif
                 <a href="{{ route('galleries.edit', $gallery->id) }}" class="icon warning icon-sm default mr-med">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a class="icon icon-sm default mr-med">
+                <a href="{{ route('archives.download', $gallery->archive->id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-file-download"></i>
                 </a>
             </td>

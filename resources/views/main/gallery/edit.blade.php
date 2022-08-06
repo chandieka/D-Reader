@@ -13,7 +13,7 @@
         @method('PUT')
         @csrf
         <div class="form-group">
-            <label for="title" class="label bold">Gallery Title</label>
+            <label for="title" class="label bold">Title</label>
             <p class="title fade mb-med font-sm">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio odio dicta consectetur, dolorum voluptate dignissimos recusandae
                 voluptas id aliquid rerum consequuntur placeat libero ratione architecto perspiciatis quidem commodi nostrum? Quibusdam.
@@ -38,10 +38,8 @@
             </div>
             @enderror
         </div>
-        <div class="form-group">
-            <input type="submit" value="Save Gallery" class="btn standard">
+        <input type="submit" value="Save Gallery" class="btn standard btn-wide mt-med">
             {{-- <button class="btn info">Reset</button> --}}
-        </div>
         {{-- other stuff --}}
     </form>
 </div>

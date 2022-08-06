@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReaderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UploadController;
@@ -45,6 +47,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/g/{gallery}/edit', [GalleryController::class, 'update'])->name('galleries.update');
     Route::delete('/g/{gallery}/delete', [GalleryController::class, 'destroy'])->name('galleries.delete');
 
+    Route::get('/g/{gallery}/favorite', [UserController::class, 'favorite'])->name('galleries.favorite');
+    Route::get('/g/{gallery}/unfavorite', [UserController::class, 'unfavorite'])->name('galleries.unfavorite');
+
+    Route::get('/g/{gallery}/status/{status}', [GalleryController::class, 'changeGalleryStatus'])->name('galleries.change.status');
+
     Route::get('/uploads/manager', [UploadController::class, 'index'])->name('uploads.index');
     Route::get('/uploads/archives', [UploadController::class, 'archivesManager'])->name('uploads.archives');
     Route::get('/uploads/galleries', [UploadController::class, 'galleriesManager'])->name('uploads.galleries');
@@ -56,15 +63,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/a/store', [ArchiveController::class, 'store'])->name('archives.store');
     Route::post('/a/stores', [ArchiveController::class, 'stores'])->name('archives.stores');
     Route::get('/a/{archive}/process', [ArchiveController::class, 'process'])->name('archives.process');
+    Route::get('/a/{archive}/download', [ArchiveController::class, 'download'])->name('archives.download');
 });
 
 // Globally Accessible route
 Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::get('/user/{user}/favorites', [UserController::class, 'favoriteGalleries'])->name('users.favorite');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/help', [HomeController::class, 'help'])->name('help');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/g/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
-Route::get('/g/{gallery}/{page:page_number}', [GalleryController::class, 'reader'])->name('galleries.reader');
+// Route::get('/g/{gallery}/list', [ReaderController::class, 'index'])->name('reader.list');
+Route::get('/g/{gallery}/{page:page_number}', [ReaderController::class, 'index'])->name('reader.index');
 
 /**
  * Route for Testing

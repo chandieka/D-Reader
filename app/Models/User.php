@@ -51,4 +51,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Gallery::class);
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Gallery::class, 'favorite_galleries')->withTimestamps();
+    }
+
 }

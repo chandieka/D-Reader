@@ -16,13 +16,10 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
     {{-- Icon Styles --}}
     {{-- Credit to: https://fontawesome.com/ --}}
-    <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fontawesome/css/all.css') }}" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{-- Icon Styles --}}
-    {{-- Credit to: https://fontawesome.com/ --}}
-    <link href="{{ asset('css/fontawesome/css/all.css') }}" rel="stylesheet">
     {{-- favicon --}}
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 </head>

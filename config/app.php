@@ -229,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // Extras or 3rd party packages
         'Image' => Intervention\Image\Facades\Image::class,
+        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
     ],
 
 

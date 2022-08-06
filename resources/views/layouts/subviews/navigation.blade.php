@@ -7,9 +7,9 @@
             <form action="{{ route('search.index') }}" method="get" class="nav-form-group">
                 <div class="nav-search">
                     <input type="text" name="query" class="nav-search" placeholder="Search..." id="filter-search" value="{{ old('query') }}">
-                    <span class="delete font-large" onclick="reset('#filter-search')">
-                        x
-                    </span>
+                    <div class="delete mr-sm" onclick="reset('#filter-search')">
+                        <i class="fas fa-times"></i>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-red nav-btn">
                     <i class="fas fa-search fa-lg"></i>
@@ -24,7 +24,7 @@
                 <li class="nav-items info"><a href="/">Tags</a></li>
                 <li class="nav-items info"><a href="/">Genres</a></li>
                 <li class="nav-items info"><a href="/">Artists</a></li>
-                <li class="nav-items info"><a href="/">Groups</a></li>
+                <li class="nav-items info"><a href="/">Circles</a></li>
                 <li class="nav-items info"><a href="{{ route('help') }}">Help</a></li>
                 {{-- <li class="nav-items info"><a href="{{ route('test.index') }}">Test Page</a></li> --}}
             </ul>
@@ -43,14 +43,37 @@
                         </a>
                     </div>
                     <ul class="acc-dropdown-content">
-                        <li class="nav-items info"><a href="{{ route('users.show', Auth::user()->id) }}">My Profile</a></li>
-                        <li class="nav-items info"><a href="/">My Favorites</a></li>
-                        <li class="nav-items info"><a href="{{ route('uploads.index') }}">My Uploads</a></li>
-                        <li class="nav-items info"><a href="/">Settings</a></li>
+                        <li class="nav-items info">
+                            <a href="{{ route('users.show', Auth::user()->id) }}" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Profile</span>
+                                <i class="fas fa-user fa-lg ml-sm"></i>
+                            </a>
+                        </li>
+                        <li class="nav-items info">
+                            <a href="{{ route('users.favorite', Auth::user()->id) }}" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Favorites</span>
+                                <i class="fas fa-bookmark fa-lg ml-sm"></i>
+                            </a>
+                        </li>
+                        <li class="nav-items info">
+                            <a href="{{ route('uploads.index') }}" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Uploads</span>
+                                <i class="fas fa-upload fa-lg ml-sm"></i>
+                            </a>
+                        </li>
+                        <li class="nav-items info">
+                            <a href="/" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Settings</span>
+                                <i class="fas fa-cog fa-lg ml-sm"></i>
+                            </a>
+                        </li>
                         <li class="nav-items info">
                             <form action="{{ route('logout') }}" method="POST" id="form-logout">
                                 @csrf
-                                <a onclick="document.getElementById('form-logout').submit()">Logout</a>
+                                <a onclick="document.getElementById('form-logout').submit()" class="dropitem">
+                                    <span style="display:inline-block;width:70px;">Logout</span>
+                                    <i class="fas fa-sign-out-alt fa-lg ml-sm"></i>
+                                </a>
                             </form>
                         </li>
                     </ul>

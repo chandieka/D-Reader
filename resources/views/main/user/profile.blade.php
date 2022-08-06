@@ -3,7 +3,7 @@
 @section('title',  'Profile: ' . $user->name . '#' .  $user->id)
 
 @section('content')
-<div class="container big profile mt-sm mb-sm">
+<div class="container shadow big profile mt-sm mb-sm">
     <div class="profile-header pb-med">
         <div class="profile-header-items">
             <div class="profile-header-item thumbnail ml-med mr-med">

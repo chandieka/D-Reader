@@ -3,7 +3,7 @@
 @section('title', 'Help')
 
 @section('content')
-<div class="content">
+<div class="container standard shadow mt-med">
     <h1>Help Page</h1>
     <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut totam ullam necessitatibus,

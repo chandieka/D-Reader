@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Gallery extends Model
 {
@@ -82,5 +83,20 @@ class Gallery extends Model
     public function archive()
     {
         return $this->belongsTo(Archive::class);
+    }
+
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'favorite_galleries')->withTimestamps();
+    }
+
+    public function isOwner(User $user)
+    {
+        return $this->user_id == $user->id;
     }
 }

@@ -100,7 +100,9 @@ class ProcessUploadedZipArchive implements ShouldQueue
                 $gallery = Gallery::create([
                     'user_id' => $this->archive->user->id,
                     'archive_id' => $this->archive->id,
-                    'title' => pathinfo($this->archive->original_filename, PATHINFO_FILENAME), // use archive filename as gallery title
+                    // use archive filename as gallery title
+                    // replace all "_" found in to an empy space for the title
+                    'title' => str_replace("_", " ", pathinfo($this->archive->original_filename, PATHINFO_FILENAME)),
                     'dir_path' => $this->galleryName,
                 ]);
             }

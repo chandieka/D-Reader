@@ -1,30 +1,43 @@
 export default class Utils {
     /**
-     * Shorten the text to n amount of character
-     * @param {string} text
-     * @param {string} lenght
-     * @returns string
-     */
-    stringShortener(text, lenght) {
+    * Shorten the text to n amount of character
+    * @param {string} text
+    * @param {string} lenght
+    * @returns string
+    */
+    static stringShortener(text, lenght) {
         let shortenText = "";
 
         if (text.lenght <= lenght) {
             return text; // do nothing
         } else {
-            shortenText = text.substring(0, lenght) + '...';
+            shortenText = text.substring(0, lenght).trim() + '...';
             return shortenText;
         }
     }
 
-    test() {
-        var yourString = "The quick brown fox jumps over the lazy dog"; //replace with your string.
-        var maxLength = 20 // maximum number of characters to extract
+    static bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte'
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+    }
 
-        //trim the string to the maximum length
-        var trimmedString = yourString.substring(0, maxLength);
+    /**
+    * Check if the input string is empty or whitespace or null
+    *
+    * @param {String} str
+    */
+    static isEmptyOrSpaces(str) {
+        return str === null || str.match(/^ *$/) !== null;
+    }
 
-        //re-trim if we are in the middle of a word
-        trimmedString = trimmedString.substring(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
-        return trimmedString;
+    static createElementFromHTML(htmlString) {
+        var div = document.createElement('div');
+        div.innerHTML = htmlString.trim();
+
+        // Change this to div.childNodes to support multiple top-level nodes.
+        return div.firstChild;
+
     }
 }
