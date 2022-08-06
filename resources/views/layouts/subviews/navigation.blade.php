@@ -44,34 +44,34 @@
                     </div>
                     <ul class="acc-dropdown-content">
                         <li class="nav-items info">
-                            <a href="{{ route('users.show', Auth::user()->id) }}">
-                                Profile
+                            <a href="{{ route('users.show', Auth::user()->id) }}" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Profile</span>
                                 <i class="fas fa-user fa-lg ml-sm"></i>
                             </a>
                         </li>
                         <li class="nav-items info">
-                            <a href="/">
-                                Favorites
+                            <a href="{{ route('users.favorite', Auth::user()->id) }}" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Favorites</span>
                                 <i class="fas fa-bookmark fa-lg ml-sm"></i>
                             </a>
                         </li>
                         <li class="nav-items info">
-                            <a href="{{ route('uploads.index') }}">
-                                Uploads
+                            <a href="{{ route('uploads.index') }}" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Uploads</span>
                                 <i class="fas fa-upload fa-lg ml-sm"></i>
                             </a>
                         </li>
                         <li class="nav-items info">
-                            <a href="/">
-                                Settings
+                            <a href="/" class="dropitem">
+                                <span style="display:inline-block;width:70px;">Settings</span>
                                 <i class="fas fa-cog fa-lg ml-sm"></i>
                             </a>
                         </li>
                         <li class="nav-items info">
                             <form action="{{ route('logout') }}" method="POST" id="form-logout">
                                 @csrf
-                                <a onclick="document.getElementById('form-logout').submit()">
-                                    Logout
+                                <a onclick="document.getElementById('form-logout').submit()" class="dropitem">
+                                    <span style="display:inline-block;width:70px;">Logout</span>
                                     <i class="fas fa-sign-out-alt fa-lg ml-sm"></i>
                                 </a>
                             </form>

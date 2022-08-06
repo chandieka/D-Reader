@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Archive;
 use App\Models\View;
 use Exception;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -139,7 +140,9 @@ class GalleryController extends Controller
         $data['gallery'] = $gallery;
         $data['pages'] = $gallery->pages()->get();
         $data['views'] = $gallery->views_count;
-        $data['isFavorite'] = boolval($gallery->isFavorite(Auth::user()));
+        if (Auth::check()){
+            $data['isFavorite'] = $gallery->favorites()->where('user_id', Auth::user()->id)->exists();
+        }
 
         return view('main.gallery.show', $data);
     }
@@ -237,11 +240,12 @@ class GalleryController extends Controller
     }
 
     /**
-    * Get the thumbnail for a page on fly
-    *
-    * @param  \App\Models\Gallery  $gallery
-    * @param \App\Models\Page
-    */
+     * Get the thumbnail for a page on fly
+     *
+     * @param  \App\Models\Gallery  $gallery
+     * @param \App\Models\Page
+     * @return \Illuminate\Http\Response
+     */
     public function thumbnail(Gallery $gallery, Page $page)
     {
         $path = public_path('/assets/galleries/') . $gallery->dir_path . '/' . $page->filename;
@@ -255,5 +259,36 @@ class GalleryController extends Controller
         $img->resize($finalWitdth, $finalHeight);
 
         return $img->response();
+    }
+
+
+    /**
+     * Set the status of a gallery
+     *
+     * @param  \App\Models\Gallery  $gallery
+     * @return \Illuminate\Http\Response
+     */
+    public function changeGalleryStatus(Gallery $gallery, $status)
+    {
+        if (Gate::denies('change-status', $gallery)) {
+            abort(403);
+        }
+
+        $update = function($val, $gallery) {
+            $gallery->update([
+                'isHidden' => $val
+            ]);
+        };
+
+        switch ($status) {
+            case 0:
+                $update(0, $gallery);
+                break;
+            case 1:
+                $update(1, $gallery);
+                break;
+        }
+
+        return back();
     }
 }

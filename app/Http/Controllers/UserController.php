@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Customs\Utils;
+use App\Models\FavoriteGallery;
+use App\Models\Gallery;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -64,7 +66,6 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        // add Gate to check if the current auth user is the same user that want to be editted
         $data = [];
         $data['user'] = $user;
 
@@ -81,6 +82,53 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+    }
+
+    /**
+     * Retrive the give user favorite list
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function favoriteGalleries(User $user)
+    {
+        $data = [];
+
+        $galleries = $user->favorites()->paginate(24);
+        $data['galleries'] = $galleries;
+        $data['user'] = $user;
+        $data['paginator'] = [
+            'currentPage' => $galleries->currentPage(),
+            'totalPages' => $galleries->lastPage(),
+            'uri' => route('users.favorite', $user->id) . "/?page=", // URI template for page navigation
+            'lastPage' => $galleries->lastPage(),
+        ];
+
+        return view('main.favorites', $data);
+    }
+
+    public function favorite(Gallery $gallery)
+    {
+        $user = Auth::user();
+        if ($gallery->favorites()->where('user_id', $user->id)->exists()) {
+            return redirect()->route('galleries.show', $gallery->id);
+        }
+
+        $user->favorites()->save($gallery);
+
+        return redirect()->route('galleries.show', $gallery->id);
+    }
+
+    public function unFavorite(Gallery $gallery)
+    {
+        $user = Auth::user();
+        if (!$gallery->favorites()->where('user_id', $user->id)->exists()) {
+            return redirect()->route('galleries.show', $gallery->id);
+        }
+
+        $user->favorites()->detach($gallery->id);
+
+        return redirect()->route('galleries.show', $gallery->id);
     }
 
     /**

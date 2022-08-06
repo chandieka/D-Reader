@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
             <span>Already have an account?</span>
-            <a href="{{ route('login') }}" class="capsule">Click Here!</a>
+            <a href="{{ route('login') }}" class="pill font-sm">Click Here!</a>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-wide standard">

@@ -33,5 +33,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // Gate::define('process-archive', [ArchivePolicy::class, 'process']);
+        Gate::define('change-status', function(User $user, Gallery $gallery) {
+            return $gallery->user_id == $user->id;
+        });
     }
 }
