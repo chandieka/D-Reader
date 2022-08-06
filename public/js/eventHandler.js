@@ -3,10 +3,10 @@ import { TagHandler } from "./lib/TagHandler.js";
 
 /*
 this is where generic/global event is handle which mean that on every page it will have the callbacks assigned
-to the appropiate event for each respective Elements
+to the appropiate event
 */
 window.addEventListener('load', (e) => {
-    // add your event callback here
+    // add your global event callback here
     navAccDropdown();
     accDropDown();
     standardDropDown();
@@ -23,6 +23,8 @@ window.addEventListener('load', (e) => {
         document.querySelector('.gallery-meta-selection-details'),
         document.querySelector('.gallery-meta-selections'),
     );
+    reloadOnPopstate();
+    jumpToPage();
 });
 
 function navAccDropdown() {
@@ -82,6 +84,36 @@ function standardDropDown() {
     document.querySelectorAll('.dropdown-content').forEach((element) => {
         element.addEventListener('click', (j) => {
             j.stopPropagation();
+        })
+    })
+}
+
+function reloadOnPopstate() {
+    window.addEventListener('popstate', (e) => {
+        window.location.reload();
+    });
+}
+
+function jumpToPage() {
+    let element = document.querySelector('.page-jump');
+    if (element != null){
+        element.addEventListener('click', (e) => {
+            let page = window.prompt("Jump to page?");
+            if (page != null && page > 0){
+                window.location.href = window.location.origin + "/?page=" + page;
+            }
+        });
+    }
+}
+
+function fadeOut() {
+    let elements = document.querySelectorAll('.fade-out');
+    Array.from(elements).forEach(el => {
+        el.addEventListener(e => {
+            el.style.opacity = '0';
+            setTimeout(() => {
+                el.remove();
+            }, 500);
         })
     })
 }

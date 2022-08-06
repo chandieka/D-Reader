@@ -58,7 +58,8 @@ class UploadController extends Controller
             $uri = route('uploads.archives') . "/?filter=" . $request->input('filter') . "&page=";
         } else {
             $archives = Archive::where('user_id', '=', Auth()->user()->id)
-                ->orderBy('id', 'desc')->with(['user', 'gallery'])
+                ->orderBy('id', 'desc')
+                ->with(['user', 'gallery'])
                 ->paginate($this->show);
             $data['archives'] = $archives;
             $uri = route('uploads.archives') . "?page=";
@@ -106,7 +107,10 @@ class UploadController extends Controller
 
             $data['galleries'] = $galleries;
         } else {
-            $galleries = Gallery::where('user_id', '=' , Auth()->user()->id)->orderBy('id', 'desc')->with(['user',  'archive'])->paginate($this->show);
+            $galleries = Gallery::where('user_id', '=' , Auth()->user()->id)
+                ->orderBy('id', 'desc')
+                ->with(['user',  'archive'])
+                ->paginate($this->show);
             $data['galleries'] = $galleries;
         }
 
@@ -121,58 +125,5 @@ class UploadController extends Controller
         ];
 
         return view('main.upload.manager.index', $data);
-    }
-
-    /**
-     *
-     *
-     */
-    public function massArchiveUpload(Request $request)
-    {
-        $validateRequest = $request->validate([
-            "files" => "required|file",
-            "process" => "required|boolean", // option to check if the user want to process each archive to a gallery or not
-        ]);
-
-        $archives = $validateRequest['files'];
-        $processAutomatically = $validateRequest['process'];
-
-        foreach ($archives as $archiveFile) {
-            if ($archiveFile->isValid()) {
-                $fileExtension = $archiveFile->extension();
-                $uploadHandler = new UploadHandler($archiveFile);
-
-                if ($uploadHandler->checkArchiveTypeIsRar() || $uploadHandler->checkArchiveTypeIsZip()) {
-                    $archiveNewName = Str::uuid()->toString();
-                    // store it in the root file of archive disk driver
-                    $archiveStoredPath = $archiveFile->storeAs("/", $archiveNewName . "." . $fileExtension, 'archive');
-
-                    if ($archiveStoredPath != false) {
-                        // store the metadata in the DB
-                        $metadata = [
-                            'user_id' => Auth::user()->id,
-                            'filename' => $archiveNewName . '.' . $fileExtension, // uuid
-                            'original_filename' => $archiveFile->getClientOriginalName(),
-                            'size' => Utils::FileSizeConvert($archiveFile->getSize()), // formated size in (B, MB, GB and etc)
-                            'archive_type' => $fileExtension, // zip or rar
-                            'mime_type' => $archiveFile->getMimeType(),
-                        ];
-
-                        if ($processAutomatically){
-                            StoreUploadedArchive::dispatch($metadata, $archiveFile, $processAutomatically);
-                        } else {
-                            StoreUploadedArchive::dispatch($metadata, $archiveFile);
-                        }
-
-                        return redirect()->route('uploads.archives');
-                    } else {
-                        // throw new Exception("Failed to store the Archive");
-                    }
-                } else {
-                    // throw new Exception("File type is not valid");
-                    return back()->withErrors("[Error][Extension Not Supported] - ".$archiveFile->getClientOriginalName()." file doesn't met the requirement");
-                }
-            }
-        }
     }
 }

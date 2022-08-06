@@ -45,7 +45,7 @@
                 <a href="{{ route('archives.edit', $archive->id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="" class="icon icon-sm default mr-med">
+                <a href="{{ route('archives.download', $archive->id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-file-download"></i>
                 </a>
                 <a href="{{ route('archives.process', $archive->id) }}" class="icon icon-sm default mr-med">

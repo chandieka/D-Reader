@@ -6,14 +6,14 @@ use App\Customs\UploadHandler;
 use App\Customs\Utils;
 use App\Jobs\ProcessUploadedRarArchive;
 use App\Jobs\ProcessUploadedZipArchive;
-use App\Jobs\StoreUploadedArchive;
 use App\Models\Gallery;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Archive;
+use App\Models\View;
 use Exception;
-use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -118,12 +118,31 @@ class GalleryController extends Controller
     * @param  \App\Models\Gallery  $gallery
     * @return \Illuminate\Http\Response
     */
-    public function show(Gallery $gallery)
+    public function show(Request $request, Gallery $gallery)
     {
+        if (Auth::check()) {
+            View::create([
+                'user_id' => Auth::user()->id,
+                'gallery_id' => $gallery->id,
+                'ip' => $request->ip()
+            ]);
+        } else {
+            View::create([
+                'gallery_id' => $gallery->id,
+                'ip' => $request->ip()
+            ]);
+        }
+
+        $gallery->loadCount('views');
+        $gallery->loadCount('favorites');
+
         $data = [];
-        $pages = $gallery->pages()->get();
         $data['gallery'] = $gallery;
-        $data['pages'] = $pages;
+        $data['pages'] = $gallery->pages()->get();
+        $data['views'] = $gallery->views_count;
+        if (Auth::check()){
+            $data['isFavorite'] = $gallery->favorites()->where('user_id', Auth::user()->id)->exists();
+        }
 
         return view('main.gallery.show', $data);
     }
@@ -221,42 +240,12 @@ class GalleryController extends Controller
     }
 
     /**
-    * Get the reader for the given gallery with all the pages related to it
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  \App\Models\Gallery  $gallery
-    * @param \App\Models\Page $page
-    * @return \Illuminate\Http\Response
-    */
-    public function reader(Request $request, Gallery $gallery, Page $page)
-    {
-        $data = [];
-        // $user = Auth::user();
-        // $settings = $user->settings(); // fetch user UI or whatever needed in the future settings
-
-        // assuring the Galleries is retrive starting with the lowest page to highest page
-        $pages = $gallery->pages()->select(['page_number', 'filename'])->orderBy('page_number', 'asc')->get();
-
-        $currentPageNumber = $page->page_number;
-        $data['gallery'] = $gallery;
-        $data['pages'] = $pages;
-        $data['paginator'] = [
-            'totalPages' => $pages->count(),
-            'currentPage' => $currentPageNumber,
-            'next' => ($currentPageNumber == $pages->count()) ? $currentPageNumber : $currentPageNumber + 1,
-            'previous' => ($currentPageNumber == 1) ? $currentPageNumber : $currentPageNumber - 1,
-            'resource' => "/g/".$gallery->id."/",
-        ];
-
-        return view('main.gallery.reader', $data);
-    }
-
-    /**
-    * Get the thumbnail for a page on fly
-    *
-    * @param  \App\Models\Gallery  $gallery
-    * @param \App\Models\Page
-    */
+     * Get the thumbnail for a page on fly
+     *
+     * @param  \App\Models\Gallery  $gallery
+     * @param \App\Models\Page
+     * @return \Illuminate\Http\Response
+     */
     public function thumbnail(Gallery $gallery, Page $page)
     {
         $path = public_path('/assets/galleries/') . $gallery->dir_path . '/' . $page->filename;
@@ -270,5 +259,36 @@ class GalleryController extends Controller
         $img->resize($finalWitdth, $finalHeight);
 
         return $img->response();
+    }
+
+
+    /**
+     * Set the status of a gallery
+     *
+     * @param  \App\Models\Gallery  $gallery
+     * @return \Illuminate\Http\Response
+     */
+    public function changeGalleryStatus(Gallery $gallery, $status)
+    {
+        if (Gate::denies('change-status', $gallery)) {
+            abort(403);
+        }
+
+        $update = function($val, $gallery) {
+            $gallery->update([
+                'isHidden' => $val
+            ]);
+        };
+
+        switch ($status) {
+            case 0:
+                $update(0, $gallery);
+                break;
+            case 1:
+                $update(1, $gallery);
+                break;
+        }
+
+        return back();
     }
 }

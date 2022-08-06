@@ -4,11 +4,11 @@
 
 @section('content')
 <div class="container center mt-sm">
-    <h1 class="container-title p-sm pl-med pr-med">
+    <h1 class="container-title shadow p-sm pl-med pr-med">
         User Edit - {{ $user->name }}<span style="color: red">#</span>{{ $user->id }}
     </h1>
 </div>
-<div class="container standard small mt-sm mb-sm">
+<div class="container standard shadow small mt-sm mb-sm">
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <div class="form-group">
@@ -32,7 +32,7 @@
             required autocomplete="new_password"" placeholder="New Password...">
         </div>
         <div class="form-group mt-big">
-            <button type="submit" class="btn btn-auth standard">
+            <button type="submit" class="btn btn-wide standard">
                     Update
             </button>
         </div>

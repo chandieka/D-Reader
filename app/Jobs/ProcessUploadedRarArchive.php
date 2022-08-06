@@ -105,7 +105,7 @@ class ProcessUploadedRarArchive implements ShouldQueue
                 $gallery = Gallery::create([
                     'user_id' => $this->archive->user->id,
                     'archive_id' => $this->archive->id,
-                    'title' => pathinfo($this->archive->original_filename, PATHINFO_FILENAME), // use archive filename as gallery title
+                    'title' => str_replace("_", " ", pathinfo($this->archive->original_filename, PATHINFO_FILENAME)), // use archive filename as gallery title
                     'dir_path' => $this->galleryName,
                 ]);
             }
