@@ -121,18 +121,30 @@ class GalleryController extends Controller
     public function show(Request $request, Gallery $gallery)
     {
         if (Auth::check()) {
+            $user = Auth::user();
+            if ($gallery->user_id != $user->id) {
+                if ($gallery->isHidden == 1) {
+                    abort(403);
+                }
+            }
+
             View::create([
-                'user_id' => Auth::user()->id,
+                'user_id' => $user->id,
                 'gallery_id' => $gallery->id,
                 'ip' => $request->ip()
             ]);
         } else {
+            if ($gallery->isHidden == 1) {
+                abort(403);
+            }
+
             View::create([
                 'gallery_id' => $gallery->id,
                 'ip' => $request->ip()
             ]);
         }
 
+        // $gallery->load('archive', 'favorites', 'views');
         $gallery->loadCount('views');
         $gallery->loadCount('favorites');
 
@@ -282,10 +294,10 @@ class GalleryController extends Controller
 
         switch ($status) {
             case 0:
-                $update(0, $gallery);
+                $update(0, $gallery); // not visible
                 break;
             case 1:
-                $update(1, $gallery);
+                $update(1, $gallery); // visible
                 break;
         }
 

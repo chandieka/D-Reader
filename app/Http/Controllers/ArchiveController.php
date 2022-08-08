@@ -252,6 +252,6 @@ class ArchiveController extends Controller
     {
         $filePath = public_path('assets/archives') . "/" . $archive->filename;
 
-        return response()->download($filePath, $archive->original_filename);
+        return response()->streamDownload($filePath, $archive->original_filename);
     }
 }

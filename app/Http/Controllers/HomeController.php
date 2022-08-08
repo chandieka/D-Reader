@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -29,8 +30,13 @@ class HomeController extends Controller
         $galleries = Gallery::with(['pages'=> function($query) {
             $query->where('page_number', '=', 1); // get the first page along with the gallery for thumnbnail
         }])->orderBy('id', 'desc')
-        ->where('isHidden', '!=', 1)
-        ->paginate(24);
+        ->where('isHidden', '!=', 1);
+
+        if (Auth::check()) {
+            $galleries = $galleries->orWhere('user_id', Auth::user()->id);
+        }
+
+        $galleries = $galleries->paginate(24);
 
         // dd(public_path('assets/galleries') . '/' . $galleries[0]->dir_path . '/' . $galleries[0]->pages[0]->filename);
 
