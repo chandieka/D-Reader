@@ -42,16 +42,17 @@ class UploadController extends Controller
         if ($request->input('filter') != null && $request->input('filter') != "") {
             $query = Str::of($request->input('filter'))->explode(' ');
 
-            $queryBuilder = Archive::where('filename', 'LIKE', "%$query[0]%");
-            $queryBuilder->orWhere('original_filename', 'LIKE', "%$query[0]%");
+            $queryBuilder = Archive::where('filename', 'LIKE', "%$query[0]%")
+                ->orWhere('original_filename', 'LIKE', "%$query[0]%");
 
             for ($i = 1; $i < $query->count(); $i++) {
-                $queryBuilder->orWhere('filename', 'LIKE', "%$query[$i]%");
-                $queryBuilder->orWhere('original_filename', 'LIKE', "%$query[$i]%");
+                $queryBuilder = $queryBuilder->orWhere('filename', 'LIKE', "%$query[$i]%")
+                    ->orWhere('original_filename', 'LIKE', "%$query[$i]%");
             }
 
             // $queryBuilder->orWhereRaw("MATCH(original_filename, filename) AGAINST(? IN BOOLEAN MODE)", [$request->input('filter')]);
-            $queryBuilder->orderBy('created_at', 'desc');
+            $queryBuilder = $queryBuilder->orderBy('created_at', 'desc')
+                ->with(['user', 'gallery']);
             $archives = $queryBuilder->paginate($this->show);
 
             $data['archives'] = $archives;
@@ -67,6 +68,8 @@ class UploadController extends Controller
 
         $data['archives_count'] = Archive::where('user_id', '=', Auth()->user()->id)->count();
         $data['galleries_count'] = Gallery::where('user_id', '=', Auth()->user()->id)->count();
+        // $data['archives_count'] = 0;
+        // $data['galleries_count'] = 0;
 
         $data['paginator'] = [
             'currentPage' => $archives->currentPage(),
@@ -93,16 +96,16 @@ class UploadController extends Controller
         if ($request->input('filter') != null && $request->input('filter') != "") {
             $querys = Str::of($request->input('filter'))->explode(' ');
 
-            $queryBuilder = Gallery::where('title', 'LIKE', "%$querys[0]%");
-            $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[0]%");
+            $queryBuilder = Gallery::where('title', 'LIKE', "%$querys[0]%")
+                ->orWhere('title_original', 'LIKE', "%$querys[0]%");
 
             for ($i = 1; $i < $querys->count(); $i++) {
-                $queryBuilder->orWhere('title', 'LIKE', "%$querys[$i]%");
-                $queryBuilder->orWhere('title_original', 'LIKE', "%$querys[$i]%");
+                $queryBuilder = $queryBuilder->orWhere('title', 'LIKE', "%$querys[$i]%")
+                    ->orWhere('title_original', 'LIKE', "%$querys[$i]%");
             }
 
-            $queryBuilder->orWhereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$request->input('filter')]);
-            $queryBuilder->orderBy('created_at', 'desc');
+            // $queryBuilder = $queryBuilder->orWhereRaw("MATCH(title_original, title) AGAINST(? IN BOOLEAN MODE)", [$request->input('filter')]);
+            $queryBuilder = $queryBuilder->orderBy('created_at', 'desc');
             $galleries = $queryBuilder->paginate($this->show);
 
             $data['galleries'] = $galleries;
