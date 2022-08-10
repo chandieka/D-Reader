@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(Gallery::class);
     }
 
+
+    /**
+     * Retrive all the favorite galleries from this user
+     *
+     */
     public function favorites()
     {
         return $this->belongsToMany(Gallery::class, 'favorite_galleries')->withTimestamps();
