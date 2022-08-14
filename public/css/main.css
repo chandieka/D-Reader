@@ -24,7 +24,7 @@
 .nav-grid {
     display: grid;
     grid-template-columns: 0.5fr 1fr;
-    /* grid-template-columns: 1fr auto; */
+    min-height: 55px;
 }
 
 .nav-search {
@@ -67,11 +67,10 @@
 
 .nav-items{
     display: inline-block;
-    list-style: none;
+    /* list-style: none; */
 }
 
-.nav-items a {
-    padding: 16px;
+.nav-items .nav-item {
     display: inline-block;
     cursor: pointer;
     transition: 0.3s
@@ -83,24 +82,36 @@
     align-items: center;
 }
 
-.shortcuts {
-    padding: 16px 0;
+.nav-profile {
+    display: block;
+}
+
+.nav-profile-thumb {
     display: inline-block;
+    width: 50px;
 }
 
 .nav-items a {
     width: 100%;
 }
 
-.nav-items.info:hover a{
+li.nav-item {
+    margin-left: -5px;
+    transition: 0.3s;
+}
+
+li.nav-item:hover {
     background: rgb(91, 42, 134);
 }
 
 .nav-group {
     display: flex;
-    flex-direction: row;
     align-items: center;
     width: 100%;
+}
+
+.nav-group .row {
+    flex-direction: row;
 }
 
 .nav-form-group{
@@ -116,7 +127,6 @@ button.nav-btn {
     border-radius: 0 5px 5px 0
 }
 
-
 .nav-dropbtn {
     display: none;
     margin: 5px;
@@ -131,21 +141,31 @@ button.nav-btn {
     background-color: red;
 }
 
-.menu, .menu-items {
+.menu, .acc-dropbtn {
+    max-height: 53px;
+}
+
+.menu, ul, li, li a {
     display: inline-block;
 }
 
+li a:not(.icon) {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+}
+
 .menu.right {
-    float: right;
+    margin-left: auto;
 }
 
 .menu.left {
-    float: left;
+    margin-right: auto;
 }
 
 .acc-dropdown {
     position: relative;
-    display: inline-block;
+    background-color: rgb(11, 77, 100);
 }
 
 .acc-dropdown-content {
@@ -161,8 +181,15 @@ button.nav-btn {
     box-shadow: 4px 4px 8px rgb(32 27 39);
 }
 
-.acc-dropdown-content .nav-items {
-    display: block;
+.acc-dropdown-content li {
+    width: 100%;
+}
+
+.acc-dropbtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
 }
 
 .collapse {
@@ -177,20 +204,19 @@ button.nav-btn {
     max-height: 1000px;
 }
 
-.acc-dropbtn {
-    background-color: rgb(11, 77, 100);
-}
-
-.shortcuts .shortcut {
-    margin-right: 8px;
+.shortcuts {
+    width: auto;
+    border-radius: 10px;
+    background-color: rgb(4, 20, 37);
+    margin-right: 10px;
     padding: 8px;
 }
 
-.shortcuts .shortcut:hover i{
-    color: rgba(255, 255, 255, 0.6);
-}
-
 @media only screen and (max-width: 992px) {
+    .shortcuts {
+        margin: 0;
+    }
+
     .logo {
         margin-right: 10px;
         margin-left: 10px;
@@ -204,15 +230,12 @@ button.nav-btn {
         float: none;
     }
 
-    .nav-items, .shortcuts{
-        text-align: center;
-    }
-
     .collapse,
     .collapse .menu,
-    .collapse .menu .nav-items,
+    .collapse .menu,
     .collapse .menu .acc-dropdown,
-    .nav-dropbtn, .shortcuts {
+    .nav-dropbtn,
+    ul, li:not(.shortcuts) {
         display: block;
     }
 
@@ -226,8 +249,12 @@ button.nav-btn {
         max-height: 0;
     }
 
-    .collapse.open {
+    .collapse.open{
         max-height: 650px;
+    }
+
+    .menu {
+        max-height: none;
     }
 
     .nav-form-group {
@@ -702,6 +729,7 @@ button.nav-btn {
     border-radius: 5px;
     display: block;
     overflow: auto;
+    position: relative;
 }
 
 .card.standard {
@@ -731,6 +759,18 @@ button.nav-btn {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 4px;
+}
+
+.card .card-hidden-icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.card .card-hidden-icon i{
+    color: red;
 }
 
 @media only screen  and (max-width: 650px) {
@@ -944,17 +984,6 @@ button.nav-btn {
     /* color: red; */
 }
 
-.manager-collections.column{
-    /* display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px; */
-}
-
-.manager-collections.row{
-    /* display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 8px; */
-}
 
 .manager-collections.column .manager-items {
     min-height: 360px;
@@ -1118,8 +1147,9 @@ manager-items-option{
     background-color: rgba(255, 0, 0, 0.5);
 }
 
-.btn.disabled {
-    opacity: 0.6;
+.btn.disabled, .icon.disabled, .card-hidden {
+    cursor: unset;
+    opacity: 0.5;
 }
 
 .footer-nav,
@@ -1166,6 +1196,14 @@ button {
 
 a {
     text-decoration: none;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.block {
+    display: inline-block;
 }
 
 .bold {
@@ -1594,6 +1632,8 @@ input:checked + .slider:before, input:checked+.slider-sm:before {
 
 .icon-sm {
     font-size: 25px;
+    width: 20px;
+    height: 20px;
 }
 
 .icon-form {
@@ -1618,7 +1658,7 @@ input:checked + .slider:before, input:checked+.slider-sm:before {
 .icon.danger i { color: #f44336;  /* Red */}
 .icon.danger:hover i { color: #da190b; }
 
-.btn.default:hover, .icon.default:hover {
+.btn.default:hover, .icon.default:not(.disabled):hover {
     opacity: 0.7;
 }
 

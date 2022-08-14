@@ -48,9 +48,15 @@
                 <a href="{{ route('archives.download', $archive->id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-file-download"></i>
                 </a>
+                @if ($archive->isProcess)
+                <a class="icon icon-sm default mr-med disabled">
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                @else
                 <a href="{{ route('archives.process', $archive->id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-arrow-right"></i>
                 </a>
+                @endif
             </td>
         </tr>
         @endforeach

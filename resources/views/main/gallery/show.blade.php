@@ -137,9 +137,9 @@
                     <span> ({{ $gallery->favorites_count }}) </span>
                 </a>
                 @endif
-                <button class="btn btn-black pl-med pr-med ml-sm mt-sm mb-sm">
+                <a href="{{ route('archives.download', $gallery->archive_id) }}" class="btn btn-black pl-med pr-med ml-sm mt-sm mb-sm">
                     <span>Download</span>
-                </button>
+                </a>
             </div>
         </div>
     </div>

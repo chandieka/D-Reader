@@ -31,7 +31,7 @@
             <td>{{App\Customs\Utils::stringShortener($gallery->title, 60)}}</td>
             <td>
                 <a href="">
-                    <span style="color: red; font-size: large;">#</span>{{ $gallery->archive->id }}
+                    <span style="color: red; font-size: large;">#</span>{{ $gallery->archive_id }}
                 </a>
             </td>
             <td>{{$gallery->created_at->format('d-m-Y')}}</td>
@@ -56,7 +56,7 @@
                 <a href="{{ route('galleries.edit', $gallery->id) }}" class="icon warning icon-sm default mr-med">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="{{ route('archives.download', $gallery->archive->id) }}" class="icon icon-sm default mr-med">
+                <a href="{{ route('archives.download', $gallery->archive_id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-file-download"></i>
                 </a>
             </td>

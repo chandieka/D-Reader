@@ -73,7 +73,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/help', [HomeController::class, 'help'])->name('help');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/g/{gallery}', [GalleryController::class, 'show'])->name('galleries.show');
-// Route::get('/g/{gallery}/list', [ReaderController::class, 'index'])->name('reader.list');
 Route::get('/g/{gallery}/{page:page_number}', [ReaderController::class, 'index'])->name('reader.index');
 
 /**

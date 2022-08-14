@@ -1,6 +1,6 @@
 <nav class="nav-container" role="navigation">
     <div class="nav-grid">
-        <div class="nav-group">
+        <div class="nav-group row">
             <a href="{{ route('home') }}">
                 <img src="{{ asset('Logo.png') }}" alt="App logo" class="logo">
             </a>
@@ -19,59 +19,65 @@
                 <i class="fas fa-bars fa-2x"></i>
             </button>
         </div>
-        <div class="collapse" id="nav-dropDown">
+        <div class="nav-group collapse center" id="nav-dropDown">
             <ul class="menu left">
-                <li class="nav-items info"><a href="/">Tags</a></li>
-                <li class="nav-items info"><a href="/">Genres</a></li>
-                <li class="nav-items info"><a href="/">Artists</a></li>
-                <li class="nav-items info"><a href="/">Circles</a></li>
-                <li class="nav-items info"><a href="{{ route('help') }}">Help</a></li>
+                <li class="nav-item"><a href="/">Tags</a></li>
+                <li class="nav-item"><a href="/">Genres</a></li>
+                <li class="nav-item"><a href="/">Artists</a></li>
+                <li class="nav-item"><a href="/">Circles</a></li>
+                <li class="nav-item"><a href="{{ route('help') }}">Help</a></li>
                 {{-- <li class="nav-items info"><a href="{{ route('test.index') }}">Test Page</a></li> --}}
             </ul>
-            <ul class="menu right">
-                @auth
-                {{-- TODO: Fixed responsive stylying for smaller devices --}}
+             @auth
+            <ul class="menu">
                 <li class="shortcuts">
-                    <a href="{{ route('galleries.create') }}" class="shortcut"><i class="fas fa-upload"></i></a>
+                    <a href="{{ route('galleries.create') }}" class="icon default">
+                        <i class="fas fa-upload"></i>
+                    </a>
+                    <a href="{{ route('users.favorite', Auth::user()) }}" class="icon default ml-sm">
+                        <i class="fas fa-heart"></i>
+                    </a>
                 </li>
+            </ul>
+            @endauth
+            <ul class="menu">
+                @auth
                 <li class="acc-dropdown">
-                    <div class="nav-items info acc-dropbtn">
-                        {{-- TODO: Add Profile pic --}}
-                        <a>
-                            <span>{{ Auth::user()->name }}</span>
-                            <i class="fas fa-angle-down fa-lg"></i>
-                        </a>
+                    <div class="acc-dropbtn point">
+                        <img src="{{ asset('Logo.png') }}" alt="" class="nav-profile-thumb mr-sm">
+                        <span class="inline-block mr-sm">{{ Auth::user()->name }}</span>
+                        <i class="fas fa-angle-down"></i>
                     </div>
                     <ul class="acc-dropdown-content">
-                        <li class="nav-items info">
+                        <li class="nav-item">
                             <a href="{{ route('users.show', Auth::user()->id) }}" class="dropitem">
-                                <span style="display:inline-block;width:70px;">Profile</span>
+                                <span style="display:inline-block;width:60px;">Profile</span>
                                 <i class="fas fa-user fa-lg ml-sm"></i>
                             </a>
                         </li>
-                        <li class="nav-items info">
+                        <li class="nav-item">
                             <a href="{{ route('users.favorite', Auth::user()->id) }}" class="dropitem">
-                                <span style="display:inline-block;width:70px;">Favorites</span>
-                                <i class="fas fa-bookmark fa-lg ml-sm"></i>
+                                <span style="display:inline-block;width:60px;">Favorites</span>
+                                <i class="fas fa-heart fa-lg ml-sm"></i>
                             </a>
                         </li>
-                        <li class="nav-items info">
+                        <li class="nav-item">
                             <a href="{{ route('uploads.index') }}" class="dropitem">
-                                <span style="display:inline-block;width:70px;">Uploads</span>
+                                <span style="display:inline-block;width:60px;">Uploads</span>
                                 <i class="fas fa-upload fa-lg ml-sm"></i>
                             </a>
                         </li>
-                        <li class="nav-items info">
+                        <li class="nav-item">
                             <a href="/" class="dropitem">
-                                <span style="display:inline-block;width:70px;">Settings</span>
+                                <span style="display:inline-block;width:60px;">Settings</span>
                                 <i class="fas fa-cog fa-lg ml-sm"></i>
                             </a>
                         </li>
-                        <li class="nav-items info">
+                        <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" id="form-logout">
                                 @csrf
                                 <a onclick="document.getElementById('form-logout').submit()" class="dropitem">
-                                    <span style="display:inline-block;width:70px;">Logout</span>
+                                    <span style="display:inline-block;width:60px;">Logout</span>
                                     <i class="fas fa-sign-out-alt fa-lg ml-sm"></i>
                                 </a>
                             </form>

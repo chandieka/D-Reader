@@ -25,7 +25,7 @@ class ReaderController extends Controller
         if ($request->input('mode') == 'list'){
             return $this->listStyle($request, $gallery, $page);
         } else {
-            return $this->defaultStyle($request, $gallery, $page);
+            return $this->pageStyle($request, $gallery, $page);
         }
     }
 
@@ -41,7 +41,7 @@ class ReaderController extends Controller
         return view('main.gallery.reader.list', $data);
     }
 
-    private function defaultStyle(Request $request, Gallery $gallery, Page $page)
+    private function pageStyle(Request $request, Gallery $gallery, Page $page)
     {
 
         $data = [];
@@ -59,8 +59,7 @@ class ReaderController extends Controller
             'previous' => ($currentPageNumber == 1) ? $currentPageNumber : $currentPageNumber - 1,
             'resource' => "/g/" . $gallery->id . "/",
         ];
-        // dd(view('main.gallery.reader.default', $data));
 
-        return view('main.gallery.reader.default', $data);
+        return view('main.gallery.reader.page', $data);
     }
 }
