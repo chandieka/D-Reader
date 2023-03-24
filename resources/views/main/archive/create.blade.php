@@ -17,7 +17,7 @@
                     Process to gallery:
                 </label>
                 <label class="switch">
-                    <input type="checkbox" name="process" id="process" checked>
+                    <input type="checkbox" name="process" id="process">
                     <span class="slider round"></span>
                 </label>
             </div>

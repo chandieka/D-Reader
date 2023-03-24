@@ -8,7 +8,7 @@
         <h1 class="inline-block p-sm pl-med font-big">
             Search:
             <span style="color: rgb(204, 51, 51)">
-                {{ \App\Customs\Utils::stringShortener($query, 100) }}
+                {{ \App\Libraries\Utils::stringShortener($query, 100) }}
             </span>
         </h1>
         <h1 class="details inline-block p-sm pr-med pl-med font-big">

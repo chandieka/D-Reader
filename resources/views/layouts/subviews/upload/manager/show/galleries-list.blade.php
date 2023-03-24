@@ -28,7 +28,7 @@
                 <img src="{{ asset('/img/default/NotFound-720p.png') }}" alt="default-thumbnail">
                 @endif
             </td>
-            <td>{{App\Customs\Utils::stringShortener($gallery->title, 60)}}</td>
+            <td>{{App\Libraries\Utils::stringShortener($gallery->title, 60)}}</td>
             <td>
                 <a href="">
                     <span style="color: red; font-size: large;">#</span>{{ $gallery->archive_id }}

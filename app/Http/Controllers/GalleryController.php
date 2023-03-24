@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Customs\UploadHandler;
-use App\Customs\Utils;
+use App\Libraries\UploadHandler;
+use App\Libraries\Utils;
 use App\Jobs\ProcessUploadedRarArchive;
 use App\Jobs\ProcessUploadedZipArchive;
 use App\Models\Gallery;
@@ -21,16 +21,6 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class GalleryController extends Controller
 {
-    /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function index()
-    {
-        // return Gallery::all();
-    }
-
     /**
     * Show the form for creating a new resource.
     *
@@ -53,8 +43,6 @@ class GalleryController extends Controller
             'file' => 'required|file', // archive to be process
             'title' => 'required|string',
             'titleOriginal' => 'string', // nullable later
-            // 'category' => '',
-            // 'tags' => '',
         ]);
 
         // Get the uploaded file
@@ -122,10 +110,8 @@ class GalleryController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            if ($gallery->user_id != $user->id) {
-                if ($gallery->isHidden == 1) {
-                    abort(403);
-                }
+            if ($gallery->user_id != $user->id && $gallery->isHidden == 1) {
+                abort(403);
             }
 
             View::create([
@@ -215,40 +201,24 @@ class GalleryController extends Controller
     {
         $this->authorize('forceDelete', [$gallery]);
 
-        // TODO: add gate authorization for resource ownership
-        // TODO: check if its the owner or the admin
-
         $authUser = Auth::user();
 
-        try {
-            // Check who's the owner
-            if ($gallery->user->id == $authUser->id) {
-                // check if the dir for the resource exist
-                $thumbDirExist = Storage::disk('thumbnail')->exists($gallery->dir_path);
-                $galleryDirExist = Storage::disk('gallery')->exists($gallery->dir_path);
+        // check if the resources exist in the filesystem
+        $thumbDirExist = Storage::disk('thumbnail')->exists($gallery->dir_path);
+        $galleryDirExist = Storage::disk('gallery')->exists($gallery->dir_path);
 
-                if ($galleryDirExist) {
-                    Storage::disk('gallery')->deleteDirectory($gallery->dir_path);
-                }
-
-                if ($thumbDirExist) {
-                    Storage::disk('thumbnail')->deleteDirectory($gallery->dir_path);
-                }
-
-                $parentArchive = $gallery->archive;
-                // delete gallery entry in DB
-                $gallery->forceDelete();
-                // Unattached gallery relation with the parent archive
-                $parentArchive->update([
-                    'isProcess' => '0'
-                ]);
-                return back();
-            } else {
-                throw new Exception("Delete Request Error: Gallery $gallery->id is not owned by the user $authUser->name");
-            }
-        } catch (Exception $ex) {
-            return back()->withErrors($ex->getMessage(), 'error');
+        if ($galleryDirExist) {
+            Storage::disk('gallery')->deleteDirectory($gallery->dir_path);
         }
+
+        if ($thumbDirExist) {
+            Storage::disk('thumbnail')->deleteDirectory($gallery->dir_path);
+        }
+
+        $parentArchive = $gallery->archive;
+        $gallery->forceDelete();
+
+        return back();
     }
 
     /**

@@ -9,7 +9,9 @@
     </h1>
 </div>
 <div class="container standard medium mt-med mb-med p-med">
-    <form action="{{ route('archives.store') }}" method="POST" >
+    @csrf
+    @method("PUT")
+    <form action="{{ route('archives.edit') }}" method="POST" >
     </form>
 </div>
 @endsection

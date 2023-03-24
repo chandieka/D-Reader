@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Customs\UploadHandler;
-use App\Customs\Utils;
+use App\Libraries\UploadHandler;
+use App\Libraries\Utils;
 use App\Jobs\ProcessUploadedRarArchive;
 use App\Jobs\ProcessUploadedZipArchive;
 use App\Models\Archive;
@@ -84,21 +84,16 @@ class ArchiveController extends Controller
     */
     public function stores(Request $request)
     {
-        /**
-         *  TODO:
-         *      - Error handling
-         *      - ..
-         */
+        // dd($request->all());
 
         $requestData = $request->validate([
             "files.*" => 'required|file',
-            'process' => 'accepted',
+            'process' => 'boolean',
         ]);
 
         // Get the uploaded file
-        $archiveFiles = $requestData['files'];
-        $processNow = $requestData['process'];
         $archives = [];
+        $archiveFiles = $requestData['files'];
 
         foreach ($archiveFiles as $archiveFile) {
             $fileExtension = $archiveFile->extension();
@@ -116,13 +111,12 @@ class ArchiveController extends Controller
                     'mime_type' => $archiveFile->getMimeType(),
                 ]);
             } else {
-                // throw new Exception("Failed to store the Archive to the disk");
             }
         }
 
-        if ($processNow) {
+        if (request()->exists("process")) {
             foreach ($archives as $archive) {
-                if (!$archive->isProcess) {
+                if (!$archive->gallery()->exists()) {
                     if ($archive->archive_type == 'zip'){
                         ProcessUploadedZipArchive::dispatch($archive);
                     } else if ($archive->archive_type == 'rar'){

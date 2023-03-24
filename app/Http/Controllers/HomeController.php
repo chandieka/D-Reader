@@ -9,16 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     /**
-    * Create a new controller instance.
-    *
-    * @return void
-    */
-    public function __construct()
-    {
-
-    }
-
-    /**
     * Show the application home.
     *
     * @return \Illuminate\Contracts\Support\Renderable
@@ -26,20 +16,18 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $data = [];
-        // $galleries = Gallery::orderBy('id', 'desc')->paginate(24); // return the latest addition of galleries
+
         $galleries = Gallery::with(['pages'=> function($query) {
             $query->where('page_number', '=', 1); // get the first page along with the gallery for thumnbnail
         }])->orderBy('id', 'desc')
         ->where('isHidden', '!=', 1);
 
+        // if log in shows the hidden galleries that the user uploaded
         if (Auth::check()) {
             $galleries = $galleries->orWhere('user_id', Auth::user()->id);
         }
 
         $galleries = $galleries->paginate(24);
-
-        // dd(public_path('assets/galleries') . '/' . $galleries[0]->dir_path . '/' . $galleries[0]->pages[0]->filename);
-
         $data['galleries'] = $galleries;
 
         // metadata for paginator
@@ -55,5 +43,10 @@ class HomeController extends Controller
     public function help()
     {
         return view('main.help');
+    }
+
+    public function about()
+    {
+        // return view('main.about');
     }
 }

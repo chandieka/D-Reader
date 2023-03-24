@@ -15,7 +15,7 @@ class CreateFavoriteGalleriesTable extends Migration
     {
         Schema::create('favorite_galleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gallery_id')->constrained('galleries');
+            $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });

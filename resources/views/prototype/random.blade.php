@@ -4,42 +4,93 @@
 
 @section('content')
 <style>
-.t-nav {
-    display: grid;
-    grid-template-rows: repeat(auto, 5);
-    text-align: center;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: 0.5s
-}
-.t-nav a.t-nav-item {
-    display: block;
-    background-color: red;
-    border-radius: 4px;
-}
+    .tag-groups {
+        border-radius: 4px;
+        padding: 2px;
+        display: flex;
+        flex-wrap: wrap;
+        /* border: 1px solid rgb(60, 108, 136); */
+    }
+
+    .tag-input, .tag-groups {
+        background-color: white;
+    }
+
+
+    .tag-input {
+        padding: 4px;
+        color: black;
+        border: none;
+        outline: none;
+        flex-grow: 1;
+        line-height: normal;
+        margin: 4px;
+    }
+
+    .tag-group {
+        /* bacskground-color: rgb(97, 132, 153); */
+        background-color: rgb(26, 93, 133);
+        margin: 2px;
+        border-radius: 4px;
+        display: flex;
+    }
+
+    .tag-description {
+        padding: 4px 0 4px 4px;
+        display: inline-block;
+        font-size: 0.9em;
+        line-height: normal;
+    }
+
+    .tag-value {
+        display: none;
+    }
+
+    .tag-delete {
+        display: inline-block;
+        padding: 4px;
+        line-height: 0;
+        margin: auto 0;
+        cursor: pointer;
+        font-size: 0.8em;
+    }
+
+    .t-flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .t-flex .t-seperator {
+        display: block;
+        flex: 1 1 0px;
+        max-width: 100%;
+        height: 0;
+        max-height: 0;
+        border: solid;
+        border-width: thin 0 0;
+    }
 </style>
-<div class="content mt-med">
-    <div class="t-nav">
-        <a href="" class="t-nav-item p-sm m-sm">1</a>
-        <a href="" class="t-nav-item p-sm m-sm">2</a>
-        <a href="" class="t-nav-item p-sm m-sm">3</a>
-        <a href="" class="t-nav-item p-sm m-sm">4</a>
-        <a href="" class="t-nav-item p-sm m-sm">5</a>
-    </div>
-    <p id="test-e">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        Autem in ut, possimus perferendis voluptatum accusamus optio a repellat eaque
-        inventore eum at cumque porro saepe ipsum numquam doloribus et eligendi?
-    </p>
+ <div class="container standard medium mt-med">
+     <form action="{{ route('test.tag') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <label class="label"> Gallery Tags </label>
+        <div class="tag-groups mb-med">
+            <input type="text" class="tag-input" placeholder="Something..." id="test-tag">
+        </div>
+        <button class="btn standard"> Submit </button>
+    </form>
+    {{-- <div class="carousel">
+        <div class="inner-carousel">
+            @for ($i = 0; $i < 10; $i++)
+            <div class="carousel-item">
+
+            </div>
+            @endfor
+        </div>
+    </div> --}}
 </div>
-<script>
-    window.addEventListener('load', (e) => {
-        // console.log('test');
-        let element = document.querySelector('#test-e');
-        element.addEventListener('click', (j) => {
-            document.querySelector('.t-nav').style
-        })
-    });
-</script>
+@endsection
+
+@section('scripts')
+{{-- <script src="{{ asset('js/lib/Carousel.js') }}"></script> --}}
 @endsection

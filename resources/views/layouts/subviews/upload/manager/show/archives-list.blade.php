@@ -23,10 +23,10 @@
             <td>
                 {{ $archive->id }}
             </td>
-            <td>{{$archive->filename}}</td>
-            <td>{{App\Customs\Utils::stringShortener($archive->original_filename, 40)}}</td>
+            <td>{{ $archive->filename }}</td>
+            <td>{{ App\Libraries\Utils::stringShortener($archive->original_filename, 40) }}</td>
             <td>
-                @if ($archive->isProcess)
+                @if ($archive->gallery_exists)
                 <a href="{{ route('galleries.show', $archive->gallery->id) }}">
                     <span style="color: red; font-size: large;">#</span>{{ $archive->gallery->id }}
                 </a>
@@ -48,7 +48,7 @@
                 <a href="{{ route('archives.download', $archive->id) }}" class="icon icon-sm default mr-med">
                     <i class="fas fa-file-download"></i>
                 </a>
-                @if ($archive->isProcess)
+                @if ($archive->gallery_exists)
                 <a class="icon icon-sm default mr-med disabled">
                     <i class="fas fa-arrow-right"></i>
                 </a>

@@ -17,7 +17,7 @@ class Tag extends Model
     protected $guarded = [];
 
     /**
-     * Get all the gallery with this tag
+     * Retrieve galleries that are tagged with this tag
      *
      */
     public function galleries()

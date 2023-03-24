@@ -42,7 +42,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     /**
      * Get all galleries that the user upload
      *
@@ -51,7 +50,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Gallery::class);
     }
-
 
     /**
      * Retrive all the favorite galleries from this user

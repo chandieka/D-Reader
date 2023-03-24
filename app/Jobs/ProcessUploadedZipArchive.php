@@ -107,10 +107,6 @@ class ProcessUploadedZipArchive implements ShouldQueue
                 ]);
             }
 
-            // add the archive id to the gallery
-            $this->archive->isProcess = true;
-            $this->archive->save();
-
             // sanitised the item so only image remain
             for ($i = 0; $i < count($pageNames); $i++) {
                 $pageName = $pageNames[$i];

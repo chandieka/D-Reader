@@ -33,6 +33,7 @@
     color: black;
     background-color: rgb(255, 255, 255);
     display: flex;
+    position: relative;
 }
 
 .nav-search input {
@@ -57,29 +58,21 @@
 }
 
 .nav-search .delete {
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .active {
     background-color: red;
 }
 
-.nav-items{
-    display: inline-block;
-    /* list-style: none; */
-}
-
-.nav-items .nav-item {
+.nav-item {
     display: inline-block;
     cursor: pointer;
     transition: 0.3s
-}
-
-.nav-items .dropitem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .nav-profile {
@@ -89,10 +82,6 @@
 .nav-profile-thumb {
     display: inline-block;
     width: 50px;
-}
-
-.nav-items a {
-    width: 100%;
 }
 
 li.nav-item {
@@ -210,6 +199,7 @@ li a:not(.icon) {
     background-color: rgb(4, 20, 37);
     margin-right: 10px;
     padding: 8px;
+    min-width: 80px;
 }
 
 @media only screen and (max-width: 992px) {
@@ -263,96 +253,6 @@ li a:not(.icon) {
 }
 
 /* End Top Navigation */
-
-/* Start Categories */
-
-.format-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    margin-bottom: 8px;
-}
-
-.format-grid-item {
-    padding: 8px;
-}
-
-.format-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-}
-
-.format-form-items {
-    padding: 8px;
-}
-
-
-.format-form-extend {
-    grid-column: 1 / 4;
-}
-
-.format-form-search {
-    padding: 10px;
-    width: 100%;
-    border-radius: 8px;
-    outline: none;
-    border: none;
-    color: black;
-}
-
-@media only screen and (max-width: 600px) {
-    .format-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .format-form {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media only screen and (min-width: 600px) and (max-width: 768px) {
-    .format-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .format-form {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 992px) {
-    .format-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .format-form {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1200px) {
-    .format-grid {
-        grid-template-columns: repeat(4, 1fr);
-
-    }
-
-    .format-form {
-        grid-template-columns: repeat(2, 1fr);
-
-    }
-}
-
-@media only screen and (min-width: 1200px) and (max-width: 1800px) {
-    .format-grid {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    .format-form {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* End Categories */
-
 
 /* Start Content */
 
@@ -909,8 +809,6 @@ li a:not(.icon) {
 }
 
 .reader-bar {
-    /* background-color: rgb(21, 10, 31); */
-    /* background-color: rgb(20, 41, 62);s */
     background-color: rgb(14, 74, 108);
 }
 
@@ -980,8 +878,6 @@ li a:not(.icon) {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    /* color: rgb(39, 154, 241); */
-    /* color: red; */
 }
 
 
@@ -992,11 +888,6 @@ li a:not(.icon) {
 .manager-collections .manager-items {
     border-radius: 4px;
     background-color: rgb(15, 31, 46);
-}
-
-.manager-items:not(.manager-new) {
-    /* display: grid;
-    grid-template-rows: 1fr auto; */
 }
 
 .manager-items-options {
@@ -1095,14 +986,6 @@ manager-items-option{
 }
 
 /* End Header */
-
-/* Start Main Wrapper */
-
-.wrapper {
-
-}
-
-/* End Main Wrapper */
 
 /* Start Botton Footer */
 
@@ -1893,9 +1776,6 @@ input:checked + .slider:before, input:checked+.slider-sm:before {
     position: absolute;
     top: 0;
     left: 0;
-    /* display: grid;
-    grid-template-columns: repeat(10, auto);
-    gap: 8px; */
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -1914,7 +1794,7 @@ input:checked + .slider:before, input:checked+.slider-sm:before {
     border-radius: 4px;
 }
 
-/* Start Draggable Carousel */
+/* End Draggable Carousel */
 
 .font-big { font-size: 2em; }
 .font-med { font-size: 1.5em; }
@@ -1980,6 +1860,7 @@ input:checked + .slider:before, input:checked+.slider-sm:before {
 
 .block { display: block; }
 .inline-block { display: inline-block; }
+
 /* End Global */
 
 /* Start Global animation */

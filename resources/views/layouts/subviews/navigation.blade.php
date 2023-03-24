@@ -26,11 +26,10 @@
                 <li class="nav-item"><a href="/">Artists</a></li>
                 <li class="nav-item"><a href="/">Circles</a></li>
                 <li class="nav-item"><a href="{{ route('help') }}">Help</a></li>
-                {{-- <li class="nav-items info"><a href="{{ route('test.index') }}">Test Page</a></li> --}}
             </ul>
              @auth
             <ul class="menu">
-                <li class="shortcuts">
+                <li class="shortcuts m-sm">
                     <a href="{{ route('galleries.create') }}" class="icon default">
                         <i class="fas fa-upload"></i>
                     </a>
@@ -44,9 +43,9 @@
                 @auth
                 <li class="acc-dropdown">
                     <div class="acc-dropbtn point">
-                        <img src="{{ asset('Logo.png') }}" alt="" class="nav-profile-thumb mr-sm">
-                        <span class="inline-block mr-sm">{{ Auth::user()->name }}</span>
-                        <i class="fas fa-angle-down"></i>
+                        <img src="{{ asset('Logo.png') }}" alt="" class="nav-profile-thumb mr-med">
+                        <span class="inline-block mr-med">{{ Auth::user()->name }}</span>
+                        <i class="fas fa-caret-down fa-lg mr-med"></i>
                     </div>
                     <ul class="acc-dropdown-content">
                         <li class="nav-item">
@@ -86,8 +85,8 @@
                 </li>
                 @endauth
                 @guest
-                <li class="nav-items info"><a href="{{ route('login') }}">Login</a></li>
-                <li class="nav-items info"><a href="{{ route('register') }}">Register</a></li>
+                <li class="nav-item info"><a href="{{ route('login') }}">Login</a></li>
+                <li class="nav-item info"><a href="{{ route('register') }}">Register</a></li>
                 @endguest
             </ul>
         </div>

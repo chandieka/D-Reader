@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Customs;
+namespace App\Libraries;
 
 use Illuminate\Http\UploadedFile;
 

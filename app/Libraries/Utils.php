@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Customs;
+namespace App\Libraries;
 
 class Utils
 {
