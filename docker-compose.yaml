@@ -1,0 +1,64 @@
+version: '2.0'
+services:
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cloudsigma.com/php
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "9000:9000"
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html/
+    volumes:
+      - ./:/var/www/html/
+      - ./docker-config/php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - app-network
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html/
+      - ./docker-config/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+    links:
+      - app
+  #MySQL Service
+  db:
+    image: mysql:latest
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: d_reader_db
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./docker-config/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
