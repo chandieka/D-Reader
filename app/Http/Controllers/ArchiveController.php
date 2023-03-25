@@ -88,7 +88,6 @@ class ArchiveController extends Controller
 
         $requestData = $request->validate([
             "files.*" => 'required|file',
-            'process' => 'boolean',
         ]);
 
         // Get the uploaded file
@@ -114,13 +113,17 @@ class ArchiveController extends Controller
             }
         }
 
+        // Send to background job for processing
         if (request()->exists("process")) {
-            foreach ($archives as $archive) {
-                if (!$archive->gallery()->exists()) {
-                    if ($archive->archive_type == 'zip'){
-                        ProcessUploadedZipArchive::dispatch($archive);
-                    } else if ($archive->archive_type == 'rar'){
-                        ProcessUploadedRarArchive::dispatch($archive);
+            if (request()->process == true) {
+                # code...
+                foreach ($archives as $archive) {
+                    if (!$archive->gallery()->exists()) {
+                        if ($archive->archive_type == 'zip'){
+                            ProcessUploadedZipArchive::dispatch($archive);
+                        } else if ($archive->archive_type == 'rar'){
+                            ProcessUploadedRarArchive::dispatch($archive);
+                        }
                     }
                 }
             }
@@ -246,6 +249,6 @@ class ArchiveController extends Controller
     {
         $filePath = public_path('assets/archives') . "/" . $archive->filename;
 
-        return response()->streamDownload($filePath, $archive->original_filename);
+        return response()->streamDownload(fn() => $filePath, $archive->original_filename);
     }
 }
