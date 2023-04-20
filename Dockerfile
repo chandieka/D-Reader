@@ -50,6 +50,8 @@ RUN chown -R www-data:www-data \
 RUN composer install
 RUN composer update
 
+RUN php artisan storage:link
+
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9000
 CMD ["php-fpm"]
